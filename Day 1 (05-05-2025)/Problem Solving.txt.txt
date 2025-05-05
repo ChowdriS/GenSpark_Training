@@ -1,0 +1,183 @@
+1) https://www.hackerrank.com/challenges/plus-minus/problem?isFullScreen=true
+
+void plusMinus(vector<int> arr) {
+    int neg = 0, pos = 0, zero = 0;
+    for( int ele : arr){
+        if(ele < 0) neg++;
+        else if (ele > 0) pos++;
+        else zero++;
+    }
+    int n = arr.size();
+    printf("%.4f\n%.4f\n%.4f", float(pos)/n,float(neg)/n,float(zero)/n);
+}
+
+2) https://www.hackerrank.com/challenges/staircase/problem?isFullScreen=true
+
+void staircase(int n) {
+    for(int i=n; i>0; i--){
+        for(int j=i-1;j>0;j--)    cout<<" ";
+        for(int j=(n-i)+1;j>0;j--)  cout<<"#";
+        cout<<endl;
+    }
+}
+ 
+3) https://www.hackerrank.com/challenges/mini-max-sum/problem?isFullScreen=true
+
+void miniMaxSum(vector<int> arr) {
+    int mini = INT_MAX, maxi = INT_MIN;
+    long sum = 0;
+    for(auto ind : arr){
+        maxi = max(maxi,ind);
+        mini = min(mini, ind);
+        sum += ind;
+    }
+    cout<<sum-maxi<<" "<<sum-mini;
+}
+ 
+4) https://www.hackerrank.com/challenges/birthday-cake-candles/problem?isFullScreen=true
+
+int birthdayCakeCandles(vector<int> candles) {
+    int maxi = INT_MIN;
+    map<int,int> mp;
+    for(auto iter : candles){
+        maxi = max(iter,maxi);
+        mp[iter]++;
+    }
+    return mp[maxi];
+}
+ 
+5) https://www.hackerrank.com/challenges/time-conversion/problem?isFullScreen=true
+
+bool if_Twelve(string val){
+    return val=="12";
+}
+
+string timeConversion(string s) {
+    string res = "";
+    if(s[8]=='P'){
+        if(if_Twelve(s.substr(0,2))){
+            res = s.substr(0,8);
+        }
+        else{
+            int val = stoi(s.substr(0,2));
+            res = to_string((12+val)) + s.substr(2,6);
+        }
+    }
+    else{
+        if(if_Twelve(s.substr(0,2))){
+            string zero = "00";
+            res = zero+s.substr(2,6);
+        }
+        else{
+            res= s.substr(0,8);
+        }
+    }
+    return res;
+}
+ 
+6) https://www.hackerrank.com/challenges/grading/problem?isFullScreen=true
+
+int nearMul(int val){
+    int cal = val/5;
+    return (cal+1)*5;
+}
+
+vector<int> gradingStudents(vector<int> grades) {
+    vector<int> res;
+    for(auto iter : grades){
+        if(iter<38 or iter%5==0){
+            res.push_back(iter);
+            continue;
+        }
+        int five = nearMul(iter);
+        if(five-iter < 3){
+            res.push_back(five);
+        }else{
+            res.push_back(iter);
+        }
+    }
+    return res;
+}
+ 
+7) https://www.hackerrank.com/challenges/apple-and-orange/problem?isFullScreen=true
+
+void countApplesAndOranges(int s, int t, int a, int b, vector<int> apples, vector<int> oranges) {
+    int ap=0,ora=0;
+    for(auto &iter : apples){
+        iter += a;
+        if(iter<=t and iter>=s) ap++;
+    }
+    for(auto &iter : oranges){
+        iter += b;
+        if(iter<=t and iter>=s) ora++;
+    }
+    cout<<ap<<endl<<ora;
+}
+ 
+8) https://www.hackerrank.com/challenges/kangaroo/problem?isFullScreen=true
+
+string kangaroo(int x1, int v1, int x2, int v2) {
+    if(x1<x2 and v1<v2) return "NO";
+    if(x1>x2 and v1>v2) return "NO";
+    int faster = v1>v2?1:2;
+    while(true){
+        if((faster==1 and x1>x2) or (faster==2 and x2>x1)){
+            return "NO";
+        }
+        if(x1==x2)  break; 
+        x1 += v1;
+        x2 += v2;
+    }
+    return "YES";
+}
+ 
+9) https://www.hackerrank.com/challenges/between-two-sets/problem?isFullScreen=true
+
+int lcm(int a, int b){
+    return (a*b)/__gcd(a,b);
+}
+
+int getTotalX(vector<int> a, vector<int> b) {
+    int l = a[0];
+    for(auto iter : a)  l = lcm(l,iter);
+    int g = b[0];
+    for(auto iter : b)  g = __gcd(g,iter);
+    int ans = 0;
+    for(int i = l;i<=g;i+=l)    if(g%i==0)  ans++;
+    return ans;
+}
+ 
+10) https://www.hackerrank.com/challenges/breaking-best-and-worst-records/problem?isFullScreen=true
+
+    int mini_val =INT_MAX, maxi_val = INT_MIN;
+    int mini_cnt = -1, maxi_cnt = -1;
+    for(auto iter : scores){
+        if(mini_val>iter){
+            mini_cnt++;
+            mini_val = iter;
+        }
+        if(maxi_val < iter){
+            maxi_cnt++;
+            maxi_val = iter;
+        }
+    }
+    return {maxi_cnt,mini_cnt};
+}
+
+11) https://www.hackerrank.com/challenges/the-birthday-bar/problem?isFullScreen=true
+
+int birthday(vector<int> s, int d, int m) {
+    int sum = 0;
+    int n = s.size();
+    int cnt = 0;
+    for(int i=0;i<n;i++){
+        sum+=s[i];
+        if(i>=m)
+            sum-=s[i-m];
+        if(i>=m-1) {
+            if(sum==d)  cnt++;
+        }
+        cout<<sum;
+    }
+    return cnt;
+}
