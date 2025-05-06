@@ -1,0 +1,59 @@
+Table Schema:	
+Create Tables with Integrity Constrains:
+
+a)	EMP (empno - primary key, empname, salary, deptname - references entries in a deptname of department table with null constraint, bossno - references entries in an empno of emp table with null constraint)
+b)	DEPARTMENT (deptname - primary key, floor, phone, mgr_id - references entries in an empno of emp table not null)
+c)	SALES (salesno - primary key, saleqty, itemname -references entries in a itemname of item table with not null constraint, deptname - references entries in a deptname of department table with not null constraint)
+d)	ITEM (itemname - primary key, itemtype, itemcolor)
+
+
+/
+
+
+CREATE TABLE ITEM (
+    itemname VARCHAR(50) PRIMARY KEY,
+    itemtype VARCHAR(50),
+    itemcolor VARCHAR(30)
+);
+
+CREATE TABLE DEPARTMENT (
+    deptname VARCHAR(50) PRIMARY KEY,
+    floor INT,
+    phone VARCHAR(15),
+    empno INT NOT NULL
+);
+
+CREATE TABLE EMP (
+    empno INT PRIMARY KEY,
+    empname VARCHAR(100),
+    salary DECIMAL(10, 2),
+    deptname VARCHAR(50) NOT NULL,
+    bossno INT,
+    FOREIGN KEY (deptname) REFERENCES DEPARTMENT(deptname),
+    FOREIGN KEY (bossno) REFERENCES EMP(empno)
+);
+
+ALTER TABLE DEPARTMENT
+ADD FOREIGN KEY (empno) REFERENCES EMP(empno);
+
+CREATE TABLE SALES (
+    salesno INT PRIMARY KEY,
+    saleqty INT,
+    itemname VARCHAR(50) NOT NULL,
+    deptname VARCHAR(50) NOT NULL,
+    FOREIGN KEY (itemname) REFERENCES ITEM(itemname),
+    FOREIGN KEY (deptname) REFERENCES DEPARTMENT(deptname)
+);
+
+
+/
+
+Inserting the bulk data into the table
+
+BULK INSERT EMP
+FROM 'C:\data\employees.csv'
+WITH (
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '\n',     
+    FIRSTROW = 2
+);
