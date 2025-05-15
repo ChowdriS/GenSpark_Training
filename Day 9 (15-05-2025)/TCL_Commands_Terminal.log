@@ -1,0 +1,88 @@
+Microsoft Windows [Version 10.0.22621.4317]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\vc>psql -U postgres -p 5432
+Password for user postgres:
+
+psql (17.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# create database sample_db;
+CREATE DATABASE
+postgres=# \c sample_db;
+You are now connected to database "sample_db" as user "postgres".
+sample_db=# create role myuser with login password 'user_pass';
+CREATE ROLE
+sample_db=# grant connect on database sample_db to myuser;
+GRANT
+sample_db=# grant usage on schema public to myuser;
+GRANT
+sample_db=# grant select on all tables in schema public to myuser;
+GRANT
+sample_db=# alter default priviledges in schema public grant select on tables to myuser;
+ERROR:  syntax error at or near "priviledges"
+LINE 1: alter default priviledges in schema public grant select on t...
+                      ^
+sample_db=# alter default privileges in schema public grant select on tables to myuser;
+ALTER DEFAULT PRIVILEGES
+;ample_db=# create table dummy(id serial primary key, name text)
+CREATE TABLE
+sample_db=# insert into dummy (name) values ('chow3');
+INSERT 0 1
+sample_db=# select * from dummy;
+ id | name
+----+-------
+  1 | chow3
+(1 row)
+
+
+sample_db=# exit;
+
+C:\Users\vc>psql -U myuser -d sample_db
+Password for user myuser:
+
+psql (17.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+sample_db=> \dt
+         List of relations
+ Schema | Name  | Type  |  Owner
+--------+-------+-------+----------
+ public | dummy | table | postgres
+(1 row)
+
+
+sample_db=> select * from dummy;
+ id | name
+----+-------
+  1 | chow3
+(1 row)
+
+
+sample_db=> insert into dummy (name) values ('myuser');
+ERROR:  permission denied for table dummy
+sample_db=> -- this permision is not granted;
+sample_db=> -- lets now revoke the given permisions
+sample_db=> exit;
+
+C:\Users\vc>psql -U postgres -p 5432
+Password for user postgres:
+
+psql (17.4)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# revoke select on all tables in schema public from myuser;
+REVOKE
+postgres=# revoke usage on schema public from myuser
+postgres-# ;
+REVOKE
+postgres=# exit;
