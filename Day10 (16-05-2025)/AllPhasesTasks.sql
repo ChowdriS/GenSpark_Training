@@ -41,7 +41,7 @@
 -- -> certificate_id int, course_enrollment_id int, certificate_serial text, issue_date date, status_id int
 
 -- course_result
--- -> result_id int, course_enrollment_id int, passed boolean
+-- -> result_id int, course_enrollment_id int, mark_scored int, passed boolean
 
 -- payment_master
 -- -> payment_id int, payment_amt int, payment_type_id int, payment_status_id text
@@ -50,20 +50,6 @@
 -- -> type_id int, type text
 
 ------------------------------------------------------------------------------------
-
--- Tables to Design (Normalized to 3NF):
--- 1. **students**
---    * `student_id (PK)`, `name`, `email`, `phone`
--- 2. **courses**
---    * `course_id (PK)`, `course_name`, `category`, `duration_days`
--- 3. **trainers**
---    * `trainer_id (PK)`, `trainer_name`, `expertise`
--- 4. **enrollments**
---    * `enrollment_id (PK)`, `student_id (FK)`, `course_id (FK)`, `enroll_date`
--- 5. **certificates**
---    * `certificate_id (PK)`, `enrollment_id (FK)`, `issue_date`, `serial_no`
--- 6. **course\_trainers** (Many-to-Many if needed)
---    * `course_id`, `trainer_id`
 
 -- Phase 2: DDL & DML
 -- * Create all tables with appropriate constraints (PK, FK, UNIQUE, NOT NULL)
@@ -111,9 +97,9 @@ insert into enrollments (student_id, course_id, enroll_date) values
 (3, 3, '2025-03-10');
 
 insert into certificates (enrollment_id, issue_date, serial_no) values 
-(1, '2025-02-15', 'CERT001'),
-(2, '2025-03-01', 'CERT002'),
-(3, '2025-04-10', 'CERT003');
+(1, '2025-02-15', 'CERT_1'),
+(2, '2025-03-01', 'CERT_2'),
+(3, '2025-04-10', 'CERT_3');
 
 insert into course_trainers (course_id, trainer_id) values 
 (1, 1),
@@ -170,18 +156,18 @@ end; $$ language plpgsql;
 
 select * from get_certified_students(2);
 
-create or replace procedure sp_enroll_student(p_student_id int, p_course_id int, status_flag text) as $$
+create or replace procedure sp_enroll_student(p_student_id int, p_course_id int, status_flag boolean) as $$
 declare v_enroll_id int;
 begin
 	insert into enrollments (student_id, course_id, enroll_date) values 
 	(p_student_id, p_course_id, current_date) returning enrollment_id into v_enroll_id;
-	if(status_flag = 'completed') then
+	if(status_flag = true) then
 		insert into certificates (enrollment_id, issue_date, serial_no)
         values (v_enroll_id, current_date, 'CERT_' || v_enroll_id);
 	end if;
 end; $$ language plpgsql;
 
-call sp_enroll_student(2,3,'Notcompleted');
+call sp_enroll_student(1,2,true);
 
 select * from enrollments;
 select * from certificates;
@@ -226,9 +212,9 @@ grant select on students to readonly_user;
 grant select on courses to readonly_user;
 grant select on certificates to readonly_user;
 
-revoke insert, update, delete on students from readonly_user;
-revoke insert, update, delete on courses from readonly_user;
-revoke insert, update, delete on certificates from readonly_user;
+-- revoke insert, update, delete on students from readonly_user;
+-- revoke insert, update, delete on courses from readonly_user;
+-- revoke insert, update, delete on certificates from readonly_user;
 
 create role data_entry_user with login password 'user_pass';
 
@@ -273,6 +259,6 @@ end; $$ language plpgsql;
 
 call sp_enrollAndCertify(1,3);
 
--- select * from enrollments;
--- select * from certificates;
--- delete from enrollments where enrollment_id = 9 or enrollment_id = 10;
+select * from students;
+select * from enrollments;
+select * from certificates;
