@@ -150,7 +150,12 @@ class Program
         LoopAndControlState lc = new LoopAndControlState();
         //lc.FreqCounter();
         //lc.RotateArray(new int[] { 1, 2, 3, 4, 5});
-        lc.mergeTwoArray();
+        //lc.mergeTwoArray();
+        //lc.GuessGame();
+        //lc.validSudokuRow();
+        //lc.validsudokuBoard();
+        lc.cipherMsg();
+
 
     }
 }
