@@ -1,0 +1,15 @@
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\bin\Debug\net8.0\May20-Tasks.exe
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\bin\Debug\net8.0\May20-Tasks.deps.json
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\bin\Debug\net8.0\May20-Tasks.runtimeconfig.json
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\bin\Debug\net8.0\May20-Tasks.dll
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\bin\Debug\net8.0\May20-Tasks.pdb
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\May20-Tasks.GeneratedMSBuildEditorConfig.editorconfig
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\May20-Tasks.AssemblyInfoInputs.cache
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\May20-Tasks.AssemblyInfo.cs
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\May20-Tasks.csproj.CoreCompileInputs.cache
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\May20-Tasks.sourcelink.json
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\May20-Tasks.dll
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\refint\May20-Tasks.dll
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\May20-Tasks.pdb
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\May20-Tasks.genruntimeconfig.cache
+C:\GenSpark_Training\Day12 (20-05-2025)\May20-Tasks\May20-Tasks\obj\Debug\net8.0\ref\May20-Tasks.dll
