@@ -1,0 +1,33 @@
+# Build results
+**/bin/
+**/obj/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# VS Code settings
+.vscode/
+
+# Visual Studio folder
+**/.vs/
+
+# NuGet packages
+*.nupkg
+packages/
+
+# ReSharper
+*.DotSettings.user
+
+# Logs
+*.log
+
+# Others
+*.cache
+*.dbmdl
+*.pidb
+*.sdf
+*.sqlite
+*.sln.ide
