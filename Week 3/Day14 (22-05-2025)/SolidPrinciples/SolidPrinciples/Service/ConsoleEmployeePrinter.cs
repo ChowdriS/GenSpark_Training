@@ -10,9 +10,9 @@ namespace SolidPrinciples.Service
 {
     public class ConsoleEmployeePrinter : IEmployeePrinter
     {
-        public void PrintSalary(Employee employee, ISalaryCalculator salaryCalculator)
+        public void PrintSalary(Employee employee, ISalaryCalculator calculator)
         {
-            Console.WriteLine($"Employee: {employee.Name} | Salary: {salaryCalculator.CalculateSalary()}");
+            Console.WriteLine($"ID: {employee.Id}, Name: {employee.Name}, Salary: {calculator.CalculateSalary()}");
         }
     }
 }

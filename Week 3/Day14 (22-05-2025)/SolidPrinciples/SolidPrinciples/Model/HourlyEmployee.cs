@@ -7,21 +7,10 @@ using SolidPrinciples.Interface;
 
 namespace SolidPrinciples.Model
 {
-    public class HourlyEmployee : Employee, ISalaryCalculator
+    public class HourlyEmployee : Employee
     {
-        public int HoursWorked { get; set; }
-        public int HourlyRate { get; set; }
+        public decimal HourlyRate { get; set; }
 
-        public HourlyEmployee(int id, string name, int hoursWorked, int hourlyRate)
-            : base(id, name)
-        {
-            HoursWorked = hoursWorked;
-            HourlyRate = hourlyRate;
-        }
-
-        public int CalculateSalary()
-        {
-            return HoursWorked * HourlyRate;
-        }
+        public override string GetEmployeeType() => $"Hourly, Rate: {HourlyRate}/hr";
     }
 }

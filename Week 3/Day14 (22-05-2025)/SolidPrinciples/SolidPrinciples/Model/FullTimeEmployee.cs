@@ -7,19 +7,10 @@ using SolidPrinciples.Interface;
 
 namespace SolidPrinciples.Model
 {
-    public class FullTimeEmployee : Employee, ISalaryCalculator
+    public class FullTimeEmployee : Employee
     {
-        public int MonthlySalary { get; set; }
+        public decimal Salary { get; set; }
 
-        public FullTimeEmployee(int id, string name, int monthlySalary)
-            : base(id, name)
-        {
-            MonthlySalary = monthlySalary;
-        }
-
-        public int CalculateSalary()
-        {
-            return MonthlySalary;
-        }
+        public override string GetEmployeeType() => $"Full-Time, Salary: {Salary}";
     }
 }

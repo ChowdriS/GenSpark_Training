@@ -1,5 +1,6 @@
 ﻿using SolidPrinciples.Interface;
 using SolidPrinciples.Model;
+using SolidPrinciples.Repository;
 using SolidPrinciples.Service;
 
 namespace SolidPrinciples
@@ -9,22 +10,10 @@ namespace SolidPrinciples
     {
         static void Main(string[] args)
         {
-            List<Employee> employees = new List<Employee>
-            {
-                new FullTimeEmployee(1, "raj", 60000),
-                new HourlyEmployee(2, "kamal", 160, 500)
-            };
-
-            IEmployeePrinter printer = new ConsoleEmployeePrinter();
-
-            foreach (var emp in employees)
-            {
-                ISalaryCalculator? calculator = emp as ISalaryCalculator;
-                if (calculator != null)
-                {
-                    printer.PrintSalary(emp, calculator);
-                }
-            }
+            IRepository<int, Employee> employeeRepository = new EmployeeRepository();
+            IEmployeeService employeeService = new EmployeeService((IEmployeeRepository)employeeRepository);
+            ManageEmployee manageEmployee = new ManageEmployee(employeeService);
+            manageEmployee.Start();
         }
     }
 

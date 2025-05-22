@@ -11,10 +11,7 @@ namespace SolidPrinciples.Model
         public int Id { get; set; }
         public string Name { get; set; }
 
-        protected Employee(int id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
+        public abstract string GetEmployeeType();
+        public override string ToString() => $"ID: {Id}, Name: {Name}, Type: {GetEmployeeType()}";
     }
 }
