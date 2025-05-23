@@ -7,11 +7,11 @@ using DesignPatterns.Proxy_DesignPattern.Interface;
 
 namespace DesignPatterns.Proxy_DesignPattern.Model
 {
-    public class FileClass : IFile
+    public class FileHandler : IFile
     {
         private string _fileName;
 
-        public FileClass(string fileName)
+        public FileHandler(string fileName)
         {
             _fileName = fileName;
         }
