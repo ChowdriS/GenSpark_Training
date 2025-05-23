@@ -11,9 +11,9 @@ namespace SolidPrinciples.Service
 {
     public class EmployeeService : IEmployeeService
     {
-        private readonly IEmployeeRepository _repository;
+        private readonly IRepository<int,Employee> _repository;
 
-        public EmployeeService(IEmployeeRepository repository)
+        public EmployeeService(IRepository<int, Employee> repository)
         {
             _repository = repository;
         }

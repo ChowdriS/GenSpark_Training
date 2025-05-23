@@ -10,10 +10,20 @@ namespace SolidPrinciples.Repository
 {
     public abstract class Repository<K, T> : IRepository<K, T> where T : class
     {
-        protected readonly Dictionary<K, T> _storage = new Dictionary<K, T>();
+        protected readonly Dictionary<K, T> _items = new Dictionary<K, T>();
 
         public abstract void Add(T entity);
-        public List<T> GetAll() => new List<T>(_storage.Values);
-        public T GetById(K id) => _storage.ContainsKey(id) ? _storage[id] : null;
+        public List<T> GetAll() => new List<T>(_items.Values);
+        public T GetById(K id)
+        {
+            if (_items.ContainsKey(id))
+            {
+                return _items[id];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

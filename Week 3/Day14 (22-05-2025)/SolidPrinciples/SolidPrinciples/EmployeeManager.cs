@@ -48,11 +48,11 @@ namespace SolidPrinciples
         private void AddFullTimeEmployee()
         {
             Console.Write("Name: ");
-            string name = Console.ReadLine();
+            string? name = Console.ReadLine();
             Console.Write("Salary: ");
             decimal salary = decimal.Parse(Console.ReadLine());
 
-            var employee = new FullTimeEmployee { Name = name, Salary = salary };
+            Employee employee = new FullTimeEmployee { Name = name, Salary = salary };
             _service.AddEmployee(employee);
             Console.WriteLine("Full-Time Employee added.");
         }

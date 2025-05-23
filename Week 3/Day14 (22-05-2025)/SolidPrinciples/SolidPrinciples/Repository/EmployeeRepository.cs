@@ -15,7 +15,7 @@ namespace SolidPrinciples.Repository
         public override void Add(Employee employee)
         {
             employee.Id = _currentId++;
-            _storage[employee.Id] = employee;
+            _items[employee.Id] = employee;
         }
     }
 }

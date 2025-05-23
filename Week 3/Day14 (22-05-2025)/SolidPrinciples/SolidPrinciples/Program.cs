@@ -11,7 +11,7 @@ namespace SolidPrinciples
         static void Main(string[] args)
         {
             IRepository<int, Employee> employeeRepository = new EmployeeRepository();
-            IEmployeeService employeeService = new EmployeeService((IEmployeeRepository)employeeRepository);
+            IEmployeeService employeeService = new EmployeeService(employeeRepository);
             ManageEmployee manageEmployee = new ManageEmployee(employeeService);
             manageEmployee.Start();
         }
