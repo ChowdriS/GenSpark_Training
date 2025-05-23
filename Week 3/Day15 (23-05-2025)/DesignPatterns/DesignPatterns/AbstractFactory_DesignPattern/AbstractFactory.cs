@@ -13,7 +13,7 @@ namespace DesignPatterns.AbstractFactory_DesignPattern
         public void Run()
         {
             //IShirtFactory factory = new NikeFactory();
-            IShirtFactory factory = new AddidasFactory();
+            IShirtFactory factory = new PoloFactory();
             BrandFactory BrandProducts = new BrandFactory(factory);
             BrandProducts.OrderShirt();
         }

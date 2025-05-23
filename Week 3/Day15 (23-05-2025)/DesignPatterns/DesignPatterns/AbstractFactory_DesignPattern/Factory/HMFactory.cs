@@ -8,11 +8,11 @@ using DesignPatterns.AbstractFactory_DesignPattern.Model;
 
 namespace DesignPatterns.AbstractFactory_DesignPattern.Factory
 {
-    public class NikeFactory : IShirtFactory
+    public class HMFactory : IShirtFactory
     {
         public IShirt CreateShirt()
         {
-            return new NikeShirt();
+            return new HmShirt();
         }
     }
 }
