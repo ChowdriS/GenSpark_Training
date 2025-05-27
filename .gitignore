@@ -31,3 +31,5 @@ packages/
 *.sdf
 *.sqlite
 *.sln.ide
+
+*.DS_Store
