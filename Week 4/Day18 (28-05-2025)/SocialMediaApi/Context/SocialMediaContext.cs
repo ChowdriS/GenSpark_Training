@@ -16,7 +16,6 @@ public class SocialMediaContext : DbContext
     public DbSet<Comment> comments { get; set; }
     public DbSet<HashTag> hashTags { get; set; }
     public DbSet<Like> likes { get; set; }
-    public DbSet<TweetHashtag> tweetsHashtags { get; set; }
     public DbSet<User> users { get; set; }
     public DbSet<UserFollower> usersFollower { get; set; }
 
@@ -38,6 +37,19 @@ public class SocialMediaContext : DbContext
             .WithMany(u => u.Followers)
             .HasForeignKey(uf => uf.FolloweeId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<TweetHashtag>()
+           .HasKey(uf => uf.Id);
+
+        modelBuilder.Entity<TweetHashtag>()
+            .HasOne(th => th.Tweet)
+            .WithMany(t => t.TweetHashtags)
+            .HasForeignKey(th => th.TweetId);
+
+        modelBuilder.Entity<TweetHashtag>()
+            .HasOne(th => th.HashTag)
+            .WithMany(h => h.TweetHashTags)
+            .HasForeignKey(th => th.HashTagId);
 
         
     }
