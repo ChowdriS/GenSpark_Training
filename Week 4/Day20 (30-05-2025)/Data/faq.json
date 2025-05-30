@@ -1,0 +1,22 @@
+[
+    {
+        "question": "How can I open a new bank account?",
+        "answer": "You can open a new account by visiting any branch or applying online through our portal."
+    },
+    {
+        "question": "What is the interest rate for savings accounts?",
+        "answer": "Our savings accounts offer an interest rate of 3.5% per annum."
+    },
+    {
+        "question": "How do I block my lost debit card?",
+        "answer": "Call our 24x7 helpline or use the mobile app to block your card immediately."
+    },
+    {
+        "question": "How can I transfer money online?",
+        "answer": "Use internet banking or our mobile app to transfer funds via NEFT, RTGS, or IMPS."
+    },
+    {
+        "question": "What are the ATM withdrawal charges?",
+        "answer": "You get 5 free transactions per month, after which ₹20 will be charged per withdrawal."
+    }
+]
