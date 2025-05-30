@@ -30,15 +30,15 @@ def get_all_faqs():
     return faq_data
 
 @app.post("/query")
-def get_answer(query: UserQuery):
+def get_answer(query: str):
     """Get the best matching answer for a user question"""
     try:
-        input_embedding = model.encode(query.question, convert_to_tensor=True)
+        input_embedding = model.encode(query, convert_to_tensor=True)
         scores = util.cos_sim(input_embedding, question_embeddings)
         best_idx = scores.argmax().item()  # Convert tensor to Python int
         
         return {
-            "question": query.question,
+            "question": query,
             "matched_question": faq_data[best_idx]['question'],
             "answer": faq_data[best_idx]['answer'],
             "confidence": scores[0][best_idx].item()
