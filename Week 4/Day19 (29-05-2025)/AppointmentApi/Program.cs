@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using AppointmentApi.Context;
 using AppointmentApi.Interface;
+using AppointmentApi.Misc;
 using AppointmentApi.Models;
 using AppointmentApi.Repository;
 using AppointmentApi.Service;
@@ -25,6 +26,10 @@ builder.Services.AddTransient<IRepository<string, Appointment>, AppointmentRepos
 builder.Services.AddTransient<IRepository<int, DoctorSpeciality>, DoctorSpecialityRepository>();
 
 builder.Services.AddScoped<IDoctorService, DoctorService>();
+
+builder.Services.AddTransient<IDoctorService, DoctorService>();
+// builder.Services.AddTransient<IDoctorService, DoctorServiceWithTransaction>();
+builder.Services.AddTransient<IOtherContextFunctionities, OtherFuncinalitiesImplementation>();
 
 builder.Services.AddDbContext<ClinicContext>(opts =>
 {

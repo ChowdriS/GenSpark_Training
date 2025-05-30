@@ -20,46 +20,64 @@ public class AccountService : IAccountService
     }
     public async Task<Account> AddAccountAsync(AccountAddRequestDTO dto)
     {
-        Customer customer = null;
+        if (dto == null)
+            throw new Exception("Account data must be provided.");
+        Customer customer;
         try
         {
             customer = await _customerRepository.GetById(dto.customerId);
         }
         catch (Exception)
         {
-            throw new Exception("Account without a customer cannt be added");
+            throw new Exception("Account cannot be added without a valid customer.");
         }
-        Account? account = accountMapper.MapAccountAddRequestAccount(dto,customer);
+        var account = accountMapper.MapAccountAddRequestAccount(dto, customer);
+        if (account == null)
+            throw new Exception("Account mapping failed.");
         await _accountRepository.Add(account);
         return account;
     }
     public async Task<Account> updateBalanceAsync(int balance,long accountId)
     {
-        Account account = null;
+        Account account;
         try
         {
             account = await _accountRepository.GetById(accountId);
         }
         catch (Exception)
         {
-            throw new Exception("Account is not valid");
+            throw new Exception("Account is not valid.");
         }
         account.Balance += balance;
-        await _accountRepository.Update(accountId,account);
+        await _accountRepository.Update(accountId, account);
         return account;
     }
 
     public async Task<Account?> GetAccountByIdAsync(long accountId)
     {
-        var account = await _accountRepository.GetById(accountId);
-        return account;
+        try
+        {
+            var account = await _accountRepository.GetById(accountId);
+            return account;
+        }
+        catch (Exception)
+        {
+            throw new Exception($"Account with ID {accountId} not found.");
+        }
+
     }
 
     public async Task<float> GetBalanceAsync(long accountId)
     {
-        var account = await _accountRepository.GetById(accountId);
-        var balance = account.Balance;
-        return balance;
+        try
+        {
+            var account = await _accountRepository.GetById(accountId);
+            return account.Balance;
+        }
+        catch (Exception)
+        {
+            throw new Exception($"Account with ID {accountId} not found.");
+        }
     }
 
     

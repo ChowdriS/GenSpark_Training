@@ -6,9 +6,9 @@ namespace BankingAppApi.Interface;
 
 public interface ITransactionService
 {
-    public Task<Transaction> DepositAsync(TransactionAddRequestDTO dto);
+    public Task<Transaction> DepositAsync(TransactionDepositRequestDTO dto);
 
-    public Task<Transaction> WithdrawAsync(TransactionAddRequestDTO dto);
+    public Task<Transaction> WithdrawAsync(TransactionWithDrawRequestDTO dto);
     
     public Task<List<Transaction>> GetTransactionsByAccountIdAsync(long accountId);
 

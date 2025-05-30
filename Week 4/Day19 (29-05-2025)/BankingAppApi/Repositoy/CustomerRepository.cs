@@ -13,14 +13,16 @@ public class CustomerRepository : Repository<int, Customer>
 
     public override async Task<Customer> GetById(int key)
     {
-        var Customer = await _bankContext.Customers.SingleOrDefaultAsync(p => p.Id == key);
+        var customer = await _bankContext.Customers
+            .Include(c => c.Accounts)
+            .SingleOrDefaultAsync(p => p.Id == key);
 
-        return Customer ?? throw new Exception("No Customer with the given ID");
+        return customer ?? throw new Exception("No Customer with the given ID");
     }
 
     public override async Task<IEnumerable<Customer>> GetAll()
     {
-        var Customers = _bankContext.Customers;
+        var Customers = _bankContext.Customers.Include(c => c.Accounts);
         if (Customers.Count() == 0)
             throw new Exception("No Customers in the database");
         return await Customers.ToListAsync();

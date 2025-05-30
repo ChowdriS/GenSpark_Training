@@ -17,7 +17,7 @@ namespace BankingAppApi.Controller
         }
 
         [HttpPost("deposit")]
-        public async Task<IActionResult> Deposit([FromBody] TransactionAddRequestDTO dto)
+        public async Task<IActionResult> Deposit([FromBody] TransactionDepositRequestDTO dto)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace BankingAppApi.Controller
         }
 
         [HttpPost("withdraw")]
-        public async Task<IActionResult> Withdraw([FromBody] TransactionAddRequestDTO dto)
+        public async Task<IActionResult> Withdraw([FromBody] TransactionWithDrawRequestDTO dto)
         {
             try
             {

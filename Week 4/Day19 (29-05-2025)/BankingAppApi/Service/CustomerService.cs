@@ -18,6 +18,10 @@ public class CustomerService : ICustomerService
     }
     public async Task<Customer> AddCustomerAsync(CustomerAddRequestDTO customer)
     {
+        if (customer == null || string.IsNullOrWhiteSpace(customer.Name))
+        {
+            throw new ArgumentException("Customer name cannot be empty or null.");
+        }
         var newCustomer = new Customer
         {
             Name = customer.Name??""
@@ -29,19 +33,34 @@ public class CustomerService : ICustomerService
 
     public async Task<List<Account>> GetAccountsByCustomerIdAsync(int customerId)
     {
+        if (customerId <= 0)
+        {
+            throw new Exception("Customer ID must be a positive integer.");
+        }
+
+        var customer = await _customerRepository.GetById(customerId);
+        if (customer == null)
+        {
+            throw new Exception($"Customer with ID {customerId} does not exist.");
+        }
+
         var allAccounts = await _accountRepository.GetAll();
-        var Accounts = allAccounts.Where(a => a.CustomerId == customerId).ToList();
-        return Accounts;
-        //     var allCustomer = await _customerRepository.GetAll();
-        //     var accounts = allCustomer.Where(c => c.Id == customerId)
-        //                               .Select(c => c.Accounts)
-        //                               .ToList();
-        //     return accounts;
+        var accounts = allAccounts.Where(a => a.CustomerId == customerId).ToList();
+
+        return accounts;
     }
 
     public async Task<Customer?> GetCustomerByIdAsync(int customerId)
     {
-        var Customer = await _customerRepository.GetById(customerId);
-        return Customer;
+        if (customerId <= 0)
+        {
+            throw new Exception("Customer ID must be a positive integer.");
+        }
+        var customer = await _customerRepository.GetById(customerId);
+        if (customer == null)
+        {
+            throw new Exception($"Customer with ID {customerId} not found.");
+        }
+        return customer;
     }
 }
