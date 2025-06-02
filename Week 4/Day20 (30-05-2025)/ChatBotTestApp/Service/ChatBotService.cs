@@ -21,6 +21,9 @@ public class ChatBotService : IChatBotService
         var json = JsonConvert.SerializeObject(new { question = request.Question });
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         var response = await client.PostAsync("http://127.0.0.1:8000/query", content);
-        return await response.Content.ReadAsStringAsync();
+        string jsonResponse = await response.Content.ReadAsStringAsync();
+        // System.Console.WriteLine(jsonResponse);
+        var chatBotResponse = JsonConvert.DeserializeObject<ChatBotResponseDTO>(jsonResponse);
+        return chatBotResponse?.Answer ?? "No answer found";
     }
 }

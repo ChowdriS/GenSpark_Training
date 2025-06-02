@@ -19,7 +19,7 @@ namespace ChatBotTestApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetReply(ChatBotRequestDTO requestDTO)
+        public async Task<IActionResult> GetReply([FromBody]ChatBotRequestDTO requestDTO)
         {
             try
             {
