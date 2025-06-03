@@ -11,7 +11,6 @@ public class Appointment
     public int PatientId { get; set; }
     public int DoctorId { get; set; }
     public DateTime AppointmentDateTime { get; set; }
-
     public string Status { get; set; } = string.Empty;
 
     [ForeignKey("DoctorId")]
@@ -19,5 +18,4 @@ public class Appointment
 
     [ForeignKey("PatientId")]
     public Patient? Patient { get; set; }
-        
 }

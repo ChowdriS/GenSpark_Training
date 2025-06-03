@@ -4,9 +4,11 @@ using AppointmentApi.Context;
 using AppointmentApi.Interface;
 using AppointmentApi.Misc;
 using AppointmentApi.Models;
+using AppointmentApi.Policies;
 using AppointmentApi.Repository;
 using AppointmentApi.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -62,6 +64,7 @@ builder.Services.AddTransient<IRepository<string, User>, UserRepository>();
 
 builder.Services.AddTransient<IDoctorService, DoctorService>();
 builder.Services.AddTransient<IPatientService, PatientService>();
+builder.Services.AddTransient<IAppointmentService, AppointmentService>();
 
 // builder.Services.AddTransient<IDoctorService, DoctorServiceWithTransaction>();
 builder.Services.AddTransient<IOtherContextFunctionities, OtherFuncinalitiesImplementation>();
@@ -88,6 +91,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 #region  Misc
 builder.Services.AddAutoMapper(typeof(User));
 #endregion
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("DoctorWith3YearsExp", policy => policy.Requirements.Add(new DoctorExperienceRequirement(3)));
+});
+
+builder.Services.AddScoped<IAuthorizationHandler, DoctorExperienceHandler>();
+
 
 
 builder.Services.AddDbContext<ClinicContext>(opts =>

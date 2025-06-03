@@ -48,6 +48,18 @@ public class Tests
         Assert.That(result.Id, Is.EqualTo(1));
     }
 
+    [TestCase(999)]
+    [TestCase(1)]
+    public async Task GetDoctorPassTest(int id)
+    {
+        IRepository<int, Doctor> _doctorRepository = new DoctorRepository(_context);
+        //action
+        var result = await _doctorRepository.GetById(id);
+        //assert
+        Assert.That(result.Id, Is.EqualTo(id));
+
+    }
+
     [TearDown]
     public void TearDown() 
     {
