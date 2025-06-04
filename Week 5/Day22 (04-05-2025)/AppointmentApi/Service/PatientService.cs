@@ -19,8 +19,6 @@ public class PatientService : IPatientService
     private readonly IMapper _mapper;
 
     public PatientService(IRepository<int, Patient> patientRepository,
-                            IRepository<int, Speciality> specialityRepository,
-                            IRepository<int, DoctorSpeciality> doctorSpecialityRepository,
                             IRepository<string, User> userRepository,
                             IOtherContextFunctionities otherContextFunctionities,
                             IEncryptionService encryptionService,

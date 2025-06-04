@@ -89,7 +89,7 @@ public class AppointmentService : IAppointmentService
                 throw new Exception("The Appointment is already Cancelled");
             }
             appointment.Status = "Cancelled";
-            await _appointmentRepository.Update(appointmentId, appointment);
+            appointment = await _appointmentRepository.Update(appointmentId, appointment);
             return appointment;
         }
         catch (Exception ex)

@@ -15,7 +15,7 @@ public class DoctorRepository : Repository<int, Doctor>
     {
         var doctor = await _clinicContext.Doctors.SingleOrDefaultAsync(p => p.Id == key);
 
-        return doctor ?? throw new Exception("No doctor with teh given ID");
+        return doctor ?? throw new Exception("No doctor with the given ID");
     }
 
     public override async Task<IEnumerable<Doctor>> GetAll()
