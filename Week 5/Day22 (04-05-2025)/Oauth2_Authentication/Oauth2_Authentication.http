@@ -1,0 +1,6 @@
+@Oauth2_Authentication_HostAddress = http://localhost:5147
+
+GET {{Oauth2_Authentication_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
