@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Oauth2_Authentication.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +79,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 var app = builder.Build();
