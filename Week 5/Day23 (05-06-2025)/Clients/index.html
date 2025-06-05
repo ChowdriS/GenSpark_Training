@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatApp</title>
+</head>
+<body>
+    <input id="username" type="text" placeholder="username"/>
+    <input id="message" type="text" placeholder="message"/>
+    <button onclick="sendtoserver()">Send</button>
+    <div id="chats"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+                                .withUrl("http://localhost:5191/chatify",{
+                                    withCredentials:true
+                                })
+                                .withAutomaticReconnect()
+                                .build();
+        connection.on("chatapp",(username,message)=>{
+            var chats = document.getElementById("chats");
+            var ptag = document.createElement("p");
+            ptag.innerHTML = `${username} says ${message}`;
+            chats.appendChild(ptag);
+        })
+        connection.start();
+        const sendtoserver = ()=>{
+            var user = document.getElementById("username").value;
+            var message = document.getElementById("message").value;
+            console.log(user, message)
+            connection.invoke("SendMessage",user,message) 
+                    .catch( (err) => {
+                        console.log(err);
+                    })
+        };
+    </script>
+</body>
+</html>
