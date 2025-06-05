@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Oauth2_Authentication.Interface;
+using Oauth2_Authentication.Misc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,8 @@ opt =>
 }
 );
 
+builder.Services.AddScoped<TokenGenerator>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 builder.Services.AddAuthentication(options =>
@@ -60,26 +63,29 @@ builder.Services.AddAuthentication(options =>
 .AddCookie()
 .AddGoogle(options =>
 {
-    options.ClientId = "1083726463926-5jag1teqo8r96dc0v177roie27m9p01u.apps.googleusercontent.com";
-    options.ClientSecret = "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";
-    options.CallbackPath = "/signin-google"; 
+    var googleAuth = builder.Configuration.GetSection("Authentication:Google");
+    options.ClientId = googleAuth["ClientId"];
+    options.ClientSecret = googleAuth["ClientSecret"];
+    options.CallbackPath = "/signin-google";
 })
 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
 {
+    var jwtSettings = builder.Configuration.GetSection("Authentication:Jwt");
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = "http://localhost:5147",
-        ValidAudience = "http://localhost:5147",
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("This is a dummy key that is used for development."))
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(jwtSettings["SigningKey"])
+        )
     };
 });
 
 
-builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 var app = builder.Build();
