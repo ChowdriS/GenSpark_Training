@@ -7,29 +7,27 @@
 </head>
 <body>
     <input id="username" type="text" placeholder="username"/>
-    <input id="message" type="text" placeholder="message"/>
     <button onclick="sendtoserver()">Send</button>
     <div id="chats"></div>
     <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
     <script>
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJjaG93ZHJpc2FrdGhpdmVsQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6ImFkbWluIiwianRpIjoiNTE0YTQ2Y2UtNDI2ZS00ZGViLWFjN2UtMzRkYzFlOWJkMzY4IiwiZXhwIjoxNzQ5MTI5NzAwLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjUyMzciLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjUyMzcifQ.VOf2UqgOlvgLXoCiBUsIab6eQZd5n308CmeE3x2Pcho"
         const connection = new signalR.HubConnectionBuilder()
-                                .withUrl("http://localhost:5191/chatify",{
-                                    withCredentials:true
-                                })
-                                .withAutomaticReconnect()
-                                .build();
-        connection.on("chatapp",(username,message)=>{
+            .withUrl("http://localhost:5237/HRdocumenthub", {
+                accessTokenFactory: () => token
+            })
+            .withAutomaticReconnect()
+            .build();
+        connection.on("ReceiveDocument",(filename)=>{
             var chats = document.getElementById("chats");
             var ptag = document.createElement("p");
-            ptag.innerHTML = `${username} says ${message}`;
+            ptag.innerHTML = `${filename}`;
             chats.appendChild(ptag);
         })
         connection.start();
         const sendtoserver = ()=>{
             var user = document.getElementById("username").value;
-            var message = document.getElementById("message").value;
-            console.log(user, message)
-            connection.invoke("SendMessage",user,message) 
+            connection.invoke("SendMessage",user) 
                     .catch( (err) => {
                         console.log(err);
                     })

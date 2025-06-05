@@ -6,7 +6,7 @@ namespace AppointmentApi.Service;
 public class FileService : IFileService
 {
     private readonly string _storagePath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles");
-
+    
     public FileService()
     {
         if (!Directory.Exists(_storagePath))

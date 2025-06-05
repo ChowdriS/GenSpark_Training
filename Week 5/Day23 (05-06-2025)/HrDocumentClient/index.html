@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SignalR Authenticated Client</title>
+</head>
+<body>
+  <h2>Upload File & Listen for File Name</h2>
+  
+  <form id="uploadForm">
+    <input type="file" id="fileInput" />
+    <button type="submit">Upload</button>
+  </form>
+
+  <div id="messages" style="margin-top: 20px;"></div> 
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+  <script>
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("http://localhost:5237/HRdocumenthub", {
+        withCredentials: true
+      })
+      .withAutomaticReconnect()
+      .build();
+
+    connection.on("ReceiveDocument", (fileName) => {
+      const messages = document.getElementById("messages");
+      const p = document.createElement("p");
+      p.textContent = `Uploaded file: ${fileName}`;
+      messages.appendChild(p);
+    });
+
+    connection.start();
+
+    document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+      e.preventDefault(); // 🛑 prevent page reload!
+
+      const input = document.getElementById("fileInput");
+      const file = input.files[0];
+      if (!file) return;
+
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("http://localhost:5237/api/youruploadendpoint", {
+        method: "POST",
+        body: formData,
+        credentials: "include" // for cookies (e.g., if using Google auth)
+      });
+
+      if (response.ok) {
+        console.log("Upload successful");
+      } else {
+        console.error("Upload failed");
+      }
+    });
+  </script>
+</body>
+</html>

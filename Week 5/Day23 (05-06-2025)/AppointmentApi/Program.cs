@@ -94,24 +94,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 #region CORS
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.WithOrigins("http://127.0.0.1:5500")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
-});
 // builder.Services.AddCors(options =>
 // {
-//     options.AddPolicy("AllowAll",
-//         policy => policy.AllowAnyOrigin()
-//                         .AllowAnyMethod()
-//                         .AllowAnyHeader()
-//                         .AllowCredentials());
+//     options.AddDefaultPolicy(policy =>
+//     {
+//         policy.WithOrigins("http://127.0.0.1:5500")
+//             .AllowAnyHeader()
+//             .AllowAnyMethod()
+//             .AllowCredentials();
+//     });
 // });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy => policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+});
 #endregion
 
 builder.Services.AddSignalR();
