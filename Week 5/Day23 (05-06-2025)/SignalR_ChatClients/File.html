@@ -1,14 +1,13 @@
 <html>
   <body>
-      <h2>Employee Listening to the File Uploads</h2>
-       <p>When a file is uploaded, the employee will be notified.</p>
+      <h2>File Uploads</h2>
        <div id="msgs">
        </div>
 
       <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@8.0.7/dist/browser/signalr.min.js"></script>
         <script>
             const connection = new signalR.HubConnectionBuilder()
-                                .withUrl("http://localhost:5167/notificationHub",{
+                                .withUrl("http://localhost:5124/notificationHub",{
                                     withCredentials:true
                                 })
                                 .withAutomaticReconnect()
