@@ -70,35 +70,18 @@ public class FileService : IFileService
             throw new Exception(ex.Message);
         }
     }
-    public async Task<IEnumerable<FileModel>> GetAllFiles()
+    public async Task<IEnumerable<object>> GetAll()
     {
-        try
-        {
-            return await _fileRepository.GetAll();
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+        var files = await _fileRepository.GetAll();
+        return files.Select(f => new {
+            f.Id,
+            f.FileName,
+            f.Size,
+            f.FileType,
+            f.UploadedAt,
+            f.UploadedBy,
+            DownloadUrl = $"http://localhost:5124/api/fileoperation/download/{f.Id}"
+        });
     }
-    public async Task<FileModel> UpdateFile(IFormFile file, string userName)
-    {
-        throw new NotImplementedException("UpdateFile method is not implemented yet.");
-    }
-    public async Task<FileModel> DeleteFile(int id)
-    {
-        try
-        {
-            if (id <= 0)
-                throw new ArgumentException("Invalid file ID.");
-            var file = await _fileRepository.Get(id);
-            if (file == null) throw new Exception("File not found.");
-            await _fileRepository.Delete(id);
-            return file;
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
-    }
+
 }

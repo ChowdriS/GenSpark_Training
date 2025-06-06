@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace FileApp.Controllers;
+
 [Route("api/[controller]")]
 [ApiController]
 public class FileOperationController : ControllerBase
@@ -18,7 +19,7 @@ public class FileOperationController : ControllerBase
                                     IHubContext<NotificationHub> hubContext)
     {
         _fileService = fileService;
-        _hubContext = hubContext;   
+        _hubContext = hubContext;
     }
 
     [HttpPost("upload")]
@@ -33,7 +34,7 @@ public class FileOperationController : ControllerBase
             }
 
             var uploadedFile = await _fileService.UploadFile(file, User.Identity.Name);
-            var message = $"{User.Identity.Name} uploaded a new file: {uploadedFile.FileName} ({uploadedFile.Size})";
+            var message = $"{User.Identity.Name} uploaded a new file: {uploadedFile.FileName} ({uploadedFile.Size}) download link - http://localhost:5124/api/fileoperation/download/{uploadedFile.Id}";
             await _hubContext.Clients.All.SendAsync("ReceiveMessage", message);
             return Ok(uploadedFile);
         }
@@ -44,53 +45,37 @@ public class FileOperationController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetFile(int id)
-    {
-        try
-        {
-            var file = await _fileService.GetFile(id);
-            if (file == null) return NotFound();
-            var contentType = file.FileType switch
-            {
-                "pdf" => "application/pdf",
-                "jpg" or "jpeg" => "image/jpeg",
-                "png" => "image/png",
-                "txt" => "text/plain",
-                _ => "application/octet-stream"
-            };
-
-            return File(file.FileContent, contentType, file.FileName);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest($"Error retrieving file: {ex.Message}");
-        }
-    }
-
     [HttpGet("all")]
     public async Task<IActionResult> GetAllFiles()
     {
-        var files = await _fileService.GetAllFiles();
+        var files = await _fileService.GetAll();
         return Ok(files);
     }
 
-    [HttpPut("{username}")]
-    public async Task<IActionResult> UpdateFile(string username, IFormFile file)
+    [HttpGet("download/{id}")]
+    public async Task<IActionResult> DownloadFile(int id)
     {
-        if (file == null || file.Length == 0)
+        var file = await _fileService.GetFile(id);
+        if (file == null) return NotFound();
+
+        var contentType = GetMimeType(file.FileType);
+        return File(file.FileContent, contentType, file.FileName);
+    }
+    
+    private string GetMimeType(string fileType)
+    {
+        return fileType.ToLower() switch
         {
-            return BadRequest("No file uploaded.");
-        }
-
-        var updatedFile = await _fileService.UpdateFile(file, username);
-        return Ok(updatedFile);
+            "pdf" => "application/pdf",
+            "txt" => "text/plain",
+            "md" => "text/markdown",
+            "jpg" or "jpeg" => "image/jpeg",
+            "png" => "image/png",
+            "doc" => "application/msword",
+            "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            _ => "application/octet-stream"
+        };
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteFile(int id)
-    {
-        var deletedFile = await _fileService.DeleteFile(id);
-        return Ok(deletedFile);
-    }
+
 }
