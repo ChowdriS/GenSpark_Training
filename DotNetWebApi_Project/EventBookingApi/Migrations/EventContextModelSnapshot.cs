@@ -41,13 +41,11 @@ namespace EventBookingApi.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("ManagerEmail")
-                        .HasColumnType("character varying(200)");
+                    b.Property<Guid?>("ManagerId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -59,9 +57,41 @@ namespace EventBookingApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ManagerEmail");
+                    b.HasIndex("ManagerId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("EventBookingApi.Model.Payment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<DateTime>("PaidAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PaymentType")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TicketId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TicketId")
+                        .IsUnique();
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("EventBookingApi.Model.Ticket", b =>
@@ -79,16 +109,14 @@ namespace EventBookingApi.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<Guid>("TicketTypeId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("character varying(200)");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -96,7 +124,7 @@ namespace EventBookingApi.Migrations
 
                     b.HasIndex("TicketTypeId");
 
-                    b.HasIndex("UserEmail");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tickets");
                 });
@@ -123,18 +151,12 @@ namespace EventBookingApi.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
                     b.Property<int>("TotalQuantity")
                         .HasColumnType("integer");
 
-                    b.Property<string>("TypeName")
-                        .IsRequired()
+                    b.Property<int>("TypeName")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -148,12 +170,17 @@ namespace EventBookingApi.Migrations
 
             modelBuilder.Entity("EventBookingApi.Model.User", b =>
                 {
-                    b.Property<string>("Email")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
@@ -162,10 +189,8 @@ namespace EventBookingApi.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -175,7 +200,10 @@ namespace EventBookingApi.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.HasKey("Email");
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -184,10 +212,21 @@ namespace EventBookingApi.Migrations
                 {
                     b.HasOne("EventBookingApi.Model.User", "Manager")
                         .WithMany("ManagedEvents")
-                        .HasForeignKey("ManagerEmail")
+                        .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("EventBookingApi.Model.Payment", b =>
+                {
+                    b.HasOne("EventBookingApi.Model.Ticket", "Ticket")
+                        .WithOne("Payment")
+                        .HasForeignKey("EventBookingApi.Model.Payment", "TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ticket");
                 });
 
             modelBuilder.Entity("EventBookingApi.Model.Ticket", b =>
@@ -206,8 +245,9 @@ namespace EventBookingApi.Migrations
 
                     b.HasOne("EventBookingApi.Model.User", "User")
                         .WithMany("Tickets")
-                        .HasForeignKey("UserEmail")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Event");
 
@@ -232,6 +272,11 @@ namespace EventBookingApi.Migrations
                     b.Navigation("TicketTypes");
 
                     b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("EventBookingApi.Model.Ticket", b =>
+                {
+                    b.Navigation("Payment");
                 });
 
             modelBuilder.Entity("EventBookingApi.Model.User", b =>

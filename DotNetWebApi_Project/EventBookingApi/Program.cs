@@ -57,7 +57,7 @@ builder.Services.AddDbContext<EventContext>(opts =>
     opts.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddTransient<IRepository<string, User>, UserRepository>();
+builder.Services.AddTransient<IRepository<Guid, User>, UserRepository>();
 
 
 #region Services

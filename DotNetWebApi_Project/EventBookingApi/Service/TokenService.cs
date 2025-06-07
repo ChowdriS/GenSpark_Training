@@ -19,12 +19,11 @@ public class TokenService : ITokenService
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier,user.Username??""),
-                new Claim(ClaimTypes.Email,user.Email??""),
-                new Claim(ClaimTypes.Role,user.Role??"")
+                new Claim(ClaimTypes.NameIdentifier, user.Username ?? ""),
+                new Claim(ClaimTypes.Email, user.Email ?? ""),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
             var creds = new SigningCredentials(_securityKey, SecurityAlgorithms.HmacSha256Signature);
-
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),

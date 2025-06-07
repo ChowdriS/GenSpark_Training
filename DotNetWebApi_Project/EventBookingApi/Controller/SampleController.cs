@@ -9,7 +9,7 @@ namespace EventBookingApi.Controller
     public class SampleController : ControllerBase
     {
         [HttpGet]
-        [Authorize(Roles="admin")]
+        [Authorize(Roles="Admin")]
         public ActionResult Index()
         {
             return Ok("Sucess");

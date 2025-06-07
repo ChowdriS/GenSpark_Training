@@ -23,14 +23,28 @@ namespace EventBookingApi.Controller
             _userService = userService;
         }
 
-        [HttpPost("admin")]
+        // [HttpPost("admin")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAdmin([FromBody] UserAddRequestDTO dto)
         {
             try
             {
-                var user = await _userService.addAdmin(dto);
+                var user = await _userService.AddAdmin(dto);
                 return Ok(ApiResponse<object>.SuccessResponse("Admin succesfully added ",user));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.ErrorResponse("User creation is failed", new {ex.Message }));
+            }
+        }
+
+        [HttpPost("manger")]
+        public async Task<IActionResult> AddManager([FromBody] UserAddRequestDTO dto)
+        {
+            try
+            {
+                var user = await _userService.AddManager(dto);
+                return Ok(ApiResponse<object>.SuccessResponse("Manager succesfully added ",user));
             }
             catch (Exception ex)
             {
@@ -43,8 +57,8 @@ namespace EventBookingApi.Controller
         {
             try
             {
-                var user = await _userService.addUser(dto);
-                return Ok(ApiResponse<object>.SuccessResponse($"{user.Role} succesfully added ", user));
+                var user = await _userService.AddUser(dto);
+                return Ok(ApiResponse<object>.SuccessResponse("User succesfully added ", user));
             }
             catch (Exception ex)
             {
@@ -53,11 +67,11 @@ namespace EventBookingApi.Controller
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update(string email, UserUpdateRequestDTO dto)
+        public async Task<IActionResult> Update(Guid Id, UserUpdateRequestDTO dto)
         {
             try
             {
-                var user = await _userService.updateUser(email, dto);
+                var user = await _userService.updateUser(Id, dto);
                 return Ok(ApiResponse<object>.SuccessResponse("User succesfully updated", user));
             }
             catch (Exception ex)
@@ -67,11 +81,11 @@ namespace EventBookingApi.Controller
         }
 
         [HttpPut("changepassword")]
-        public async Task<IActionResult> ChangePassword(string email, ChangePasswordDTO dto)
+        public async Task<IActionResult> ChangePassword(Guid Id, ChangePasswordDTO dto)
         {
             try
             {
-                var user = await _userService.changePasssword(email, dto);
+                var user = await _userService.changePasssword(Id, dto);
                 return Ok(ApiResponse<object>.SuccessResponse("Password succesfully Changed", user));
             }
             catch (Exception ex)
@@ -80,11 +94,11 @@ namespace EventBookingApi.Controller
             }
         }
         [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteUser(string email)
+        public async Task<IActionResult> DeleteUser(Guid Id)
         {
             try
             {
-                var user = await _userService.deleteUser(email);
+                var user = await _userService.deleteUser(Id);
                 return Ok(ApiResponse<object>.SuccessResponse("User is successfully deleted!",user));
             }
             catch (Exception ex)
