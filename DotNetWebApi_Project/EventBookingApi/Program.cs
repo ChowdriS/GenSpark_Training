@@ -1,6 +1,7 @@
 using System.Text;
 using EventBookingApi.Context;
 using EventBookingApi.Interface;
+using EventBookingApi.Misc;
 using EventBookingApi.Model;
 using EventBookingApi.Repository;
 using EventBookingApi.Service;
@@ -57,14 +58,22 @@ builder.Services.AddDbContext<EventContext>(opts =>
     opts.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+#region Repository
 builder.Services.AddTransient<IRepository<Guid, User>, UserRepository>();
+builder.Services.AddTransient<IRepository<Guid, Event>, EventRepository>();
+builder.Services.AddTransient<IRepository<Guid, Ticket>, TicketRepository>();
+builder.Services.AddTransient<IRepository<Guid, TicketType>, TicketTypeRepository>();
+builder.Services.AddTransient<IRepository<Guid, Payment>, PaymentRepository>();
+#endregion
 
 
 #region Services
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IEncryptionService, EncryptionService>();
-builder.Services.AddTransient<ITokenService,TokenService>();
+builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddTransient<IEventService, EventService>();
+builder.Services.AddTransient<IOtherFunctionalities, OtherFunctionalities>();
 #endregion
 
 #region AuthenticationFilter
@@ -98,13 +107,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

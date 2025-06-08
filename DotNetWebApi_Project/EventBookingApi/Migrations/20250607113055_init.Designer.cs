@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventBookingApi.Migrations
 {
     [DbContext(typeof(EventContext))]
-    [Migration("20250607090745_init")]
+    [Migration("20250607113055_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -191,6 +191,12 @@ namespace EventBookingApi.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RefreshTokenExpiryTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("Role")
                         .HasColumnType("integer");

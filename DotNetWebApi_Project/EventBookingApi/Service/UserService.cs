@@ -38,6 +38,8 @@ public class UserService : IUserService
         return user;
     }
 
+    
+
     public async Task<User> AddUser(UserAddRequestDTO dto)
     {
         return await Add(dto, UserRole.User);
@@ -84,10 +86,24 @@ public class UserService : IUserService
         return user;
     }
 
+    public async Task<MyUserResponseDTO> GetMe(string email)
+    {
+        var user = await _userRepository.GetAll()
+                    .ContinueWith(t => t.Result.FirstOrDefault(u => u.Email == email));
+        if (user == null) throw new Exception("User not found");
+        MyUserResponseDTO responseDTO = new MyUserResponseDTO
+        {
+            Email = user.Email,
+            Username = user.Username,
+            Role = user.Role.ToString(),
+        };
+        return responseDTO;
+    }
+
     public async Task<User> deleteUser(Guid Id)
     {
         var user = await _userRepository.GetById(Id);
-        if(user.IsDeleted)  throw new Exception("User is already deleted!");
+        if (user.IsDeleted) throw new Exception("User is already deleted!");
         user.IsDeleted = true;
         user = await _userRepository.Update(Id, user);
         return user;

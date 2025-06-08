@@ -7,4 +7,8 @@ namespace EventBookingApi.Interface;
 public interface IAuthenticationService
 {
     public Task<UserLoginResponseDTO> Login(UserLoginRequestDTO user);
+
+    public Task<UserLoginResponseDTO> RefreshToken(string refreshToken);
+
+    public Task<bool> Logout(string email);
 }

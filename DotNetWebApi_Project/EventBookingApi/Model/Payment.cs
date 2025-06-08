@@ -13,8 +13,7 @@ public class Payment
 
     public decimal Amount { get; set; }
 
-    public PaymentTypeEnum PaymentType { get; set; } = PaymentTypeEnum.CreditCard;
-
+    public PaymentTypeEnum PaymentType { get; set; } = PaymentTypeEnum.UPI;
     public PaymentStatusEnum PaymentStatus { get; set; } = PaymentStatusEnum.Paid;
 
     public string? TransactionId { get; set; }

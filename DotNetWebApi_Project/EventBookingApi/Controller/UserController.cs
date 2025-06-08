@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Threading.Tasks;
 using EventBookingApi.Context;
 using EventBookingApi.Interface;
@@ -23,7 +24,7 @@ namespace EventBookingApi.Controller
             _userService = userService;
         }
 
-        // [HttpPost("admin")]
+        [HttpPost("admin")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAdmin([FromBody] UserAddRequestDTO dto)
         {
@@ -63,6 +64,26 @@ namespace EventBookingApi.Controller
             catch (Exception ex)
             {
                 return BadRequest(ApiResponse<object>.ErrorResponse("User creation is failed", new { ex.Message }));
+            }
+        }
+
+        [HttpGet("me")]
+        [Authorize]
+        public async Task<IActionResult> GetMe()
+        {
+            try
+            {
+                var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+                if (string.IsNullOrEmpty(email))
+                {
+                    return Unauthorized(ApiResponse<object>.SuccessResponse("No email claim found",null));
+                }
+                var user_me = await _userService.GetMe(email);
+                return Ok(ApiResponse<object>.SuccessResponse("Your details are succesfully fetched!", user_me));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.ErrorResponse("Getting your details operation failed!", new { ex.Message }));
             }
         }
 
