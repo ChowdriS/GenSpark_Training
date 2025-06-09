@@ -75,10 +75,8 @@ namespace EventBookingApi.Controller
             try
             {
                 var userId = _otherFuntionailities.GetLoggedInUserId(User);
-                var success = await _ticketService.CancelTicket(id, userId);
-                if (success)
-                    return Ok(ApiResponse<object>.SuccessResponse("Ticket cancelled", null));
-                return BadRequest(ApiResponse<object>.ErrorResponse("Ticket cancellation failed"));
+                var response = await _ticketService.CancelTicket(id, userId);
+                return Ok(ApiResponse<object>.SuccessResponse("Ticket cancelled", response));
             }
             catch (Exception ex)
             {

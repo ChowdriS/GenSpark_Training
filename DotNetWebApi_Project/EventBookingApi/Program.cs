@@ -58,14 +58,16 @@ builder.Services.AddDbContext<EventContext>(opts =>
     opts.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddSignalR();
+
 #region Repository
 builder.Services.AddTransient<IRepository<Guid, User>, UserRepository>();
 builder.Services.AddTransient<IRepository<Guid, Event>, EventRepository>();
 builder.Services.AddTransient<IRepository<Guid, Ticket>, TicketRepository>();
 builder.Services.AddTransient<IRepository<Guid, TicketType>, TicketTypeRepository>();
 builder.Services.AddTransient<IRepository<Guid, Payment>, PaymentRepository>();
+builder.Services.AddTransient<IRepository<Guid, BookedSeat>, BookedSeatRepository>();
 #endregion
-
 
 #region Services
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
@@ -73,6 +75,9 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IEncryptionService, EncryptionService>();
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<IEventService, EventService>();
+builder.Services.AddTransient<ITicketService, TicketService>();
+builder.Services.AddTransient<IPaymentService, PaymentService>();
+builder.Services.AddTransient<INotificationService, NotificationService>();
 builder.Services.AddTransient<IOtherFunctionalities, OtherFunctionalities>();
 #endregion
 
@@ -93,14 +98,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 #region CORS
-// builder.Services.AddCors(options =>
-// {
-//     options.AddPolicy("AllowAll",
-//         policy => policy.AllowAnyOrigin()
-//                         .AllowAnyMethod()
-//                         .AllowAnyHeader()
-//                         .AllowCredentials());
-// });
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://127.0.0.1:5500")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
 #endregion
 
 
@@ -113,9 +120,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();

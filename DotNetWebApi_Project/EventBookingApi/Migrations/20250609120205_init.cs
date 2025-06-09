@@ -39,7 +39,8 @@ namespace EventBookingApi.Migrations
                     Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     EventDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Status = table.Column<int>(type: "integer", nullable: false),
+                    EventType = table.Column<int>(type: "integer", nullable: false),
+                    EventStatus = table.Column<int>(type: "integer", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -62,11 +63,11 @@ namespace EventBookingApi.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TypeName = table.Column<int>(type: "integer", maxLength: 100, nullable: false),
+                    TypeName = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     TotalQuantity = table.Column<int>(type: "integer", nullable: false),
                     BookedQuantity = table.Column<int>(type: "integer", nullable: false),
-                    Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -89,9 +90,11 @@ namespace EventBookingApi.Migrations
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     EventId = table.Column<Guid>(type: "uuid", nullable: false),
                     TicketTypeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BookedQuantity = table.Column<int>(type: "integer", nullable: false),
+                    TotalPrice = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
                     BookedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    PaymentId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -117,6 +120,33 @@ namespace EventBookingApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BookedSeats",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    EventId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TicketId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SeatNumber = table.Column<int>(type: "integer", nullable: false),
+                    BookedSeatStatus = table.Column<int>(type: "integer", nullable: false),
+                    BookedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookedSeats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookedSeats_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_BookedSeats_Tickets_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Tickets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
                 {
@@ -125,7 +155,7 @@ namespace EventBookingApi.Migrations
                     Amount = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
                     PaymentType = table.Column<int>(type: "integer", nullable: false),
                     PaymentStatus = table.Column<int>(type: "integer", nullable: false),
-                    TransactionId = table.Column<string>(type: "text", nullable: true),
+                    TransactionId = table.Column<Guid>(type: "uuid", nullable: false),
                     PaidAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -138,6 +168,16 @@ namespace EventBookingApi.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookedSeats_EventId",
+                table: "BookedSeats",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookedSeats_TicketId",
+                table: "BookedSeats",
+                column: "TicketId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_ManagerId",
@@ -180,6 +220,9 @@ namespace EventBookingApi.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "BookedSeats");
+
             migrationBuilder.DropTable(
                 name: "Payments");
 

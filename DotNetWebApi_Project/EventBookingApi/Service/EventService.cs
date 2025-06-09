@@ -64,6 +64,7 @@ public class EventService : IEventService
         {
             Title = dto.Title,
             Description = dto.Description,
+            EventType = dto.EventType,
             EventDate = dto.EventDate,
             ManagerId = manager?.Id
         };
@@ -94,9 +95,10 @@ public class EventService : IEventService
         var existingEvent = await _eventRepository.GetById(id);
         existingEvent.Title = dto.Title ?? existingEvent.Title;
         existingEvent.Description = dto.Description ?? existingEvent.Description;
-        existingEvent.EventDate = dto.EventDate;
+        existingEvent.EventDate = dto.EventDate ?? existingEvent.EventDate;
+        existingEvent.EventType = dto.EventType ?? existingEvent.EventType; 
         existingEvent.UpdatedAt = DateTime.UtcNow;
-        existingEvent.Status = dto.EventStatus;
+        existingEvent.EventStatus = dto.EventStatus ?? existingEvent.EventStatus;
         var updatedEvent = await _eventRepository.Update(id, existingEvent);
         return MapToResponseDTO(updatedEvent);
     }
@@ -106,7 +108,7 @@ public class EventService : IEventService
         var existingEvent = await _eventRepository.GetById(id);
         existingEvent.IsDeleted = true;
         existingEvent.UpdatedAt = DateTime.UtcNow;
-        existingEvent.Status = EventStatus.Cancelled;
+        existingEvent.EventStatus = EventStatus.Cancelled;
         await _eventRepository.Update(id, existingEvent);
         return MapToResponseDTO(existingEvent);
     }
@@ -117,6 +119,7 @@ public class EventService : IEventService
         Title = ev.Title,
         Description = ev.Description,
         EventDate = ev.EventDate,
-        EventStatus = ev.Status.ToString()
+        EventStatus = ev.EventStatus.ToString(),
+        EventType = ev.EventType.ToString() 
     };
 }

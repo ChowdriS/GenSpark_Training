@@ -16,12 +16,15 @@ namespace EventBookingApi.Controller
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
+        private readonly IOtherFunctionalities _otherFuntionailities;
 
         public UserController(IAuthenticationService authenticationService,
-                                IUserService userService)
+                                IUserService userService,
+                                IOtherFunctionalities otherFuntionailities)
         {
             _authenticationService = authenticationService;
             _userService = userService;
+            _otherFuntionailities = otherFuntionailities;
         }
 
         [HttpPost("admin")]
@@ -73,12 +76,8 @@ namespace EventBookingApi.Controller
         {
             try
             {
-                var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-                if (string.IsNullOrEmpty(email))
-                {
-                    return Unauthorized(ApiResponse<object>.SuccessResponse("No email claim found",null));
-                }
-                var user_me = await _userService.GetMe(email);
+                var userId = _otherFuntionailities.GetLoggedInUserId(User);
+                var user_me = await _userService.GetMe(userId);
                 return Ok(ApiResponse<object>.SuccessResponse("Your details are succesfully fetched!", user_me));
             }
             catch (Exception ex)

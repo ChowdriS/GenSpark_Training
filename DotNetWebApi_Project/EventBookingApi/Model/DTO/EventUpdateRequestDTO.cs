@@ -7,7 +7,8 @@ public class EventUpdateRequestDTO
     public string? Title { get; set; }
     public string? Description { get; set; }
 
-    public DateTime EventDate { get; set; }
+    public DateTime? EventDate { get; set; }
+    public EventType? EventType { get; set; }
 
-    public EventStatus EventStatus { get; set; } = EventStatus.Active;
+    public EventStatus? EventStatus { get; set; }
 }

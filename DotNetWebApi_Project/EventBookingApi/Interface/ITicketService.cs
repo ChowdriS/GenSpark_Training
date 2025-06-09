@@ -11,7 +11,7 @@ public interface ITicketService
 
     public Task<TicketResponseDTO> GetTicketById(Guid ticketId, Guid userId);
 
-    public Task<bool> CancelTicket(Guid ticketId, Guid userId);
+    public Task<TicketResponseDTO> CancelTicket(Guid ticketId, Guid userId);
 
     public Task<byte[]> ExportTicketAsPdf(Guid ticketId, Guid userId);
 

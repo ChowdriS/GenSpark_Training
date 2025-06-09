@@ -7,11 +7,22 @@ public enum UserRole
     Manager = 2
 }
 
+public enum EventType
+{
+    Seatable = 0,
+    NonSeatable = 1
+}
+
 public enum EventStatus
 {
     Active = 0,
     Cancelled = 1,
     Completed = 2
+}
+public enum BookedSeatStatus
+{
+    Booked = 0,
+    Cancelled = 1
 }
 
 public enum TicketStatus
@@ -43,7 +54,3 @@ public enum PaymentStatusEnum
     Pending = 2,
     Refund = 3
 }
-
-// no ticket number
-// paymet when ticket booking
-// refund before 2 days of event

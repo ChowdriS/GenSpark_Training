@@ -14,10 +14,13 @@ namespace EventBookingApi.Controller
     public class AuthController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
+        private readonly IOtherFunctionalities _otherFunctionalities;
 
-        public AuthController(IAuthenticationService authenticationService)
+        public AuthController(IAuthenticationService authenticationService,
+                             IOtherFunctionalities otherFunctionalities)
         {
             _authenticationService = authenticationService;
+            _otherFunctionalities = otherFunctionalities;
         }
 
         [HttpPost("login")]
@@ -54,10 +57,8 @@ namespace EventBookingApi.Controller
         {
             try
             {
-                var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-                if (email == null || email == "") return Unauthorized();
-
-                var result = await _authenticationService.Logout(email);
+                var userId = _otherFunctionalities.GetLoggedInUserId(User);
+                var result = await _authenticationService.Logout(userId);
                 return Ok(ApiResponse<object>.SuccessResponse("Logout successful", result));
             }
             catch (Exception ex)

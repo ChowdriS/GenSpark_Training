@@ -8,15 +8,12 @@ namespace EventBookingApi.Service;
 public class AuthenticationService : IAuthenticationService
 {
     private readonly ITokenService _tokenService;
-    private readonly IEncryptionService _encryptionService;
     private readonly IRepository<Guid, User> _userRepository;
 
     public AuthenticationService(ITokenService tokenService,
-                                IEncryptionService encryptionService,
                                 IRepository<Guid, User> userRepository)
     {
         _tokenService = tokenService;
-        _encryptionService = encryptionService;
         _userRepository = userRepository;
     }
     public async Task<UserLoginResponseDTO> Login(UserLoginRequestDTO user)
@@ -59,7 +56,7 @@ public class AuthenticationService : IAuthenticationService
     {
         var users = await _userRepository.GetAll();
         var user = users.FirstOrDefault(u => u.RefreshToken == refreshToken
-                                        && u.RefreshTokenExpiryTime > DateTime.Now);
+                                        && u.RefreshTokenExpiryTime > DateTime.UtcNow);
 
         if (user == null)
             throw new Exception("Invalid or expired refresh token");
@@ -79,13 +76,9 @@ public class AuthenticationService : IAuthenticationService
             RefreshToken = newRefreshToken
         };
     }
-    public async Task<bool> Logout(string email)
+    public async Task<bool> Logout(Guid Id)
     {
-        var user = await _userRepository.GetAll()
-                    .ContinueWith(t => t.Result.FirstOrDefault(u => u.Email == email));
-
-        if (user == null) throw new Exception("User not found");
-
+        var user = await _userRepository.GetById(Id);
         user.RefreshToken = null;
         user.RefreshTokenExpiryTime = DateTime.MinValue;
         await _userRepository.Update(user.Id, user);

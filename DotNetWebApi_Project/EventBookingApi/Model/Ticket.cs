@@ -17,9 +17,9 @@ public class Ticket
     public decimal TotalPrice { get; set; }
     public TicketStatus Status { get; set; } = TicketStatus.Booked;
     public DateTime BookedAt { get; set; } = DateTime.UtcNow;
-    public bool IsDeleted { get; set; } = false;
+    public Guid? PaymentId { get; set; }
     public Payment? Payment { get; set; }
+    
     public ICollection<BookedSeat>? BookedSeats { get; set; }
-
 }
 

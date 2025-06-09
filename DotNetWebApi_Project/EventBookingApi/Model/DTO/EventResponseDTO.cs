@@ -13,5 +13,6 @@ public class EventResponseDTO
     public DateTime EventDate { get; set; }
 
     public string? EventStatus { get; set; } 
+    public string? EventType { get; set; }
 
 }

@@ -19,6 +19,8 @@ public class BookedSeat
     [Required]
     public int SeatNumber { get; set; }
 
+    public BookedSeatStatus BookedSeatStatus { get; set; } = BookedSeatStatus.Booked;
+
     public DateTime BookedAt { get; set; } = DateTime.UtcNow;
 }
 

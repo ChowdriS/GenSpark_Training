@@ -11,4 +11,8 @@ public class TicketResponseDTO
     public int Quantity { get; set; }
     public decimal TotalPrice => PricePerTicket * Quantity;
     public DateTime? BookedAt { get; set; }
+
+    public List<int>? SeatNumbers { get; set; }
+
+    public PaymentResponseDTO? Payment { get; set; }
 }

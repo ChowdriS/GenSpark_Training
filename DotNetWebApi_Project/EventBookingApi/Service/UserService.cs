@@ -86,12 +86,10 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<MyUserResponseDTO> GetMe(string email)
+    public async Task<MyUserResponseDTO> GetMe(Guid Id)
     {
-        var user = await _userRepository.GetAll()
-                    .ContinueWith(t => t.Result.FirstOrDefault(u => u.Email == email));
-        if (user == null) throw new Exception("User not found");
-        MyUserResponseDTO responseDTO = new MyUserResponseDTO
+        var user = await _userRepository.GetById(Id);
+        MyUserResponseDTO responseDTO = new()
         {
             Email = user.Email,
             Username = user.Username,

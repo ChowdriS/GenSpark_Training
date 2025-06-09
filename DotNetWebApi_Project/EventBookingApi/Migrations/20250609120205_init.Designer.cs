@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventBookingApi.Migrations
 {
     [DbContext(typeof(EventContext))]
-    [Migration("20250607113055_init")]
+    [Migration("20250609120205_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -24,6 +24,36 @@ namespace EventBookingApi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("EventBookingApi.Model.BookedSeat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("BookedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("BookedSeatStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("SeatNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TicketId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("TicketId");
+
+                    b.ToTable("BookedSeats");
+                });
 
             modelBuilder.Entity("EventBookingApi.Model.Event", b =>
                 {
@@ -41,14 +71,17 @@ namespace EventBookingApi.Migrations
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("EventStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("EventType")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<Guid?>("ManagerId")
                         .HasColumnType("uuid");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -86,8 +119,8 @@ namespace EventBookingApi.Migrations
                     b.Property<Guid>("TicketId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("TransactionId")
-                        .HasColumnType("text");
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -106,17 +139,23 @@ namespace EventBookingApi.Migrations
                     b.Property<DateTime>("BookedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("BookedQuantity")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                    b.Property<Guid?>("PaymentId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("TicketTypeId")
                         .HasColumnType("uuid");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -145,8 +184,7 @@ namespace EventBookingApi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("text");
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
@@ -158,7 +196,6 @@ namespace EventBookingApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("TypeName")
-                        .HasMaxLength(100)
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -215,6 +252,25 @@ namespace EventBookingApi.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("EventBookingApi.Model.BookedSeat", b =>
+                {
+                    b.HasOne("EventBookingApi.Model.Event", "Event")
+                        .WithMany("BookedSeats")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("EventBookingApi.Model.Ticket", "Ticket")
+                        .WithMany("BookedSeats")
+                        .HasForeignKey("TicketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("Ticket");
                 });
 
             modelBuilder.Entity("EventBookingApi.Model.Event", b =>
@@ -278,6 +334,8 @@ namespace EventBookingApi.Migrations
 
             modelBuilder.Entity("EventBookingApi.Model.Event", b =>
                 {
+                    b.Navigation("BookedSeats");
+
                     b.Navigation("TicketTypes");
 
                     b.Navigation("Tickets");
@@ -285,6 +343,8 @@ namespace EventBookingApi.Migrations
 
             modelBuilder.Entity("EventBookingApi.Model.Ticket", b =>
                 {
+                    b.Navigation("BookedSeats");
+
                     b.Navigation("Payment");
                 });
 

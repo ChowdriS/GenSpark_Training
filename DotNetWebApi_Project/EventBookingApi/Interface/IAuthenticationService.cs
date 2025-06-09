@@ -10,5 +10,5 @@ public interface IAuthenticationService
 
     public Task<UserLoginResponseDTO> RefreshToken(string refreshToken);
 
-    public Task<bool> Logout(string email);
+    public Task<bool> Logout(Guid Id);
 }
