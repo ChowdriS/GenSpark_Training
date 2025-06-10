@@ -38,12 +38,13 @@ namespace EventBookingApi.Controller
 
         [HttpGet("mine")]
         [Authorize(Roles = "User")]
-        public async Task<IActionResult> GetMyTickets()
+        public async Task<IActionResult> GetMyTickets([FromQuery]int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
                 var userId = _otherFuntionailities.GetLoggedInUserId(User);
-                var tickets = await _ticketService.GetMyTickets(userId);
+                // var tickets = await _ticketService.GetMyTickets(userId);
+                var tickets = await _otherFuntionailities.GetPaginatedMyTickets(userId, pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("My tickets retrieved", tickets));
             }
             catch (Exception ex)
@@ -102,12 +103,13 @@ namespace EventBookingApi.Controller
 
         [HttpGet("event/{eventId}")]
         [Authorize(Roles = "Admin,Manager")]
-        public async Task<IActionResult> GetTicketsForEvent(Guid eventId)
+        public async Task<IActionResult> GetTicketsForEvent(Guid eventId,[FromQuery]int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
                 var userId = _otherFuntionailities.GetLoggedInUserId(User);
-                var tickets = await _ticketService.GetTicketsByEventId(eventId, userId);
+                // var tickets = await _ticketService.GetTicketsByEventId(eventId, userId);
+                var tickets = await _otherFuntionailities.GetPaginatedTicketsByEventId(eventId,userId, pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("Tickets retrieved", tickets));
             }
             catch (Exception ex)
@@ -116,5 +118,4 @@ namespace EventBookingApi.Controller
             }
         }
     }
-
 }

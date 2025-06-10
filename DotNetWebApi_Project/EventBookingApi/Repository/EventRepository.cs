@@ -1,6 +1,7 @@
 using System;
 using EventBookingApi.Context;
 using EventBookingApi.Model;
+using EventBookingApi.Model.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventBookingApi.Repository;

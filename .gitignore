@@ -1,6 +1,7 @@
 # Build results
 **/bin/
 **/obj/
+**/appsettings.json
 
 # User-specific files
 *.user

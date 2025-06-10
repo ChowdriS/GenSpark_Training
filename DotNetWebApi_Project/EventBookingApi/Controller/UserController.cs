@@ -28,7 +28,7 @@ namespace EventBookingApi.Controller
         }
 
         [HttpPost("admin")]
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddAdmin([FromBody] UserAddRequestDTO dto)
         {
             try

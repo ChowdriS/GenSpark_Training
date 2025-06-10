@@ -19,11 +19,11 @@ namespace EventBookingApi.Controller
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllEvents()
+        public async Task<IActionResult> GetAllEvents([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
-                var events = await _eventService.GetAllEvents();
+                var events = await _eventService.GetAllEvents(pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("Events fetched successfully", events));
             }
             catch (Exception ex)
@@ -53,7 +53,7 @@ namespace EventBookingApi.Controller
             try
             {
                 var userId = _otherFuntionailities.GetLoggedInUserId(User);
-                var evt = await _eventService.AddEvent(dto);
+                var evt = await _eventService.AddEvent(dto,userId);
                 return Ok(ApiResponse<object>.SuccessResponse("Event created successfully", evt));
             }
             catch (Exception ex)
@@ -95,12 +95,12 @@ namespace EventBookingApi.Controller
 
         [HttpGet("myevents")]
         [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> GetMyManagedEvents()
+        public async Task<IActionResult> GetMyManagedEvents([FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
                 var userId = _otherFuntionailities.GetLoggedInUserId(User);
-                var events = await _eventService.GetManagedEventsByUserId(userId);
+                var events = await _eventService.GetManagedEventsByUserId(userId, pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("Managed events fetched", events));
             }
             catch (Exception ex)
@@ -110,11 +110,12 @@ namespace EventBookingApi.Controller
         }
 
         [HttpGet("filter")]
-        public async Task<IActionResult> FilterEvents([FromQuery] string city, [FromQuery] DateTime? date)
+        public async Task<IActionResult> FilterEvents([FromQuery] string searchElement, [FromQuery] DateTime? date,
+                                                    [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
-                var events = await _eventService.FilterEvents(city, date);
+                var events = await _otherFuntionailities.GetPaginatedEventsByFilter(searchElement, date, pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("Filtered events fetched", events));
             }
             catch (Exception ex)

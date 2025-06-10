@@ -10,22 +10,23 @@ public class EventService : IEventService
     private readonly IRepository<Guid, Event> _eventRepository;
     private readonly IRepository<Guid, TicketType> _ticketTypeRepository;
     private readonly IRepository<Guid, User> _userRepository;
+    private readonly IOtherFunctionalities _otherFunctionalities;
 
     public EventService(IRepository<Guid, Event> eventRepository,
                         IRepository<Guid, TicketType> ticketTypeRepository,
-                        IRepository<Guid, User> userRepository)
+                        IRepository<Guid, User> userRepository,
+                        IOtherFunctionalities otherFunctionalities)
     {
         _eventRepository = eventRepository;
         _ticketTypeRepository = ticketTypeRepository;
         _userRepository = userRepository;
+        _otherFunctionalities = otherFunctionalities;
     }
 
-    public async Task<IEnumerable<EventResponseDTO>> GetAllEvents()
+    public async Task<PaginatedResultDTO<Event>> GetAllEvents(int pageNumber, int pageSize)
     {
-        var events = await _eventRepository.GetAll();
-        return events
-            .Where(e => !e.IsDeleted)
-            .Select(e => MapToResponseDTO(e));
+        var events = await _otherFunctionalities.GetPaginatedEvents(pageNumber, pageSize);
+        return events;
     }
 
     public async Task<EventResponseDTO> GetEventById(Guid id)
@@ -37,28 +38,21 @@ public class EventService : IEventService
         return MapToResponseDTO(ev);
     }
 
-    public async Task<IEnumerable<EventResponseDTO>> FilterEvents(string city, DateTime? date)
+    public async Task<PaginatedResultDTO<Event>> FilterEvents(string searchElement, DateTime? date, int pageNumber, int pageSize)
     {
-        var events = await _eventRepository.GetAll();
-        return events
-            .Where(e =>
-                !e.IsDeleted &&
-                (string.IsNullOrEmpty(city) || e.Description?.Contains(city, StringComparison.OrdinalIgnoreCase) == true) &&
-                (!date.HasValue || e.EventDate.Date == date.Value.Date))
-            .Select(e => MapToResponseDTO(e));
+        var events = await _otherFunctionalities.GetPaginatedEventsByFilter(searchElement, date, pageNumber, pageSize);
+        return events;
     }
 
-    public async Task<IEnumerable<EventResponseDTO>> GetManagedEventsByUserId(Guid managerId)
+    public async Task<PaginatedResultDTO<Event>> GetManagedEventsByUserId(Guid managerId, int pageNumber, int pageSize)
     {
-        var events = await _eventRepository.GetAll();
-        return events
-            .Where(e => !e.IsDeleted && e.ManagerId == managerId)
-            .Select(e => MapToResponseDTO(e));
+        var events = await _otherFunctionalities.GetPaginatedEventsByManager(managerId, pageNumber, pageSize);
+        return events;
     }
 
-    public async Task<EventResponseDTO> AddEvent(EventAddRequestDTO dto)
+    public async Task<EventResponseDTO> AddEvent(EventAddRequestDTO dto,Guid ManagerId)
     {
-        var manager = await _userRepository.GetById(dto.ManagerId);
+        var manager = await _userRepository.GetById(ManagerId);
 
         var newEvent = new Event
         {

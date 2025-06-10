@@ -10,8 +10,4 @@ public class PaymentRequestDTO
     
     [Required]
     public Guid TransactionId { get; set; }
-    
-    [Required]
-    [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be positive")]
-    public decimal Amount { get; set; }
 }

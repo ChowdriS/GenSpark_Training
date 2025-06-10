@@ -21,7 +21,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(
 opt =>
 {
-    opt.SwaggerDoc("v1", new OpenApiInfo { Title = "Clinic API", Version = "v1" });
+    opt.SwaggerDoc("v1", new OpenApiInfo { Title = "EventBookingApi", Version = "v1" });
     opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -79,6 +79,7 @@ builder.Services.AddTransient<ITicketService, TicketService>();
 builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
 builder.Services.AddTransient<IOtherFunctionalities, OtherFunctionalities>();
+builder.Services.AddTransient<ObjectMapper>();
 #endregion
 
 #region AuthenticationFilter

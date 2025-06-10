@@ -12,8 +12,6 @@ public class EventAddRequestDTO
 
     [Required]
     public DateTime EventDate { get; set; }
-
-    public Guid ManagerId { get; set; }
     
     [Required]
     public EventType EventType { get; set; }

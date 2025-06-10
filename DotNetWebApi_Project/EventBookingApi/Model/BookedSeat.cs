@@ -15,8 +15,6 @@ public class BookedSeat
     [Required]
     public Guid TicketId { get; set; }
     public Ticket? Ticket { get; set; }
-
-    [Required]
     public int SeatNumber { get; set; }
 
     public BookedSeatStatus BookedSeatStatus { get; set; } = BookedSeatStatus.Booked;
