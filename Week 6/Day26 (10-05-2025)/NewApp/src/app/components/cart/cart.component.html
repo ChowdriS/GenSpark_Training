@@ -1,0 +1,8 @@
+<div class="cart-section">
+  <p class="cart-total">Cart Count: {{total}}</p>
+  <ul class="cart-items">
+    <li *ngFor="let item of itemList" class="cart-item">
+      {{ item.name }} — {{ item.count }}
+    </li>
+  </ul>
+</div>

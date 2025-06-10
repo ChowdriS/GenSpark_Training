@@ -1,0 +1,50 @@
+<div>
+  <form #customerForm="ngForm" (ngSubmit)="addCustomer(customerForm)">
+    <div>
+      <label for="name">Name:</label>
+      <input 
+        type="text" 
+        id="name" 
+        name="name" 
+        ngModel 
+        required
+        placeholder="Enter name"
+      >
+    </div>
+    
+    <div>
+      <label for="age">Age:</label>
+      <input 
+        type="number" 
+        id="age" 
+        name="age" 
+        ngModel 
+        required
+        min="1"
+        placeholder="Enter age"
+      >
+    </div>
+    
+    <button type="submit" [disabled]="!customerForm.valid">
+      Add Customer
+    </button>
+  </form>
+
+  <div *ngFor="let customer of customers; let i = index" class="customer-card">
+    <h2>Welcome!</h2>
+    <p>Name: {{ customer.name }}</p>
+    <p>Age: {{ customer.age }}</p>
+    
+    <div class="reactions">
+      <button (click)="addLike(i)">
+        <i class="bi bi-hand-thumbs-up-fill"></i> 
+        {{ customer.likes }}
+      </button>
+      
+      <button (click)="addDislike(i)">
+        <i class="bi bi-hand-thumbs-down-fill"></i> 
+        {{ customer.dislikes }}
+      </button>
+    </div>
+  </div>
+</div>
