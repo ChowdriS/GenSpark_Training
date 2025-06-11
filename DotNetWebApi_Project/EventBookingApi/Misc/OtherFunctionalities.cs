@@ -97,8 +97,8 @@ public class OtherFunctionalities : IOtherFunctionalities
             TotalItems = totalItems
         };
     }
-
-    public async Task<PaginatedResultDTO<Event>> GetPaginatedEvents(int pageNumber, int pageSize)
+    
+    public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEvents(int pageNumber, int pageSize)
     {
         var query = _eventContext.Events
             .Where(e => !e.IsDeleted)
@@ -111,16 +111,18 @@ public class OtherFunctionalities : IOtherFunctionalities
             .Take(pageSize)
             .ToListAsync();
 
-        return new PaginatedResultDTO<Event>
+        var newevents = _mapper.ManyEvenetResponseDTOMapper(events);
+
+        return new PaginatedResultDTO<EventResponseDTO>
         {
-            Items = events,
+            Items = newevents,
             PageNumber = pageNumber,
             PageSize = pageSize,
             TotalItems = totalItems
         };
     }
 
-    public async Task<PaginatedResultDTO<Event>> GetPaginatedEventsByManager(Guid managerId, int pageNumber, int pageSize)
+    public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEventsByManager(Guid managerId, int pageNumber, int pageSize)
     {
         var query = _eventContext.Events
             .Where(e => e.ManagerId == managerId && !e.IsDeleted) 
@@ -132,16 +134,18 @@ public class OtherFunctionalities : IOtherFunctionalities
             .Skip((pageNumber - 1) * pageSize) 
             .Take(pageSize) 
             .ToListAsync();
+        
+        var newevents = _mapper.ManyEvenetResponseDTOMapper(events);
 
-        return new PaginatedResultDTO<Event>
+        return new PaginatedResultDTO<EventResponseDTO>
         {
-            Items = events,
+            Items = newevents,
             PageNumber = pageNumber,
             PageSize = pageSize,
             TotalItems = totalItems
         };
     }
-    public async Task<PaginatedResultDTO<Event>> GetPaginatedEventsByFilter(string? searchElement, DateTime? date, int pageNumber, int pageSize)
+    public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEventsByFilter(string? searchElement, DateTime? date, int pageNumber, int pageSize)
     {
         var query = _eventContext.Events.Where(e =>
                 !e.IsDeleted &&
@@ -155,10 +159,11 @@ public class OtherFunctionalities : IOtherFunctionalities
             .ToListAsync();
         
         var totalItems = await query.CountAsync();
-
-        return new PaginatedResultDTO<Event>
+        var newevents = _mapper.ManyEvenetResponseDTOMapper(events);
+        
+        return new PaginatedResultDTO<EventResponseDTO>
         {
-            Items = events,
+            Items = newevents,
             PageNumber = pageNumber,
             PageSize = pageSize,
             TotalItems = totalItems

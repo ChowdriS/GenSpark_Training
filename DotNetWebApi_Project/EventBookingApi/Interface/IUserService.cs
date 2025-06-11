@@ -6,13 +6,13 @@ namespace EventBookingApi.Interface;
 
 public interface IUserService
 {
-    public Task<User> AddUser(UserAddRequestDTO dto);
-    public Task<User> AddManager(UserAddRequestDTO dto);
-    public Task<User> AddAdmin(UserAddRequestDTO dto);
-    public Task<MyUserResponseDTO> GetMe(Guid Id);
-    public Task<User> updateUser(Guid Id, UserUpdateRequestDTO dto);
+    public Task<UserResponseDTO> AddUser(UserAddRequestDTO dto);
+    public Task<UserResponseDTO> AddManager(UserAddRequestDTO dto);
+    public Task<UserResponseDTO> AddAdmin(UserAddRequestDTO dto);
+    public Task<UserResponseDTO> GetMe(Guid Id);
+    public Task<UserResponseDTO> updateUser(Guid Id, UserUpdateRequestDTO dto);
 
-    public Task<User> changePasssword(Guid Id, ChangePasswordDTO dto);
+    public Task<UserResponseDTO> changePasssword(Guid Id, ChangePasswordDTO dto);
 
-    public Task<User> deleteUser(Guid Id);
+    public Task<UserResponseDTO> deleteUser(Guid Id, Guid userId);
 }

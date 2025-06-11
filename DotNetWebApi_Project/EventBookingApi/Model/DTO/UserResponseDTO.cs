@@ -2,7 +2,7 @@ using System;
 
 namespace EventBookingApi.Model.DTO;
 
-public class MyUserResponseDTO
+public class UserResponseDTO
 {
     public string? Email { get; set; }
     public string? Username { get; set; }

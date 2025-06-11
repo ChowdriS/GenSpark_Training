@@ -115,7 +115,7 @@ namespace EventBookingApi.Controller
         {
             try
             {
-                var events = await _otherFuntionailities.GetPaginatedEventsByFilter(searchElement, date, pageNumber, pageSize);
+                var events = await _eventService.FilterEvents(searchElement, date, pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("Filtered events fetched", events));
             }
             catch (Exception ex)

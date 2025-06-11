@@ -51,7 +51,7 @@ namespace EventBookingApi.Controller
             }
         }
 
-        [HttpPost("logout")]
+        [HttpGet("logout")]
         [Authorize]
         public async Task<IActionResult> Logout()
         {

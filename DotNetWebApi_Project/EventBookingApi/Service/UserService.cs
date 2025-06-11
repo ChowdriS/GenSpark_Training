@@ -1,5 +1,6 @@
 using System;
 using EventBookingApi.Interface;
+using EventBookingApi.Misc;
 using EventBookingApi.Model;
 using EventBookingApi.Model.DTO;
 
@@ -9,15 +10,18 @@ public class UserService : IUserService
 {
     private readonly IRepository<Guid, User> _userRepository;
     private readonly IEncryptionService _encryptionService;
+    private readonly ObjectMapper _mapper;
 
     public UserService(IRepository<Guid, User> userRepository,
-                        IEncryptionService encryptionService)
+                        IEncryptionService encryptionService,
+                        ObjectMapper mapper)
     {
         _userRepository = userRepository;
         _encryptionService = encryptionService;
+        _mapper = mapper;
     }
 
-    private async Task<User> Add(UserAddRequestDTO dto, UserRole role)
+    private async Task<UserResponseDTO> Add(UserAddRequestDTO dto, UserRole role)
     {
         if (dto == null) throw new Exception("All fields are Required!");
         
@@ -35,26 +39,26 @@ public class UserService : IUserService
         };
 
         user = await _userRepository.Add(user);
-        return user;
+        return _mapper.UserResponseDTOMapper(user);
     }
 
     
 
-    public async Task<User> AddUser(UserAddRequestDTO dto)
+    public async Task<UserResponseDTO> AddUser(UserAddRequestDTO dto)
     {
         return await Add(dto, UserRole.User);
     }
 
-    public async Task<User> AddManager(UserAddRequestDTO dto)
+    public async Task<UserResponseDTO> AddManager(UserAddRequestDTO dto)
     {
         return await Add(dto, UserRole.Manager);
     }
 
-    public async Task<User> AddAdmin(UserAddRequestDTO dto)
+    public async Task<UserResponseDTO> AddAdmin(UserAddRequestDTO dto)
     {
         return await Add(dto, UserRole.Admin);
     }
-    public async Task<User> updateUser(Guid Id, UserUpdateRequestDTO dto)
+    public async Task<UserResponseDTO> updateUser(Guid Id, UserUpdateRequestDTO dto)
     {
         var user = await _userRepository.GetById(Id);
         if (dto.Username != null)
@@ -67,10 +71,10 @@ public class UserService : IUserService
         {
             throw new Exception("Nothing to update!");
         }
-        return user;
+        return _mapper.UserResponseDTOMapper(user);
     }
 
-    public async Task<User> changePasssword(Guid Id, ChangePasswordDTO dto)
+    public async Task<UserResponseDTO> changePasssword(Guid Id, ChangePasswordDTO dto)
     {
         var user = await _userRepository.GetById(Id);
         bool isPasswordValid = BCrypt.Net.BCrypt.Verify(dto.oldPassword,user.PasswordHash);
@@ -83,27 +87,24 @@ public class UserService : IUserService
         user.PasswordHash = passwordhash.EncryptedData;
         user.UpdatedAt = DateTime.UtcNow;
         user = await _userRepository.Update(Id, user);
-        return user;
+        return _mapper.UserResponseDTOMapper(user);
     }
 
-    public async Task<MyUserResponseDTO> GetMe(Guid Id)
+    public async Task<UserResponseDTO> GetMe(Guid Id)
     {
         var user = await _userRepository.GetById(Id);
-        MyUserResponseDTO responseDTO = new()
-        {
-            Email = user.Email,
-            Username = user.Username,
-            Role = user.Role.ToString(),
-        };
-        return responseDTO;
+        return _mapper.UserResponseDTOMapper(user);
     }
 
-    public async Task<User> deleteUser(Guid Id)
+    public async Task<UserResponseDTO> deleteUser(Guid Id, Guid userId)
     {
         var user = await _userRepository.GetById(Id);
+        var requester = await _userRepository.GetById(userId);
+        if (Id != userId && requester.Role != UserRole.Admin)
+            throw new Exception("UnAuthorised Access");
         if (user.IsDeleted) throw new Exception("User is already deleted!");
         user.IsDeleted = true;
         user = await _userRepository.Update(Id, user);
-        return user;
+        return _mapper.UserResponseDTOMapper(user);
     }
 }

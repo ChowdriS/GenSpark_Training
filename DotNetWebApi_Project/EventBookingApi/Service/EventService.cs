@@ -1,5 +1,6 @@
 using System;
 using EventBookingApi.Interface;
+using EventBookingApi.Misc;
 using EventBookingApi.Model;
 using EventBookingApi.Model.DTO;
 
@@ -11,22 +12,24 @@ public class EventService : IEventService
     private readonly IRepository<Guid, TicketType> _ticketTypeRepository;
     private readonly IRepository<Guid, User> _userRepository;
     private readonly IOtherFunctionalities _otherFunctionalities;
+    private readonly ObjectMapper _mapper;
 
     public EventService(IRepository<Guid, Event> eventRepository,
                         IRepository<Guid, TicketType> ticketTypeRepository,
                         IRepository<Guid, User> userRepository,
-                        IOtherFunctionalities otherFunctionalities)
+                        IOtherFunctionalities otherFunctionalities,
+                        ObjectMapper mapper)
     {
         _eventRepository = eventRepository;
         _ticketTypeRepository = ticketTypeRepository;
         _userRepository = userRepository;
         _otherFunctionalities = otherFunctionalities;
+        _mapper = mapper;
     }
 
-    public async Task<PaginatedResultDTO<Event>> GetAllEvents(int pageNumber, int pageSize)
+    public async Task<PaginatedResultDTO<EventResponseDTO>> GetAllEvents(int pageNumber, int pageSize)
     {
-        var events = await _otherFunctionalities.GetPaginatedEvents(pageNumber, pageSize);
-        return events;
+        return await _otherFunctionalities.GetPaginatedEvents(pageNumber, pageSize);
     }
 
     public async Task<EventResponseDTO> GetEventById(Guid id)
@@ -35,19 +38,17 @@ public class EventService : IEventService
         if (ev == null || ev.IsDeleted)
             throw new Exception("Event not found");
 
-        return MapToResponseDTO(ev);
+        return _mapper.EvenetResponseDTOMapper(ev);
     }
 
-    public async Task<PaginatedResultDTO<Event>> FilterEvents(string searchElement, DateTime? date, int pageNumber, int pageSize)
+    public async Task<PaginatedResultDTO<EventResponseDTO>> FilterEvents(string searchElement, DateTime? date, int pageNumber, int pageSize)
     {
-        var events = await _otherFunctionalities.GetPaginatedEventsByFilter(searchElement, date, pageNumber, pageSize);
-        return events;
+        return await _otherFunctionalities.GetPaginatedEventsByFilter(searchElement, date, pageNumber, pageSize);
     }
 
-    public async Task<PaginatedResultDTO<Event>> GetManagedEventsByUserId(Guid managerId, int pageNumber, int pageSize)
+    public async Task<PaginatedResultDTO<EventResponseDTO>> GetManagedEventsByUserId(Guid managerId, int pageNumber, int pageSize)
     {
-        var events = await _otherFunctionalities.GetPaginatedEventsByManager(managerId, pageNumber, pageSize);
-        return events;
+        return await _otherFunctionalities.GetPaginatedEventsByManager(managerId, pageNumber, pageSize);
     }
 
     public async Task<EventResponseDTO> AddEvent(EventAddRequestDTO dto,Guid ManagerId)
@@ -81,7 +82,7 @@ public class EventService : IEventService
             }
         }
 
-        return MapToResponseDTO(newEvent);
+        return _mapper.EvenetResponseDTOMapper(newEvent);
     }
 
     public async Task<EventResponseDTO> UpdateEvent(Guid id, EventUpdateRequestDTO dto)
@@ -94,7 +95,7 @@ public class EventService : IEventService
         existingEvent.UpdatedAt = DateTime.UtcNow;
         existingEvent.EventStatus = dto.EventStatus ?? existingEvent.EventStatus;
         var updatedEvent = await _eventRepository.Update(id, existingEvent);
-        return MapToResponseDTO(updatedEvent);
+        return _mapper.EvenetResponseDTOMapper(updatedEvent);
     }
 
     public async Task<EventResponseDTO> DeleteEvent(Guid id)
@@ -104,16 +105,6 @@ public class EventService : IEventService
         existingEvent.UpdatedAt = DateTime.UtcNow;
         existingEvent.EventStatus = EventStatus.Cancelled;
         await _eventRepository.Update(id, existingEvent);
-        return MapToResponseDTO(existingEvent);
+        return _mapper.EvenetResponseDTOMapper(existingEvent);
     }
-
-    private EventResponseDTO MapToResponseDTO(Event ev) => new()
-    {
-        Id = ev.Id,
-        Title = ev.Title,
-        Description = ev.Description,
-        EventDate = ev.EventDate,
-        EventStatus = ev.EventStatus.ToString(),
-        EventType = ev.EventType.ToString() 
-    };
 }

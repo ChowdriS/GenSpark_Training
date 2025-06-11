@@ -23,4 +23,46 @@ public class ObjectMapper
             TransactionId = payment.TransactionId
         } : null
     };
+    public UserResponseDTO UserResponseDTOMapper(User user) => new()
+    {
+        Email = user.Email,
+        Username = user.Username,
+        Role = user.Role.ToString()
+    };
+    public EventResponseDTO EvenetResponseDTOMapper(Event ev) => new()
+    {
+        Id = ev.Id,
+        Title = ev.Title,
+        Description = ev.Description,
+        EventDate = ev.EventDate,
+        EventStatus = ev.EventStatus.ToString(),
+        EventType = ev.EventType.ToString()
+    };
+
+    public IEnumerable<EventResponseDTO> ManyEvenetResponseDTOMapper(IEnumerable<Event> ev)
+    {
+        var responses = new List<EventResponseDTO>();
+        foreach (var ev2 in ev)
+        {
+            responses.Add(EvenetResponseDTOMapper(ev2));
+        }
+        return responses;
+    }
+
+    public PaymentDetailDTO PaymentDetailDTOMapper(Payment payment, Event eventObj,User user, Ticket ticket) => new PaymentDetailDTO
+    {
+        Id = payment.Id,
+        PaymentType = payment.PaymentType,
+        Amount = payment.Amount,
+        Status = payment.PaymentStatus,
+        TransactionId = payment.TransactionId,
+        EventId = eventObj.Id,
+        EventTitle = eventObj.Title ?? "",
+        UserId = user.Id,
+        UserName = user.Username??"",
+        UserEmail = user.Email??"",
+        BookedAt = ticket.BookedAt,
+        TicketStatus = ticket.Status
+    };
+    
 }

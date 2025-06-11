@@ -1,19 +1,8 @@
-using System;
-using System.Text;
 using EventBookingApi.Interface;
 using EventBookingApi.Model;
 using EventBookingApi.Model.DTO;
-// using QuestPDF.Fluent;
-// using QuestPDF.Helpers;
-// using QuestPDF.Infrastructure;
-// using QuestPDF.Drawing;
-// using QuestPDF.Previewer;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Drawing;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using EventBookingApi.Misc;
 
 
@@ -99,7 +88,7 @@ public class TicketService : ITicketService
     {
         if (dto.SeatNumbers == null || dto.SeatNumbers.Count != dto.Quantity)
             throw new Exception("For seatable events, you must provide exactly as many seat numbers as the quantity");
-        
+
         if (ticketType.TotalQuantity - ticketType.BookedQuantity < dto.Quantity)
             throw new Exception("Not enough tickets available");
         var existingSeats = (await _bookedSeatRepository.GetAll())
@@ -113,7 +102,6 @@ public class TicketService : ITicketService
             var takenSeats = string.Join(", ", existingSeats.Select(s => s.SeatNumber));
             throw new Exception($"Seats {takenSeats} are already booked");
         }
-
 
         ticketType.BookedQuantity += dto.Quantity;
         await _ticketTypeRepository.Update(ticketType.Id, ticketType);
@@ -130,9 +118,7 @@ public class TicketService : ITicketService
         };
 
         var createdTicket = await _ticketRepository.Add(ticket);
-
         var payment = await CreatePayment(dto.Payment, createdTicket.TotalPrice, createdTicket.Id);
-
         createdTicket.PaymentId = payment.Id;
         await _ticketRepository.Update(createdTicket.Id, createdTicket);
 
@@ -153,16 +139,7 @@ public class TicketService : ITicketService
             $"Ticket booked for {eventObj.Title}",
             "TicketBooked"
         );
-        return new TicketResponseDTO
-        {
-            Id = createdTicket.Id,
-            EventTitle = eventObj.Title ?? "",
-            TicketType = ticketType.TypeName.ToString(),
-            PricePerTicket = ticketType.Price,
-            Quantity = dto.Quantity,
-            BookedAt = createdTicket.BookedAt,
-            SeatNumbers = dto.SeatNumbers
-        };
+        return _mapper.TicketResponseDTOMapper(ticket, eventObj, ticketType, payment);
     }
 
     private async Task<TicketResponseDTO> BookNonSeatableTicket(
@@ -184,26 +161,23 @@ public class TicketService : ITicketService
             TicketTypeId = ticketType.Id,
             BookedQuantity = dto.Quantity,
             TotalPrice = dto.Quantity * ticketType.Price,
-            Status = TicketStatus.Booked
+            Status = TicketStatus.Booked,
+            PaymentId = null
         };
 
-        var payment = await CreatePayment(dto.Payment, dto.Quantity * ticketType.Price, ticket.Id);
-        ticket.PaymentId = payment.Id;
         var createdTicket = await _ticketRepository.Add(ticket);
+
+        var payment = await CreatePayment(dto.Payment, createdTicket.TotalPrice, createdTicket.Id);
+
+        createdTicket.PaymentId = payment.Id;
+        await _ticketRepository.Update(createdTicket.Id, createdTicket);
+        
         await _notificationService.NotifyUser(
             userId,
             $"Ticket booked for {eventObj.Title}",
             "TicketBooked"
         );
-        return new TicketResponseDTO
-        {
-            Id = createdTicket.Id,
-            EventTitle = eventObj.Title ?? "",
-            TicketType = ticketType.TypeName.ToString(),
-            PricePerTicket = ticketType.Price,
-            Quantity = dto.Quantity,
-            BookedAt = createdTicket.BookedAt
-        };
+        return _mapper.TicketResponseDTOMapper(ticket, eventObj, ticketType, payment);
     }
 
     public async Task<TicketResponseDTO> CancelTicket(Guid ticketId, Guid userId)
@@ -251,7 +225,7 @@ public class TicketService : ITicketService
         return _mapper.TicketResponseDTOMapper(ticket, eventObj,ticketType, payment);
     }
 
-    public async Task<IEnumerable<TicketResponseDTO>> GetMyTickets(Guid userId)
+    public async Task<IEnumerable<TicketResponseDTO>> GetMyTickets(Guid userId, int pageNumber, int pageSize)
     {
         var tickets = (await _ticketRepository.GetAll())
             .Where(t => t.UserId == userId && t.Status != TicketStatus.Cancelled)
@@ -262,6 +236,7 @@ public class TicketService : ITicketService
             var response = await GetTicketById(ticket.Id, userId);
             responses.Add(response);
         }
+        // var response = await _otherFunctionalities.GetPaginatedMyTickets(userId,pageNumber,pageSize);
         return responses;
     }
     public async Task<TicketResponseDTO> GetTicketById(Guid ticketId, Guid userId)
@@ -290,29 +265,24 @@ public class TicketService : ITicketService
 
         return response;
     }
-    public async Task<IEnumerable<TicketResponseDTO>> GetTicketsByEventId(Guid eventId, Guid requesterId)
+    public async Task<IEnumerable<TicketResponseDTO>> GetTicketsByEventId(Guid eventId, Guid requesterId,int pageNumber, int pageSize)
     {
         var evt = await _eventRepository.GetById(eventId);
         var user = await _userRepository.GetById(requesterId);
-
         if (user == null) throw new Exception("User not found");
         if (evt == null || evt.IsDeleted) throw new Exception("Event not found");
-
         if (user.Role != UserRole.Admin && evt.ManagerId != requesterId)
             throw new UnauthorizedAccessException("Access denied");
-
         var tickets = (await _ticketRepository.GetAll())
             .Where(t => t.EventId == eventId)
             .ToList();
-
         var responses = new List<TicketResponseDTO>();
-
         foreach (var ticket in tickets)
         {
             var response = await GetTicketById(ticket.Id, requesterId);
             responses.Add(response);
         }
-
+        // var responses = await _otherFunctionalities.GetPaginatedTicketsByEventId(eventId, requesterId, pageNumber, pageSize);
         return responses;
     }
     public async Task<byte[]> ExportTicketAsPdf(Guid ticketId, Guid userId)
@@ -327,7 +297,7 @@ public class TicketService : ITicketService
             ? await _paymentRepository.GetById(ticket.PaymentId.Value)
             : null;
 
-        List<int> bookedSeatNumbers = null;
+        List<int>? bookedSeatNumbers = null;
         if (eventObj?.EventType == EventType.Seatable)
         {
             bookedSeatNumbers = (await _bookedSeatRepository.GetAll())
@@ -336,7 +306,11 @@ public class TicketService : ITicketService
                 .Select(bs => bs.SeatNumber)
                 .ToList();
         }
-
+        await _notificationService.NotifyUser(
+            userId,
+            $"Ticket Generated for {eventObj?.Title}",
+            "TicketGenerated"
+        );
         using (var ms = new System.IO.MemoryStream())
         {
             var document = new PdfDocument();  // Create a new PDF document

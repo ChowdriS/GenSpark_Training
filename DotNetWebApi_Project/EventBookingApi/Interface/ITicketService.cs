@@ -7,7 +7,7 @@ public interface ITicketService
 {
     public Task<TicketResponseDTO> BookTicket(TicketBookRequestDTO dto, Guid userId);
 
-    public Task<IEnumerable<TicketResponseDTO>> GetMyTickets(Guid userId);
+    public Task<IEnumerable<TicketResponseDTO>> GetMyTickets(Guid userId, int pageNumber, int pageSize);
 
     public Task<TicketResponseDTO> GetTicketById(Guid ticketId, Guid userId);
 
@@ -15,5 +15,5 @@ public interface ITicketService
 
     public Task<byte[]> ExportTicketAsPdf(Guid ticketId, Guid userId);
 
-    public Task<IEnumerable<TicketResponseDTO>> GetTicketsByEventId(Guid eventId, Guid requesterId);
+    public Task<IEnumerable<TicketResponseDTO>> GetTicketsByEventId(Guid eventId, Guid requesterId, int pageNumber, int pageSize);
 }

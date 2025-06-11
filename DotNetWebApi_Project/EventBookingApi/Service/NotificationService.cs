@@ -21,7 +21,6 @@ public class NotificationService : INotificationService
             _userRepository = userRepository;
             _eventRepository = eventRepository;
         }
-
         public async Task NotifyUser(Guid userId, string message, string notificationType)
         {
             await _hubContext.Clients.Group($"user_{userId}").SendAsync("ReceiveNotification", message, notificationType);

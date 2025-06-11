@@ -42,7 +42,7 @@ namespace EventBookingApi.Controller
             }
         }
 
-        [HttpPost("manger")]
+        [HttpPost("manager")]
         public async Task<IActionResult> AddManager([FromBody] UserAddRequestDTO dto)
         {
             try
@@ -87,11 +87,13 @@ namespace EventBookingApi.Controller
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> Update(Guid Id, UserUpdateRequestDTO dto)
+        [Authorize]
+        public async Task<IActionResult> Update(UserUpdateRequestDTO dto)
         {
             try
             {
-                var user = await _userService.updateUser(Id, dto);
+                var userId = _otherFuntionailities.GetLoggedInUserId(User);
+                var user = await _userService.updateUser(userId, dto);
                 return Ok(ApiResponse<object>.SuccessResponse("User succesfully updated", user));
             }
             catch (Exception ex)
@@ -101,11 +103,13 @@ namespace EventBookingApi.Controller
         }
 
         [HttpPut("changepassword")]
-        public async Task<IActionResult> ChangePassword(Guid Id, ChangePasswordDTO dto)
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDTO dto)
         {
             try
             {
-                var user = await _userService.changePasssword(Id, dto);
+                var userId = _otherFuntionailities.GetLoggedInUserId(User);
+                var user = await _userService.changePasssword(userId, dto);
                 return Ok(ApiResponse<object>.SuccessResponse("Password succesfully Changed", user));
             }
             catch (Exception ex)
@@ -113,17 +117,19 @@ namespace EventBookingApi.Controller
                 return BadRequest(ApiResponse<object>.ErrorResponse("Password updation is failed", new { ex.Message }));
             }
         }
-        [HttpDelete("delete")]
-        public async Task<IActionResult> DeleteUser(Guid Id)
+        [HttpDelete("delete/{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
             try
             {
-                var user = await _userService.deleteUser(Id);
-                return Ok(ApiResponse<object>.SuccessResponse("User is successfully deleted!",user));
+                var userId = _otherFuntionailities.GetLoggedInUserId(User);
+                var user = await _userService.deleteUser(id,userId);
+                return Ok(ApiResponse<object>.SuccessResponse("User is successfully deleted!", user));
             }
             catch (Exception ex)
             {
-                return BadRequest(ApiResponse<object>.ErrorResponse("User deletion is failed", new {ex.Message }));
+                return BadRequest(ApiResponse<object>.ErrorResponse("User deletion is failed", new { ex.Message }));
             }
         }
     }

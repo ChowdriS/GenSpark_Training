@@ -43,7 +43,7 @@ namespace EventBookingApi.Controller
             try
             {
                 var userId = _otherFuntionailities.GetLoggedInUserId(User);
-                // var tickets = await _ticketService.GetMyTickets(userId);
+                // var tickets = await _ticketService.GetMyTickets(userId,pageNumber,  pageSize);
                 var tickets = await _otherFuntionailities.GetPaginatedMyTickets(userId, pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("My tickets retrieved", tickets));
             }
@@ -54,7 +54,7 @@ namespace EventBookingApi.Controller
         }
 
         [HttpGet("{id}")]
-        [Authorize(Roles = "User")]
+        // [Authorize(Roles = "User")]
         public async Task<IActionResult> GetTicketById(Guid id)
         {
             try
@@ -108,7 +108,7 @@ namespace EventBookingApi.Controller
             try
             {
                 var userId = _otherFuntionailities.GetLoggedInUserId(User);
-                // var tickets = await _ticketService.GetTicketsByEventId(eventId, userId);
+                // var tickets = await _ticketService.GetTicketsByEventId(eventId, userId, pageNumber, pageSize);
                 var tickets = await _otherFuntionailities.GetPaginatedTicketsByEventId(eventId,userId, pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("Tickets retrieved", tickets));
             }
