@@ -24,12 +24,19 @@ public class UserService : IUserService
     private async Task<UserResponseDTO> Add(UserAddRequestDTO dto, UserRole role)
     {
         if (dto == null) throw new Exception("All fields are Required!");
-        
+        bool flag = false;
+        try
+        {
+            var allUsers = await _userRepository.GetAll();
+            var olduser = allUsers.FirstOrDefault(u => u.Email!.Equals(dto.Email));
+            if (olduser != null) flag = true;
+        }
+        catch (Exception) { }
+        if(flag == true)    throw new Exception("Email Already Taken!");
         var passwordhash = await _encryptionService.EncryptData(new EncryptModel
         {
             Data = dto.Password
         });
-
         var user = new User
         {
             Username = dto.Username,
@@ -63,6 +70,10 @@ public class UserService : IUserService
         var user = await _userRepository.GetById(Id);
         if (dto.Username != null)
         {
+            if (dto.Username.Equals(user.Username) == true)
+            {
+                throw new Exception("No Change Needed!");
+            }
             user.Username = dto.Username;
             user.UpdatedAt = DateTime.UtcNow;
             user = await _userRepository.Update(Id, user);

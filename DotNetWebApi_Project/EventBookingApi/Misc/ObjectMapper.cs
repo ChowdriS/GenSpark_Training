@@ -49,7 +49,7 @@ public class ObjectMapper
         return responses;
     }
 
-    public PaymentDetailDTO PaymentDetailDTOMapper(Payment payment, Event eventObj,User user, Ticket ticket) => new PaymentDetailDTO
+    public PaymentDetailDTO PaymentDetailDTOMapper(Payment payment, Event eventObj, User user, Ticket ticket) => new PaymentDetailDTO
     {
         Id = payment.Id,
         PaymentType = payment.PaymentType,
@@ -59,10 +59,25 @@ public class ObjectMapper
         EventId = eventObj.Id,
         EventTitle = eventObj.Title ?? "",
         UserId = user.Id,
-        UserName = user.Username??"",
-        UserEmail = user.Email??"",
+        UserName = user.Username ?? "",
+        UserEmail = user.Email ?? "",
         BookedAt = ticket.BookedAt,
         TicketStatus = ticket.Status
     };
     
+    public TicketTypeResponseDTO TicketTypeResponseDTOMapper(TicketType ticketType)
+    {
+        return new TicketTypeResponseDTO
+        {
+            Id = ticketType.Id,
+            EventId = ticketType.EventId,
+            TypeName = ticketType.TypeName,
+            Price = ticketType.Price,
+            TotalQuantity = ticketType.TotalQuantity,
+            BookedQuantity = ticketType.BookedQuantity,
+            Description = ticketType.Description,
+            CreatedAt = ticketType.CreatedAt,
+            IsDeleted = ticketType.IsDeleted
+        };
+    }
 }

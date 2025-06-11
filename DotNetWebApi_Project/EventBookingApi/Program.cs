@@ -80,6 +80,7 @@ builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
 builder.Services.AddTransient<IOtherFunctionalities, OtherFunctionalities>();
 builder.Services.AddTransient<ObjectMapper>();
+builder.Services.AddTransient<ITicketTypeService,TicketTypeService>();
 #endregion
 
 #region AuthenticationFilter

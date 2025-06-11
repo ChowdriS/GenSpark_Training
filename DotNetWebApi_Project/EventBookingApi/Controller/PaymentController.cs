@@ -31,15 +31,12 @@ namespace EventBookingApi.Controllers
             {
                 var currentUserId = _otherFunctionalities.GetLoggedInUserId(User);
                 var payment = await _paymentService.GetPaymentById(id, currentUserId);
-                return Ok(payment);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Forbid(ex.Message);
+                return Ok(ApiResponse<object>.SuccessResponse("Payment successfully fetched", payment));
+
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ApiResponse<object>.ErrorResponse("Payment fetch Failed", new { ex.Message }));
             }
         }
 
@@ -50,14 +47,28 @@ namespace EventBookingApi.Controllers
             try
             {
                 var payments = await _paymentService.GetPaymentsByUserId(userId);
-                return Ok(payments);
+                return Ok(ApiResponse<object>.SuccessResponse("Payment successfully fetched", payments));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ApiResponse<object>.ErrorResponse("Payment fetch Failed", new { ex.Message }));
             }
         }
-
+        [HttpGet("ticket/{tickedId}")]
+        public async Task<ActionResult<PaymentDetailDTO>> GetPaymentsByTicketId(Guid tickedId)
+        {
+            try
+            {
+                var userId = _otherFunctionalities.GetLoggedInUserId(User);
+                var payment = await _paymentService.GetPaymentByTicketId(tickedId, userId);
+                return Ok(ApiResponse<object>.SuccessResponse("Payment successfully fetched", payment));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.ErrorResponse("Payment fetch Failed", new { ex.Message }));
+                
+            }
+        }
         [HttpGet("event/{eventId}")]
         [Authorize(Roles = "Manager,Admin")]
         public async Task<ActionResult<IEnumerable<PaymentDetailDTO>>> GetPaymentsByEvent(Guid eventId)
@@ -69,17 +80,14 @@ namespace EventBookingApi.Controllers
                 {
                     managerId = _otherFunctionalities.GetLoggedInUserId(User);
                 }
-                
                 var payments = await _paymentService.GetPaymentsByEventId(eventId, managerId);
-                return Ok(payments);
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Forbid(ex.Message);
+                return Ok(ApiResponse<object>.SuccessResponse("Payment successfully fetched", payments));
+
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(ApiResponse<object>.ErrorResponse("Payment fetch Failed", new { ex.Message }));
+
             }
         }
     }
