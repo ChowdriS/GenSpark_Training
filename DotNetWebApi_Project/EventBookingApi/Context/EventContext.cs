@@ -64,7 +64,7 @@ public class EventContext : DbContext
                 .HasForeignKey(t => t.EventId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasMany(e => e.BookedSeats) // Configure BookedSeats relationship
+            entity.HasMany(e => e.BookedSeats) 
                 .WithOne(bs => bs.Event)
                 .HasForeignKey(bs => bs.EventId)
                 .OnDelete(DeleteBehavior.Cascade);

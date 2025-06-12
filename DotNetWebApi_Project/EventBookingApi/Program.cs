@@ -1,14 +1,19 @@
+using System.Reflection;
 using System.Text;
+using System.Threading.RateLimiting;
 using EventBookingApi.Context;
 using EventBookingApi.Interface;
 using EventBookingApi.Misc;
 using EventBookingApi.Model;
 using EventBookingApi.Repository;
 using EventBookingApi.Service;
+using Serilog;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +22,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 // builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("serilog.json", optional: false, reloadOnChange: true)
+    .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 
 builder.Services.AddSwaggerGen(
 opt =>
@@ -87,6 +104,17 @@ builder.Services.AddTransient<IOtherFunctionalities, OtherFunctionalities>();
 builder.Services.AddTransient<ObjectMapper>();
 #endregion
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("fixed", opt =>
+    {
+        opt.Window = TimeSpan.FromSeconds(10);        
+        opt.PermitLimit = 5;                        
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        opt.QueueLimit = 0;
+    });
+});
+
 #region AuthenticationFilter
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -126,10 +154,77 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+#region Logging
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
+
+    string requestBody = "";
+    if (context.Request.ContentLength > 0 && context.Request.ContentType?.Contains("application/json") == true)
+    {
+        using var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true);
+        requestBody = await reader.ReadToEndAsync();
+        context.Request.Body.Position = 0;
+
+        // 👇 Mask sensitive fields
+        requestBody = MaskSensitiveFields(requestBody);
+    }
+
+    var originalBodyStream = context.Response.Body;
+    using var responseBody = new MemoryStream();
+    context.Response.Body = responseBody;
+
+    await next();
+
+    context.Response.Body.Seek(0, SeekOrigin.Begin);
+    var responseText = await new StreamReader(context.Response.Body).ReadToEndAsync();
+    context.Response.Body.Seek(0, SeekOrigin.Begin);
+
+    Log.Information("HTTP {Method} {Path} | RequestBody: {RequestBody} | Status: {StatusCode}",
+        context.Request.Method,
+        context.Request.Path,
+        requestBody,
+        context.Response.StatusCode);
+
+    await responseBody.CopyToAsync(originalBodyStream);
+
+    string MaskSensitiveFields(string body)
+    {
+        var sensitiveKeys = new[] { "password", "confirmPassword", "token", "accessToken", "refreshToken" };
+
+        try
+        {
+            using var doc = JsonDocument.Parse(body);
+            var root = doc.RootElement;
+
+            var masked = new Dictionary<string, object>();
+            foreach (var prop in root.EnumerateObject())
+            {
+                if (sensitiveKeys.Contains(prop.Name, StringComparer.OrdinalIgnoreCase))
+                {
+                    masked[prop.Name] = "***";
+                }
+                else
+                {
+                    masked[prop.Name] = prop.Value.ValueKind == JsonValueKind.String ? prop.Value.GetString()! : prop.Value.ToString();
+                }
+            }
+
+            return JsonSerializer.Serialize(masked);
+        }
+        catch
+        {
+            return body;
+        }
+    }
+});
+#endregion
+
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+app.UseRateLimiter();
+app.MapControllers().RequireRateLimiting("fixed");
 app.MapHub<NotificationHub>("/notificationHub");
 
 app.Run();

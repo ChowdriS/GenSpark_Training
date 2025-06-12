@@ -93,9 +93,9 @@ namespace EventBookingApi.Controller
             {
                 var userId = _otherFuntionailities.GetLoggedInUserId(User);
                 var file = await _ticketService.ExportTicketAsPdf(id, userId);
-                var createdFile = File(file, "application/pdf", $"Ticket_{id}.pdf");
-                return Ok(ApiResponse<object>.SuccessResponse("Ticket generatated", createdFile));
-
+                // var createdFile = File(file, "application/pdf", $"Ticket_{id}.pdf");
+                // return Ok(ApiResponse<object>.SuccessResponse("Ticket generatated", createdFile));
+                return File(file, "application/pdf", $"Ticket_{id}.pdf");
             }
             catch (Exception ex)
             {
