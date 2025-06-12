@@ -78,9 +78,13 @@ builder.Services.AddTransient<IEventService, EventService>();
 builder.Services.AddTransient<ITicketService, TicketService>();
 builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
+builder.Services.AddTransient<ITicketTypeService, TicketTypeService>();
+builder.Services.AddTransient<IAnalyticsService,AnalyticsService>();
+#endregion
+
+#region Mics
 builder.Services.AddTransient<IOtherFunctionalities, OtherFunctionalities>();
 builder.Services.AddTransient<ObjectMapper>();
-builder.Services.AddTransient<ITicketTypeService,TicketTypeService>();
 #endregion
 
 #region AuthenticationFilter
