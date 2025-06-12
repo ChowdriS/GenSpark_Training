@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EventBookingApi.Interface;
+using EventBookingApi.Misc;
 using EventBookingApi.Model;
 using EventBookingApi.Model.DTO;
 using EventBookingApi.Service;
@@ -16,6 +17,8 @@ public class EventServiceTest
     private Mock<IRepository<Guid, Event>> _eventRepoMock;
     private Mock<IRepository<Guid, TicketType>> _ticketTypeRepoMock;
     private Mock<IRepository<Guid, User>> _userRepoMock;
+    private Mock<IOtherFunctionalities> _otherFuncMock;
+    private Mock<ObjectMapper> _mapperMock;
     private EventService _eventService;
 
     [SetUp]
@@ -24,24 +27,39 @@ public class EventServiceTest
         _eventRepoMock = new Mock<IRepository<Guid, Event>>();
         _ticketTypeRepoMock = new Mock<IRepository<Guid, TicketType>>();
         _userRepoMock = new Mock<IRepository<Guid, User>>();
+        _otherFuncMock = new Mock<IOtherFunctionalities>();
+        _mapperMock = new Mock<ObjectMapper>();
 
-        _eventService = new EventService(_eventRepoMock.Object, _ticketTypeRepoMock.Object, _userRepoMock.Object);
+        _eventService = new EventService(
+            _eventRepoMock.Object,
+            _ticketTypeRepoMock.Object,
+            _userRepoMock.Object,
+            _otherFuncMock.Object,
+            _mapperMock.Object
+        );
     }
 
     [Test]
     public async Task GetAllEvents_ReturnsEvents()
     {
-        var eventList = new List<Event>
+        var eventList = new List<EventResponseDTO>
         {
-            new Event { Id = Guid.NewGuid(), Title = "Test Event", IsDeleted = false }
+            new EventResponseDTO { Title = "Test Event" }
+        };
+        var paginated = new PaginatedResultDTO<EventResponseDTO>
+        {
+            Items = eventList,
+            PageNumber = 1,
+            PageSize = 10,
+            TotalItems = 1
         };
 
-        _eventRepoMock.Setup(r => r.GetAll()).ReturnsAsync(eventList);
+        _otherFuncMock.Setup(f => f.GetPaginatedEvents(1, 10)).ReturnsAsync(paginated);
 
-        var result = await _eventService.GetAllEvents();
+        var result = await _eventService.GetAllEvents(1, 10);
 
-        Assert.That(result.Count(), Is.EqualTo(1));
-        Assert.That(result.First().Title, Is.EqualTo("Test Event"));
+        Assert.That(result.Items.Count, Is.EqualTo(1));
+        Assert.That(result.Items.First().Title, Is.EqualTo("Test Event"));
     }
 
     [Test]
@@ -49,8 +67,10 @@ public class EventServiceTest
     {
         var id = Guid.NewGuid();
         var ev = new Event { Id = id, Title = "Event", IsDeleted = false };
+        var evDto = new EventResponseDTO { Title = "Event" };
 
         _eventRepoMock.Setup(r => r.GetById(id)).ReturnsAsync(ev);
+        _mapperMock.Setup(m => m.EvenetResponseDTOMapper(ev)).Returns(evDto);
 
         var result = await _eventService.GetEventById(id);
 
@@ -68,34 +88,45 @@ public class EventServiceTest
     [Test]
     public async Task FilterEvents_ByCity_ReturnsMatchingEvents()
     {
-        var events = new List<Event>
+        var paginated = new PaginatedResultDTO<EventResponseDTO>
         {
-            new Event { Title = "E1", Description = "Chennai", EventDate = DateTime.Today, IsDeleted = false },
-            new Event { Title = "E2", Description = "Delhi", EventDate = DateTime.Today, IsDeleted = false }
+            Items = new List<EventResponseDTO>
+            {
+                new EventResponseDTO { Description = "Chennai" }
+            },
+            PageNumber = 1,
+            PageSize = 10,
+            TotalItems = 1
         };
 
-        _eventRepoMock.Setup(r => r.GetAll()).ReturnsAsync(events);
+        _otherFuncMock.Setup(f => f.GetPaginatedEventsByFilter("Chennai", null, 1, 10))
+                      .ReturnsAsync(paginated);
 
-        var result = await _eventService.FilterEvents("Chennai", null);
+        var result = await _eventService.FilterEvents("Chennai", null, 1, 10);
 
-        Assert.That(result.Count(), Is.EqualTo(1));
-        Assert.That(result.First().Description, Is.EqualTo("Chennai"));
+        Assert.That(result.Items.Count, Is.EqualTo(1));
+        Assert.That(result.Items.First().Description, Is.EqualTo("Chennai"));
     }
 
     [Test]
     public async Task GetManagedEventsByUserId_ReturnsEvents()
     {
         var userId = Guid.NewGuid();
-        var events = new List<Event>
+
+        var paginated = new PaginatedResultDTO<EventResponseDTO>
         {
-            new Event { ManagerId = userId, IsDeleted = false }
+            Items = new List<EventResponseDTO> { new EventResponseDTO { Title = "Managed" } },
+            PageNumber = 1,
+            PageSize = 10,
+            TotalItems = 1
         };
 
-        _eventRepoMock.Setup(r => r.GetAll()).ReturnsAsync(events);
+        _otherFuncMock.Setup(f => f.GetPaginatedEventsByManager(userId, 1, 10))
+                      .ReturnsAsync(paginated);
 
-        var result = await _eventService.GetManagedEventsByUserId(userId);
+        var result = await _eventService.GetManagedEventsByUserId(userId, 1, 10);
 
-        Assert.That(result.Count(), Is.EqualTo(1));
+        Assert.That(result.Items.Count, Is.EqualTo(1));
     }
 
     [Test]
@@ -104,18 +135,12 @@ public class EventServiceTest
         var managerId = Guid.NewGuid();
         var newEventId = Guid.NewGuid();
 
-        _userRepoMock.Setup(u => u.GetById(managerId)).ReturnsAsync(new User { Id = managerId });
-
-        _eventRepoMock.Setup(e => e.Add(It.IsAny<Event>()))
-            .ReturnsAsync((Event e) => { e.Id = newEventId; return e; });
-
         var dto = new EventAddRequestDTO
         {
             Title = "New Event",
             Description = "Test Desc",
             EventDate = DateTime.Today,
             EventType = EventType.Seatable,
-            ManagerId = managerId,
             TicketTypes = new List<TicketTypeAddRequestDTO>
             {
                 new TicketTypeAddRequestDTO
@@ -128,7 +153,24 @@ public class EventServiceTest
             }
         };
 
-        var result = await _eventService.AddEvent(dto);
+        var newEvent = new Event
+        {
+            Id = newEventId,
+            Title = dto.Title,
+            Description = dto.Description,
+            EventDate = dto.EventDate,
+            EventType = dto.EventType,
+            ManagerId = managerId
+        };
+
+        _userRepoMock.Setup(u => u.GetById(managerId)).ReturnsAsync(new User { Id = managerId });
+        _eventRepoMock.Setup(e => e.Add(It.IsAny<Event>()))
+                      .ReturnsAsync(newEvent);
+
+        _mapperMock.Setup(m => m.EvenetResponseDTOMapper(It.IsAny<Event>()))
+                   .Returns(new EventResponseDTO { Title = "New Event" });
+
+        var result = await _eventService.AddEvent(dto, managerId);
 
         _ticketTypeRepoMock.Verify(t => t.Add(It.IsAny<TicketType>()), Times.Once);
         Assert.That(result.Title, Is.EqualTo("New Event"));
@@ -148,9 +190,6 @@ public class EventServiceTest
             EventStatus = EventStatus.Active
         };
 
-        _eventRepoMock.Setup(r => r.GetById(eventId)).ReturnsAsync(ev);
-        _eventRepoMock.Setup(r => r.Update(eventId, It.IsAny<Event>())).ReturnsAsync((Guid _, Event updated) => updated);
-
         var dto = new EventUpdateRequestDTO
         {
             Title = "Updated Title",
@@ -159,6 +198,10 @@ public class EventServiceTest
             EventType = EventType.NonSeatable,
             EventStatus = EventStatus.Completed
         };
+
+        _eventRepoMock.Setup(r => r.GetById(eventId)).ReturnsAsync(ev);
+        _eventRepoMock.Setup(r => r.Update(eventId, It.IsAny<Event>())).ReturnsAsync(ev);
+        _mapperMock.Setup(m => m.EvenetResponseDTOMapper(ev)).Returns(new EventResponseDTO { Title = "Updated Title", EventStatus = "Completed" });
 
         var result = await _eventService.UpdateEvent(eventId, dto);
 
@@ -173,7 +216,8 @@ public class EventServiceTest
         var ev = new Event { Id = eventId, Title = "ToDelete", IsDeleted = false };
 
         _eventRepoMock.Setup(r => r.GetById(eventId)).ReturnsAsync(ev);
-        _eventRepoMock.Setup(r => r.Update(eventId, It.IsAny<Event>())).ReturnsAsync((Guid _, Event e) => e);
+        _eventRepoMock.Setup(r => r.Update(eventId, It.IsAny<Event>())).ReturnsAsync(ev);
+        _mapperMock.Setup(m => m.EvenetResponseDTOMapper(ev)).Returns(new EventResponseDTO { EventStatus = "Cancelled" });
 
         var result = await _eventService.DeleteEvent(eventId);
 

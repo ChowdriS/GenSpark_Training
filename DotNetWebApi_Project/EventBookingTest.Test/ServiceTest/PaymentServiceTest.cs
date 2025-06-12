@@ -3,6 +3,7 @@ using EventBookingApi.Service;
 using EventBookingApi.Interface;
 using EventBookingApi.Model;
 using EventBookingApi.Model.DTO;
+using EventBookingApi.Misc;
 
 namespace EventBookingTest.Test.ServiceTest;
 public class PaymentServiceTests
@@ -12,6 +13,7 @@ public class PaymentServiceTests
     private Mock<IRepository<Guid, Event>> _mockEventRepo;
     private Mock<IRepository<Guid, User>> _mockUserRepo;
     private PaymentService _service;
+    private Mock<ObjectMapper> _mockMapper;
 
     [SetUp]
     public void Setup()
@@ -21,12 +23,14 @@ public class PaymentServiceTests
         _mockEventRepo = new Mock<IRepository<Guid, Event>>();
         _mockUserRepo = new Mock<IRepository<Guid, User>>();
 
+        _mockMapper = new Mock<ObjectMapper>();
         _service = new PaymentService(
             _mockPaymentRepo.Object,
             _mockTicketRepo.Object,
             _mockEventRepo.Object,
-            _mockUserRepo.Object);
-    }
+            _mockUserRepo.Object,
+            _mockMapper.Object);
+            }
 
     [Test]
     public async Task GetPaymentById_ReturnsPaymentDetailDTO_WhenAuthorized()
