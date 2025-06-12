@@ -1,5 +1,6 @@
 using System;
 using System.Security.Claims;
+using System.Text.Json;
 using EventBookingApi.Context;
 using EventBookingApi.Interface;
 using EventBookingApi.Model;
@@ -38,10 +39,10 @@ public class OtherFunctionalities : IOtherFunctionalities
         var evt = await _eventContext.Events.FirstOrDefaultAsync(e => e.Id == eventId);
         var user = await _eventContext.Users.FirstOrDefaultAsync(e => e.Id == requesterId);
 
-        if (user!.Role== UserRole.Manager && evt!.ManagerId != requesterId)
+        if (user!.Role == UserRole.Manager && evt!.ManagerId != requesterId)
             throw new UnauthorizedAccessException("Access denied");
 
-        var query =  _eventContext.Tickets
+        var query = _eventContext.Tickets
             .Where(t => t.EventId == eventId && t.Status != TicketStatus.Cancelled)
             .OrderByDescending(t => t.BookedAt);
 
@@ -97,7 +98,7 @@ public class OtherFunctionalities : IOtherFunctionalities
             TotalItems = totalItems
         };
     }
-    
+
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEvents(int pageNumber, int pageSize)
     {
         var query = _eventContext.Events
@@ -125,16 +126,16 @@ public class OtherFunctionalities : IOtherFunctionalities
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEventsByManager(Guid managerId, int pageNumber, int pageSize)
     {
         var query = _eventContext.Events
-            .Where(e => e.ManagerId == managerId && !e.IsDeleted) 
-            .OrderByDescending(e => e.EventDate); 
+            .Where(e => e.ManagerId == managerId && !e.IsDeleted)
+            .OrderByDescending(e => e.EventDate);
 
         var totalItems = await query.CountAsync();
 
         var events = await query
-            .Skip((pageNumber - 1) * pageSize) 
-            .Take(pageSize) 
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
-        
+
         var newevents = _mapper.ManyEvenetResponseDTOMapper(events);
 
         return new PaginatedResultDTO<EventResponseDTO>
@@ -154,13 +155,13 @@ public class OtherFunctionalities : IOtherFunctionalities
                 .OrderByDescending(e => e.EventDate);
 
         var events = await query
-            .Skip((pageNumber - 1) * pageSize) 
-            .Take(pageSize) 
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
-        
+
         var totalItems = await query.CountAsync();
         var newevents = _mapper.ManyEvenetResponseDTOMapper(events);
-        
+
         return new PaginatedResultDTO<EventResponseDTO>
         {
             Items = newevents,

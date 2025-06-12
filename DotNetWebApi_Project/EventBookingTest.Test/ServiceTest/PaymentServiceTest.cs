@@ -217,7 +217,7 @@ public class PaymentServiceTests
         var eventId = Guid.NewGuid();
         var managerId = Guid.NewGuid();
 
-        var eventObj = new Event { Id = eventId, ManagerId = Guid.NewGuid() }; // Different manager
+        var eventObj = new Event { Id = eventId, ManagerId = Guid.NewGuid() }; 
 
         _mockEventRepo.Setup(r => r.GetById(eventId)).ReturnsAsync(eventObj);
 

@@ -65,7 +65,7 @@ public class ObjectMapper
         TicketStatus = ticket.Status
     };
     
-    public TicketTypeResponseDTO TicketTypeResponseDTOMapper(TicketType ticketType)
+    public virtual TicketTypeResponseDTO TicketTypeResponseDTOMapper(TicketType ticketType)
     {
         return new TicketTypeResponseDTO
         {
