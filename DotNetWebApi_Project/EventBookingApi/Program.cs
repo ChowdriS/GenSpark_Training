@@ -20,7 +20,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-// builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
 var configuration = new ConfigurationBuilder()
@@ -64,6 +63,7 @@ opt =>
     });
 }
 );
+
 builder.Services.AddControllers().AddJsonOptions(opts =>
                 {
                     opts.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
@@ -104,16 +104,18 @@ builder.Services.AddTransient<IOtherFunctionalities, OtherFunctionalities>();
 builder.Services.AddTransient<ObjectMapper>();
 #endregion
 
+#region Rate Limiting
 builder.Services.AddRateLimiter(options =>
 {
     options.AddFixedWindowLimiter("fixed", opt =>
     {
-        opt.Window = TimeSpan.FromSeconds(10);        
-        opt.PermitLimit = 5;                        
+        opt.Window = TimeSpan.FromSeconds(10);
+        opt.PermitLimit = 5;
         opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
         opt.QueueLimit = 0;
     });
 });
+#endregion
 
 #region AuthenticationFilter
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -166,7 +168,6 @@ app.Use(async (context, next) =>
         requestBody = await reader.ReadToEndAsync();
         context.Request.Body.Position = 0;
 
-        // 👇 Mask sensitive fields
         requestBody = MaskSensitiveFields(requestBody);
     }
 
