@@ -1,0 +1,7 @@
+<div class="container py-5">
+  <app-city-search></app-city-search>
+
+  <div class="mt-4" *ngIf="weatherData() as data">
+    <app-weather-card [data]="data"></app-weather-card>
+  </div>
+</div>

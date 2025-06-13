@@ -1,0 +1,8 @@
+<div class="products-container">
+  <div *ngFor="let product of products" class="product-card">
+    <img src="https://help.rangeme.com/hc/article_attachments/360006928633/what_makes_a_good_product_image.jpg" 
+        alt="{{product.name}}" class="product-image" />
+    <p class="product-name">{{ product.name }}</p>
+    <button class="add-button" (click)="addCart(product)">Add to Cart</button>
+  </div>
+</div>

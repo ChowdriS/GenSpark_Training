@@ -1,0 +1,9 @@
+<div class="card h-100 border-0 shadow-sm recipe-card">
+  <img [src]="recipe.image" class="card-img-top recipe-img" [alt]="recipe.name">
+  <div class="card-body">
+    <h5 class="card-title text-primary">{{ recipe.name }}</h5>
+    <p class="mb-1"><strong>Cuisine:</strong> {{ recipe.cuisine || 'N/A' }}</p>
+    <p class="mb-1"><strong>Cooking Time:</strong> {{ recipe.prepTimeMinutes || 'N/A' }} minutes</p>
+    <p><strong>Ingredients:</strong> {{ recipe.ingredients?.join(', ') || 'N/A' }}</p>
+  </div>
+</div>

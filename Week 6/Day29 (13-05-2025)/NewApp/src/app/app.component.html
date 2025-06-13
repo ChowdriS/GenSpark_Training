@@ -1,0 +1,20 @@
+<!-- 
+<app-cart [cart] = "cart"></app-cart>
+<hr>
+<app-product-list (cartUpdated)="incrementCartCount($event)"></app-product-list>
+<hr>
+<app-customer-details ></app-customer-details>
+
+<router-outlet /> -->
+
+
+<!-- <app-receipes></app-receipes> -->
+
+<div class="container mt-5">
+  @if (user == null) {
+    <app-login (loginSuccess)="handleLogin($event)" />
+  }
+  @else {
+    <app-profile [user]="user" (loggedOut)="handleLogout()" />
+  }
+</div>
