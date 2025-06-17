@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  @if (loading) {
+    <div class="d-flex justify-content-center my-5">
+      <div class="spinner-border" role="status"></div>
+    </div>
+  } @else if (error) {
+    <div class="alert alert-danger text-center">
+      {{ error }}
+    </div>
+  } @else if (product) {
+    <div class="card" style="box-shadow: 0 5px 6px 0 rgba(0, 0, 0, 0.3);">
+      <div class="row g-0">
+        <div class="col-md-5">
+          <img [src]="product.thumbnail" class="img-fluid rounded-start" alt="{{ product.title }}">
+        </div>
+        <div class="col-md-7">
+          <div class="card-body">
+            <h2 class="card-title">{{ product.title }}</h2>
+            <p class="card-text">{{ product.description }}</p>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <strong>Price:</strong> ${{ product.price }}
+                <span class="text-danger ms-2">
+                  ({{ product.discountPercentage }}% off)
+                </span>
+              </li>
+              <li class="list-group-item"><strong>Rating:</strong> {{ product.rating }}/5</li>
+              <li class="list-group-item"><strong>Stock:</strong> {{ product.stock }}</li>
+              <li class="list-group-item"><strong>Brand:</strong> {{ product.brand }}</li>
+              <li class="list-group-item"><strong>Category:</strong> {{ product.category }}</li>
+            </ul>
+            <div class="mt-4">
+              <a routerLink="/products" class="btn btn-outline-primary">Back to Products</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

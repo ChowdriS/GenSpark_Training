@@ -1,0 +1,17 @@
+<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <a class="navbar-brand" routerLink="/products">E-Commerce</a>
+        <div class="d-flex">
+          @if (authService.isAuthenticated()) {
+            <button class="btn btn-outline-light" (click)="logout()">Logout</button>
+          } @else {
+            <a class="btn btn-outline-light" routerLink="/login">Login</a>
+          }
+        </div>
+      </div>
+    </nav>
+    <main class="container py-4">
+      <router-outlet></router-outlet>
+    </main>
+</div>
