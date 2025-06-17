@@ -1,4 +1,4 @@
-Routing
+ # Routing
  - Main route: /products — displays product listing.
  - Child route: /products/:id — displays product details based on the id (route parameter).
  - Protect both routes using a route guard (canActivate).
