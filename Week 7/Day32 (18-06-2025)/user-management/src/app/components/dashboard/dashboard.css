@@ -1,0 +1,14 @@
+.chart-container {
+  flex: 1 1 300px;
+  max-width: 500px;
+  min-width: 280px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+canvas {
+  width: 100% !important;
+  height: auto !important;
+}
