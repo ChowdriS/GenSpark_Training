@@ -1,0 +1,23 @@
+<header class="bg-primary text-white shadow-sm">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">User Dashboard</a>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/add" routerLinkActive="active">Add User</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/search" routerLinkActive="active">Search User</a>
+            </li>
+          </ul>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="py-4">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</main>

@@ -1,0 +1,100 @@
+<div class="container py-4">
+    <div class="d-flex justify-content-center mb-4">
+      <div class="chart-container">
+        <canvas id="MyPieChart" style="height: 400px;">{{ piechart }}</canvas>
+      </div>
+      <div class="chart-container">
+        <canvas id="MyBarChart" style="height: 300px; margin-right: 300px;margin-top: 100px;">{{ barchart }}</canvas>
+      </div>
+    </div>
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Gender</label>
+          <select class="form-select" [(ngModel)]="filters.gender" (change)="applyFilters()">
+            <option value="">All Genders</option>
+            @for (gender of getUniqueValues('gender'); track gender) {
+              <option [value]="gender">{{ gender | titlecase }}</option>
+            }
+          </select>
+        </div>
+        
+        <div class="col-md-4">
+          <label class="form-label">Department</label>
+          <select class="form-select" [(ngModel)]="filters.department" (change)="applyFilters()">
+            <option value="">All Departments</option>
+            @for (dept of getUniqueValues('department'); track dept) {
+              <option [value]="dept">{{ dept }}</option>
+            }
+          </select>
+        </div>
+        
+        <div class="col-md-4">
+          <label class="form-label">State</label>
+          <select class="form-select" [(ngModel)]="filters.state" (change)="applyFilters()">
+            <option value="">All States</option>
+            @for (state of getUniqueValues('state'); track state) {
+              <option [value]="state">{{ state }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading users...</p>
+    </div>
+  }
+  @else if (error) {
+    <div class="alert alert-danger" role="alert">
+      {{ error }}
+    </div>
+  }
+  @else {
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Department</th>
+                <th>State</th>
+                <th>Email</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of visibleUsers; track trackByUserId(user.id+1)) {
+                <tr>
+                  <td>{{ user.firstName }} {{ user.lastName }}</td>
+                  <td>{{ user.age }}</td>
+                  <td>
+                      {{ user.gender | titlecase }}
+                  </td>
+                  <td>{{ user.company.department }}</td>
+                  <td>{{ user.address.state }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.phone }}</td>
+                </tr>
+              }
+              @empty {
+                <tr>
+                  <td colspan="7" class="text-center py-4">No users found matching your filters</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  }
+</div>

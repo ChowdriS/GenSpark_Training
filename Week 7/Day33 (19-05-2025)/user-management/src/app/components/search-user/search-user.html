@@ -1,0 +1,9 @@
+<div class="container">
+    <input placeholder="Enter username" type="text" (input)="onSearch($event)" class="form-control"/>
+
+    <ul class="list-group mt-2">
+        @for (item of filterUsers(); track item){
+            <li class=" list-group-item">{{item.username}}</li>
+        }
+    </ul>
+</div>

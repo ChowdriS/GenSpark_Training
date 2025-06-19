@@ -1,0 +1,56 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="mb-3">
+    <label>Username</label>
+    <input class="form-control" formControlName="username" />
+    @if (f['username'].touched && f['username'].errors?.['required']) {
+      <p class="text-danger">Username is required.</p>
+    }
+    @if (f['username'].touched && f['username'].errors?.['bannedUsername']) {
+      <p class="text-danger">Please Give Proper Username!</p>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label>Email</label>
+    <input class="form-control" formControlName="email" />
+    @if (f['email'].touched && f['email'].errors?.['required']) {
+      <p class="text-danger">Email is required.</p>
+    }
+    @if (f['email'].touched && f['email'].errors?.['email']) {
+      <p class="text-danger">Invalid email format.</p>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label>Password</label>
+    <input type="password" class="form-control" formControlName="password" />
+    @if (f['password'].touched && f['password'].errors?.['required']) {
+      <p class="text-danger">Password is required.</p>
+    }
+    @if (f['password'].touched && f['password'].errors?.['minlength']) {
+      <p class="text-danger">Minimum 6 characters required.</p>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label>Confirm Password</label>
+    <input type="password" class="form-control" formControlName="confirmPassword" />
+    @if (f['password'].touched && form.errors?.['passwordsMismatch']) {
+      <p class="text-danger">Passwords do not match.</p>
+    }
+  </div>
+
+  <div class="mb-3">
+    <label>Role</label>
+    <select class="form-control" formControlName="role">
+      <option value="">Select</option>
+      @for (role of roles; track role) {
+        <option [value]="role">{{ role }}</option>
+      }
+    </select>
+    @if (f['role'].touched && f['role'].errors?.['required']) {
+      <p class="text-danger">Role is required.</p>
+    }
+  </div>
+  <button class="btn btn-primary" [disabled]="form.invalid">Create User</button>
+</form>
