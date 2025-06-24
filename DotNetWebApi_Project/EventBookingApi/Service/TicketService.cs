@@ -228,7 +228,7 @@ public class TicketService : ITicketService
     public async Task<IEnumerable<TicketResponseDTO>> GetMyTickets(Guid userId, int pageNumber, int pageSize)
     {
         var tickets = (await _ticketRepository.GetAll())
-            .Where(t => t.UserId == userId && t.Status != TicketStatus.Cancelled)
+            .Where(t => t.UserId == userId)
             .ToList();
         var responses = new List<TicketResponseDTO>();
         foreach (var ticket in tickets)
@@ -242,10 +242,11 @@ public class TicketService : ITicketService
     public async Task<TicketResponseDTO> GetTicketById(Guid ticketId, Guid userId)
     {
         var ticket = await _ticketRepository.GetById(ticketId);
-        if (ticket == null || (ticket.UserId != userId && ticket?.Event?.ManagerId != userId))
+        var user = await _userRepository.GetById(userId);
+        if (ticket == null || (ticket.UserId != userId && ticket?.Event?.ManagerId != userId && user.Role != UserRole.Admin))
             throw new UnauthorizedAccessException("Access denied");
-        if (ticket.Status == TicketStatus.Cancelled) throw new Exception("The Ticket is already Cancelled!");
-        var eventObj = await _eventRepository.GetById(ticket.EventId);
+        // if (ticket.Status == TicketStatus.Cancelled) throw new Exception("The Ticket is already Cancelled!");
+        var eventObj = await _eventRepository.GetById(ticket!.EventId);
         var ticketType = await _ticketTypeRepository.GetById(ticket.TicketTypeId);
         Payment? payment = ticket.PaymentId.HasValue
         ? await _paymentRepository.GetById(ticket.PaymentId.Value)
@@ -270,11 +271,11 @@ public class TicketService : ITicketService
         var evt = await _eventRepository.GetById(eventId);
         var user = await _userRepository.GetById(requesterId);
         if (user == null) throw new Exception("User not found");
-        if (evt == null || evt.IsDeleted) throw new Exception("Event not found");
+        if (evt == null) throw new Exception("Event not found");
         if (user.Role != UserRole.Admin && evt.ManagerId != requesterId)
             throw new UnauthorizedAccessException("Access denied");
         var tickets = (await _ticketRepository.GetAll())
-            .Where(t => t.EventId == eventId && t.Status != TicketStatus.Cancelled)
+            .Where(t => t.EventId == eventId)
             .ToList();
         var responses = new List<TicketResponseDTO>();
         foreach (var ticket in tickets)
@@ -290,7 +291,10 @@ public class TicketService : ITicketService
         var ticket = await _ticketRepository.GetById(ticketId);
         if (ticket == null || ticket.UserId != userId)
             throw new UnauthorizedAccessException("Unauthorized");
-
+        if (ticket.Status == TicketStatus.Cancelled)
+        {
+            throw new Exception("The Ticket is Already Cancelled!");
+        }
         var eventObj = await _eventRepository.GetById(ticket.EventId);
         var ticketType = await _ticketTypeRepository.GetById(ticket.TicketTypeId);
         var payment = ticket.PaymentId.HasValue

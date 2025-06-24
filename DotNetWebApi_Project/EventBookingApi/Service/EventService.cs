@@ -13,10 +13,14 @@ public class EventService : IEventService
     private readonly IRepository<Guid, User> _userRepository;
     private readonly IOtherFunctionalities _otherFunctionalities;
     private readonly ObjectMapper _mapper;
+    private readonly IRepository<Guid, Ticket> _ticketRepository;
+    private readonly IRepository<Guid, Payment> _paymentRepository;
 
     public EventService(IRepository<Guid, Event> eventRepository,
                         IRepository<Guid, TicketType> ticketTypeRepository,
+                        IRepository<Guid, Ticket> ticketRepository,
                         IRepository<Guid, User> userRepository,
+                        IRepository<Guid, Payment> paymentRepository,
                         IOtherFunctionalities otherFunctionalities,
                         ObjectMapper mapper)
     {
@@ -25,6 +29,8 @@ public class EventService : IEventService
         _userRepository = userRepository;
         _otherFunctionalities = otherFunctionalities;
         _mapper = mapper;
+        _ticketRepository = ticketRepository;
+        _paymentRepository = paymentRepository;
     }
 
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetAllEvents(int pageNumber, int pageSize)
@@ -35,13 +41,11 @@ public class EventService : IEventService
     public async Task<EventResponseDTO> GetEventById(Guid id)
     {
         var ev = await _eventRepository.GetById(id);
-        if (ev == null || ev.IsDeleted)
-            throw new Exception("Event not found");
 
         return _mapper.EvenetResponseDTOMapper(ev);
     }
 
-    public async Task<PaginatedResultDTO<EventResponseDTO>> FilterEvents(string searchElement, DateTime? date, int pageNumber, int pageSize)
+    public async Task<PaginatedResultDTO<EventResponseDTO>> FilterEvents(string? searchElement, DateTime? date, int pageNumber, int pageSize)
     {
         return await _otherFunctionalities.GetPaginatedEventsByFilter(searchElement, date, pageNumber, pageSize);
     }
@@ -60,7 +64,7 @@ public class EventService : IEventService
             Title = dto.Title,
             Description = dto.Description,
             EventType = dto.EventType,
-            EventDate = dto.EventDate,
+            EventDate = dto.EventDate.ToUniversalTime(),
             ManagerId = manager?.Id
         };
 
@@ -105,6 +109,27 @@ public class EventService : IEventService
         existingEvent.UpdatedAt = DateTime.UtcNow;
         existingEvent.EventStatus = EventStatus.Cancelled;
         await _eventRepository.Update(id, existingEvent);
+        var ticketTypes = await _ticketTypeRepository.GetAll();
+        ticketTypes = ticketTypes.Where(t => t.EventId == existingEvent.Id);
+        foreach (var item in ticketTypes)
+        {
+            item.IsDeleted = true;
+            await _ticketTypeRepository.Update(item.Id, item);
+        }
+        var tickets = await _ticketRepository.GetAll();
+        tickets = tickets.Where(t => t.EventId == existingEvent.Id);
+        foreach (var item in tickets)
+        {
+            item.Status = TicketStatus.Cancelled;
+            if (item.PaymentId != null)
+            {
+                var payment = await _paymentRepository.GetById(item.PaymentId.Value);
+                payment.PaymentStatus = PaymentStatusEnum.Refund;
+                await _paymentRepository.Update(item.PaymentId.Value, payment);
+            }
+            await _ticketRepository.Update(item.Id, item);
+        }
+        
         return _mapper.EvenetResponseDTOMapper(existingEvent);
     }
 }

@@ -42,7 +42,7 @@ namespace EventBookingApi.Controller
             }
             catch (Exception ex)
             {
-                return NotFound(ApiResponse<object>.ErrorResponse("Event not found", new { ex.Message }));
+                return BadRequest(ApiResponse<object>.ErrorResponse("Event not found", new { ex.Message }));
             }
         }
 
@@ -110,7 +110,7 @@ namespace EventBookingApi.Controller
         }
 
         [HttpGet("filter")]
-        public async Task<IActionResult> FilterEvents([FromQuery] string searchElement, [FromQuery] DateTime? date,
+        public async Task<IActionResult> FilterEvents([FromQuery] string? searchElement, [FromQuery] DateTime? date,
                                                     [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             try

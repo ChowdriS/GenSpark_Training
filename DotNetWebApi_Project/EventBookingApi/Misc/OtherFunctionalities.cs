@@ -43,7 +43,7 @@ public class OtherFunctionalities : IOtherFunctionalities
             throw new UnauthorizedAccessException("Access denied");
 
         var query = _eventContext.Tickets
-            .Where(t => t.EventId == eventId && t.Status != TicketStatus.Cancelled)
+            .Where(t => t.EventId == eventId)
             .OrderByDescending(t => t.BookedAt);
 
         var totalItems = await query.CountAsync();
@@ -72,7 +72,7 @@ public class OtherFunctionalities : IOtherFunctionalities
     public async Task<PaginatedResultDTO<TicketResponseDTO>> GetPaginatedMyTickets(Guid userId, int pageNumber, int pageSize)
     {
         var query = _eventContext.Tickets
-            .Where(t => t.UserId == userId && t.Status != TicketStatus.Cancelled)
+            .Where(t => t.UserId == userId)
             .OrderByDescending(t => t.BookedAt);
 
         var totalItems = await query.CountAsync();
@@ -102,8 +102,12 @@ public class OtherFunctionalities : IOtherFunctionalities
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEvents(int pageNumber, int pageSize)
     {
         var query = _eventContext.Events
-            .Where(e => !e.IsDeleted)
-            .OrderByDescending(e => e.EventDate);
+                .Where(e => !e.IsDeleted)
+                .Include(e => e.TicketTypes)
+                .Include(e => e.Tickets)
+                .Include(e => e.BookedSeats)
+                .OrderByDescending(e => e.EventDate);
+
 
         var totalItems = await query.CountAsync();
 
@@ -127,6 +131,9 @@ public class OtherFunctionalities : IOtherFunctionalities
     {
         var query = _eventContext.Events
             .Where(e => e.ManagerId == managerId && !e.IsDeleted)
+            .Include(e => e.TicketTypes)
+            .Include(e => e.Tickets)
+            .Include(e => e.BookedSeats)
             .OrderByDescending(e => e.EventDate);
 
         var totalItems = await query.CountAsync();
@@ -149,9 +156,12 @@ public class OtherFunctionalities : IOtherFunctionalities
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEventsByFilter(string? searchElement, DateTime? date, int pageNumber, int pageSize)
     {
         var query = _eventContext.Events.Where(e =>
-                !e.IsDeleted &&
-                (string.IsNullOrEmpty(searchElement) || e.Description!.ToLower().Contains(searchElement.ToLower())) &&
+                (string.IsNullOrEmpty(searchElement) || e.Description!.ToLower().Contains(searchElement.ToLower()) || 
+                 e.Title!.ToLower().Contains(searchElement.ToLower())) &&
                 (!date.HasValue || e.EventDate.Date == date.Value.Date))
+                .Include(e => e.TicketTypes)
+                .Include(e => e.Tickets)
+                .Include(e => e.BookedSeats)
                 .OrderByDescending(e => e.EventDate);
 
         var events = await query

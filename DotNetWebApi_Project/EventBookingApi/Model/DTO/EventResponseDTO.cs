@@ -14,5 +14,7 @@ public class EventResponseDTO
 
     public string? EventStatus { get; set; } 
     public string? EventType { get; set; }
+    public ICollection<EventResponseTicketTypeDTO>? TicketTypes { get; set; }
+    public ICollection<EventResponseBookedSeatDTO>? BookedSeats { get; set; }
 
 }
