@@ -130,7 +130,7 @@ public class OtherFunctionalities : IOtherFunctionalities
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEventsByManager(Guid managerId, int pageNumber, int pageSize)
     {
         var query = _eventContext.Events
-            .Where(e => e.ManagerId == managerId && !e.IsDeleted)
+            .Where(e => e.ManagerId == managerId)
             .Include(e => e.TicketTypes)
             .Include(e => e.Tickets)
             .Include(e => e.BookedSeats)

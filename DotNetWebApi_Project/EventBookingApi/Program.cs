@@ -22,14 +22,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var configuration = new ConfigurationBuilder()
-    .AddJsonFile("serilog.json", optional: false, reloadOnChange: true)
-    .Build();
+// var configuration = new ConfigurationBuilder()
+//     .AddJsonFile("serilog.json", optional: false, reloadOnChange: true)
+//     .Build();
 
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(configuration)
-    .Enrich.FromLogContext()
-    .CreateLogger();
+// Log.Logger = new LoggerConfiguration()
+//     .ReadFrom.Configuration(configuration)
+//     .Enrich.FromLogContext()
+//     .CreateLogger();
 
 builder.Host.UseSerilog();
 

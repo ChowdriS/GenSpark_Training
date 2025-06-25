@@ -313,7 +313,7 @@ public class TicketService : ITicketService
         await _notificationService.NotifyUser(
             userId,
             $"Ticket Generated for {eventObj?.Title}",
-            "TicketGenerated"
+            "Success"
         );
         using (var ms = new System.IO.MemoryStream())
         {

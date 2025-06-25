@@ -1,0 +1,11 @@
+<div class="card mb-3">
+  <img [src]="recipe?.image" class="card-img-top" [attr.alt]="recipe?.name" />
+  <div class="card-body">
+    <h5 class="card-title">{{ recipe?.name }}</h5>
+    <p class="card-text">
+      <strong>Cuisine:</strong> {{ recipe?.cuisine }} <br />
+      <strong>Difficulty:</strong> {{ recipe?.difficulty }} <br />
+      <strong>Prep Time:</strong> {{ recipe?.prepTimeMinutes }} mins
+    </p>
+  </div>
+</div>
