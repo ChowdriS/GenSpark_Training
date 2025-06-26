@@ -96,3 +96,108 @@ presidio@Presidios-MacBook-Pro practice_folder % chmod 755 newfile.html
 presidio@Presidios-MacBook-Pro practice_folder % ls -l newfile.html    
 -rwxr-xr-x  1 presidio  staff  225 Jun 26 11:55 newfile.html
 presidio@Presidios-MacBook-Pro practice_folder % 
+
+
+----------------------------------
+
+
+Questions:
+1. You have a file with permissions -rw-r--r--, and you run chmod +x file.sh. What happens?
+
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % cd practice_folder 
+presidio@Presidios-MacBook-Pro practice_folder % touch file1.txt
+presidio@Presidios-MacBook-Pro practice_folder % chmod 644 file1.txt 
+presidio@Presidios-MacBook-Pro practice_folder % ls -l newfile.html 
+-rwxr-xr-x  1 presidio  staff  225 Jun 26 11:55 newfile.html
+presidio@Presidios-MacBook-Pro practice_folder % chmod -x newfile.html
+presidio@Presidios-MacBook-Pro practice_folder % ls -l newfile.html   
+-rw-r--r--  1 presidio  staff  225 Jun 26 11:55 newfile.html
+presidio@Presidios-MacBook-Pro practice_folder % chmod +x newfile.html
+presidio@Presidios-MacBook-Pro practice_folder % 
+
+// Adds execute permission for owner, group, and others, making it -rwxr-xr-x
+
+
+2. What is the difference between chmod 744 file.txt and chmod u=rwx,go=r file.txt?
+
+presidio@Presidios-MacBook-Pro practice_folder % touch one.txt two.txt
+presidio@Presidios-MacBook-Pro practice_folder % chmod 744 one.txt 
+presidio@Presidios-MacBook-Pro practice_folder % chmod u=rwx,go=r two.txt 
+presidio@Presidios-MacBook-Pro practice_folder % ls -l one.txt two.txt 
+-rwxr--r--  1 presidio  staff  0 Jun 26 14:54 one.txt
+-rwxr--r--  1 presidio  staff  0 Jun 26 14:54 two.txt
+
+
+// Both are same
+
+
+3. What is the sticky bit, and when should you use it?
+
+presidio@Presidios-MacBook-Pro practice_folder % mkdir shared_folder
+presidio@Presidios-MacBook-Pro practice_folder % chmod 777 shared_folder 
+presidio@Presidios-MacBook-Pro practice_folder % chmod +t shared_folder 
+presidio@Presidios-MacBook-Pro practice_folder % ls -ld shared_folder 
+drwxrwxrwt  2 presidio  staff  64 Jun 26 14:56 shared_folder
+
+// Only owner can delete their own files
+
+
+4. You are told to give the owner full access, group only execute, and others no permissions. What symbolic command achieves this?
+
+residio@Presidios-MacBook-Pro practice_folder % ls
+file1.txt       one.txt         shared_folder   two.txt
+presidio@Presidios-MacBook-Pro practice_folder % chmod u=rwx,g=x,o= one.txt 
+presidio@Presidios-MacBook-Pro practice_folder % ls -l one.txt 
+-rwx--x---  1 presidio  staff  0 Jun 26 14:54 one.txt
+presidio@Presidios-MacBook-Pro practice_folder % 
+
+// chmod u=rwx,g=x,o= one.txt 
+
+
+5. What is umask, and why is it important?
+
+//umask defines default permission restrictions for new files and directories. It’s subtracted from the default permission
+
+presidio@Presidios-MacBook-Pro practice_folder % umask
+022
+presidio@Presidios-MacBook-Pro practice_folder % umask -S
+u=rwx,g=rx,o=rx
+
+6. If the umask is 022, what are the default permissions for a new file and a new directory?
+
+// New file → 666 - 022 = 644 → -rw-r--r--
+// New dir → 777 - 022 = 755 → drwxr-xr-x
+
+presidio@Presidios-MacBook-Pro practice_folder % umask
+022
+presidio@Presidios-MacBook-Pro practice_folder % umask -S
+u=rwx,g=rx,o=rx
+presidio@Presidios-MacBook-Pro practice_folder % rm one.txt two.txt 
+presidio@Presidios-MacBook-Pro practice_folder % ls
+file1.txt       shared_folder
+presidio@Presidios-MacBook-Pro practice_folder % touch one.txt two.txt
+presidio@Presidios-MacBook-Pro practice_folder % mkdir newFolder
+presidio@Presidios-MacBook-Pro practice_folder % ls -l one.txt
+-rw-r--r--  1 presidio  staff  0 Jun 26 15:12 one.txt
+presidio@Presidios-MacBook-Pro practice_folder % ls -ld newFolder 
+drwxr-xr-x  2 presidio  staff  64 Jun 26 15:12 newFolder
+
+7. Why is umask often set to 002 in development environments but 027 or 077 in production?
+
+// 002 in dev: So group has write
+// 027 or 077 in prod: To restrict access in secured environment
+
+presidio@Presidios-MacBook-Pro practice_folder % umask 002
+presidio@Presidios-MacBook-Pro practice_folder % umask
+002
+presidio@Presidios-MacBook-Pro practice_folder % mkdir oneFolder 
+presidio@Presidios-MacBook-Pro practice_folder % ls -ld oneFolder 
+drwxrwxr-x  2 presidio  staff  64 Jun 26 15:19 oneFolder
+presidio@Presidios-MacBook-Pro practice_folder % touch new.txt
+presidio@Presidios-MacBook-Pro practice_folder % ls -l new.txt 
+-rw-rw-r--  1 presidio  staff  0 Jun 26 15:20 new.txt
+
+8. useradd vs adduser
+
+// useradd – low-level tool (no prompts), it is used in scripts.
+// adduser – friendly wrapper with interactive prompts.

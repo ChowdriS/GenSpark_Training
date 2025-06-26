@@ -1,4 +1,4 @@
-Linux: OS, open source, 1991
+Linux: OS, open source, 1991, multi-user
 Unix: OS, 1970, licensed
 Linus + Unix = Linux
 Linux VS Unix
@@ -52,4 +52,48 @@ r-x : Others Permissions
 - : Regular file
 d : Dir
 l : Symbolic link
+
+2. chown
+1. chown swati hello.js  //Changes the owner of hello.js to the user swati  => chown user file
+2. chown swati:devs hello.js  //Changes owner to swati and the group to devs  => chown user:group file
+3. chown :devs hello.js  //Leaves the owner unchanged but changes the group to devs  => chown :group file
+4. chown -r swati project/  //swati as the owner of the folder (files and subfolders)  => chown -r user folder/
+
+adduser, userdel, usermod, passwd => Not supported on a MacOS.
+dscl
+
+whoami
+1. sudo adduser newuser //Add a new user
+sudo adduser swati
+
+passwd swati
+
+sudo userdel newuser //Delete the user
+sudo userdel swati
+
+sudo groupadd devs //Create a group
+sudo groupadd test
+
+sudo usermod -aG devs newuser
+sudo usermod -aG test swati
+
+Initial Membership: devs
+sudo usermod -a -G test swati
+Memberships: devs, test
+
+groups username //Shows the group names the user belongs to.
+groups swati
+
+-a: Append
+-G: Groups
+
+Questions:
+1. You have a file with permissions -rw-r--r--, and you run chmod +x file.sh. What happens?
+2. What is the difference between chmod 744 file.txt and chmod u=rwx,go=r file.txt?
+3. What is the sticky bit, and when should you use it?
+4. You are told to give the owner full access, group only execute, and others no permissions. What symbolic command achieves this?
+5. What is umask, and why is it important?
+6. If the umask is 022, what are the default permissions for a new file and a new directory?
+7. Why is umask often set to 002 in development environments but 027 or 077 in production?
+8. useradd vs adduser
 
