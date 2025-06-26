@@ -12,9 +12,10 @@ public class EventResponseDTO
 
     public DateTime EventDate { get; set; }
 
-    public string? EventStatus { get; set; } 
+    public string? EventStatus { get; set; }
     public string? EventType { get; set; }
     public ICollection<EventResponseTicketTypeDTO>? TicketTypes { get; set; }
     public ICollection<EventResponseBookedSeatDTO>? BookedSeats { get; set; }
+    public ICollection<Guid>? Images { get; set; }
 
 }

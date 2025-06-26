@@ -15,16 +15,19 @@ public class EventService : IEventService
     private readonly ObjectMapper _mapper;
     private readonly IRepository<Guid, Ticket> _ticketRepository;
     private readonly IRepository<Guid, Payment> _paymentRepository;
+    private readonly IRepository<Guid, EventImage> _imageRepository;
 
     public EventService(IRepository<Guid, Event> eventRepository,
                         IRepository<Guid, TicketType> ticketTypeRepository,
                         IRepository<Guid, Ticket> ticketRepository,
+                        IRepository<Guid, EventImage> imageRepository,
                         IRepository<Guid, User> userRepository,
                         IRepository<Guid, Payment> paymentRepository,
                         IOtherFunctionalities otherFunctionalities,
                         ObjectMapper mapper)
     {
         _eventRepository = eventRepository;
+        _imageRepository = imageRepository;
         _ticketTypeRepository = ticketTypeRepository;
         _userRepository = userRepository;
         _otherFunctionalities = otherFunctionalities;
@@ -59,13 +62,14 @@ public class EventService : IEventService
     {
         var manager = await _userRepository.GetById(ManagerId);
 
+
         var newEvent = new Event
         {
             Title = dto.Title,
             Description = dto.Description,
             EventType = dto.EventType,
             EventDate = dto.EventDate.ToUniversalTime(),
-            ManagerId = manager?.Id
+            ManagerId = manager?.Id,
         };
 
         newEvent = await _eventRepository.Add(newEvent);
@@ -86,8 +90,50 @@ public class EventService : IEventService
             }
         }
 
+        if (dto.Image == null || dto.Image.Length == 0)
+            throw new Exception("No image provided.");
+
+        var evt = await _eventRepository.GetById(newEvent.Id);
+        if (evt == null) throw new Exception("Event not found.");
+
+        using var ms = new MemoryStream();
+        await dto.Image.CopyToAsync(ms);
+
+        var imageModel = new EventImage
+        {
+            FileName = dto.Image.FileName,
+            FileType = Path.GetExtension(dto.Image.FileName)?.TrimStart('.').ToLower() ?? "webp",
+            FileContent = ms.ToArray(),
+            UploadedAt = DateTime.UtcNow,
+            EventId = newEvent.Id
+        };
+
+        await _imageRepository.Add(imageModel);
+
         return _mapper.EvenetResponseDTOMapper(newEvent);
     }
+
+    // public async Task<EventResponseDTO> UpdateEventImageUrl(Guid eventId, IFormFile imageFile)
+    // {
+    //     string? imageUrl;
+    //     var uploadsFolder = Path.Combine("wwwroot", "uploads", "events");
+    //     Directory.CreateDirectory(uploadsFolder);
+
+    //     var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+    //     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+    //     using (var fileStream = new FileStream(filePath, FileMode.Create))
+    //     {
+    //         await imageFile.CopyToAsync(fileStream);
+    //     }
+
+    //     imageUrl = $"/uploads/events/{uniqueFileName}";
+    //     var evt = await _eventRepository.GetById(eventId);
+    //     evt.ImageUrl = imageUrl;
+    //     evt.UpdatedAt = DateTime.UtcNow;
+    //     await _eventRepository.Update(eventId,evt);
+    //     return _mapper.EvenetResponseDTOMapper(evt);
+    // }
 
     public async Task<EventResponseDTO> UpdateEvent(Guid id, EventUpdateRequestDTO dto)
     {

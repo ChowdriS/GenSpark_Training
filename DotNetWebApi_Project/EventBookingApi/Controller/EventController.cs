@@ -45,6 +45,55 @@ namespace EventBookingApi.Controller
                 return BadRequest(ApiResponse<object>.ErrorResponse("Event not found", new { ex.Message }));
             }
         }
+        // [HttpPut("{eventId}/image")]
+        // public async Task<IActionResult> UpdateEventImage(Guid eventId, IFormFile imageFile)
+        // {
+            
+
+        //     try
+        //     {
+        //         if (imageFile == null || imageFile.Length == 0)
+        //             throw new Exception("No image file uploaded.");
+                
+        //         var updatedEvent = await _eventService.UpdateEventImageUrl(eventId, imageFile);
+
+        //         return Ok(ApiResponse<object>.SuccessResponse("Event image updated", updatedEvent));
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         return BadRequest(ApiResponse<object>.ErrorResponse("Failed to update image", new { ex.Message }));
+        //     }
+        // }
+        // [HttpGet("image")]
+        // public  IActionResult GetEventImage(string? imageUrl)
+        // {
+        //     if (string.IsNullOrWhiteSpace(imageUrl))
+        //         return BadRequest("Image path is required");
+        //     // /Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/wwwroot/uploads/
+        //     // events/5a445565-e6b4-496a-a519-721cb5618e02.webp
+        //     var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imageUrl.TrimStart('/'));
+        //     // System.Console.WriteLine(imagePath);
+        //     if (!System.IO.File.Exists(imagePath))
+        //         return NotFound("Image not found");
+
+        //     var contentType = GetContentType(imagePath);
+        //     var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+
+        //     return File(imageBytes, contentType);
+        // }
+
+        // private string GetContentType(string path)
+        // {
+        //     var ext = Path.GetExtension(path).ToLowerInvariant();
+        //     return ext switch
+        //     {
+        //         ".jpg" or ".jpeg" => "image/jpeg",
+        //         ".png" => "image/png",
+        //         ".gif" => "image/gif",
+        //         ".webp" => "image/webp", 
+        //         _ => "application/octet-stream"
+        //     };
+        // }
 
         [HttpPost]
         [Authorize(Roles = "Admin,Manager")]

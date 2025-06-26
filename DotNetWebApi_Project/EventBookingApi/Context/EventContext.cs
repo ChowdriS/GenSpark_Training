@@ -16,6 +16,8 @@ public class EventContext : DbContext
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<Payment> Payments { get; set; }
     public DbSet<BookedSeat> BookedSeats { get; set; } 
+    public DbSet<EventImage> EventImages { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,7 +66,7 @@ public class EventContext : DbContext
                 .HasForeignKey(t => t.EventId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            entity.HasMany(e => e.BookedSeats) 
+            entity.HasMany(e => e.BookedSeats)
                 .WithOne(bs => bs.Event)
                 .HasForeignKey(bs => bs.EventId)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -131,12 +133,27 @@ public class EventContext : DbContext
             entity.HasOne(bs => bs.Event)
                 .WithMany(e => e.BookedSeats)
                 .HasForeignKey(bs => bs.EventId)
-                .OnDelete(DeleteBehavior.NoAction); 
+                .OnDelete(DeleteBehavior.NoAction);
 
             entity.HasOne(bs => bs.Ticket)
                 .WithMany(t => t.BookedSeats)
                 .HasForeignKey(bs => bs.TicketId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+        // EventImage Configuration
+        modelBuilder.Entity<EventImage>(entity =>
+        {
+            entity.HasKey(ei => ei.Id);
+            entity.Property(ei => ei.FileName).IsRequired().HasMaxLength(255);
+            entity.Property(ei => ei.FileType).IsRequired().HasMaxLength(100);
+            entity.Property(ei => ei.FileContent).IsRequired();
+            entity.Property(ei => ei.UploadedAt).IsRequired();
+
+            entity.HasOne(ei => ei.Event)
+                .WithMany(e => e.Images)
+                .HasForeignKey(ei => ei.EventId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
     }
 }

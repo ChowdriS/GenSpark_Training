@@ -16,6 +16,7 @@ public class EventRepository : Repository<Guid, Event>
             .Include(e => e.TicketTypes)
             .Include(e => e.Tickets)
             .Include(e => e.BookedSeats)
+            .Include(e => e.Images)
             .SingleOrDefaultAsync(e => e.Id == id);
 
         if (ev == null)
@@ -29,6 +30,7 @@ public class EventRepository : Repository<Guid, Event>
         return await _eventContext.Events
             .Include(e => e.TicketTypes)
             .Include(e => e.Tickets)
+            .Include(e => e.Images)
             .Include(e => e.BookedSeats).ToListAsync();
     }
 }

@@ -106,6 +106,7 @@ public class OtherFunctionalities : IOtherFunctionalities
                 .Include(e => e.TicketTypes)
                 .Include(e => e.Tickets)
                 .Include(e => e.BookedSeats)
+                .Include(e => e.Images)
                 .OrderByDescending(e => e.EventDate);
 
 
@@ -134,6 +135,7 @@ public class OtherFunctionalities : IOtherFunctionalities
             .Include(e => e.TicketTypes)
             .Include(e => e.Tickets)
             .Include(e => e.BookedSeats)
+            .Include(e => e.Images)
             .OrderByDescending(e => e.EventDate);
 
         var totalItems = await query.CountAsync();
@@ -156,12 +158,13 @@ public class OtherFunctionalities : IOtherFunctionalities
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEventsByFilter(string? searchElement, DateTime? date, int pageNumber, int pageSize)
     {
         var query = _eventContext.Events.Where(e =>
-                (string.IsNullOrEmpty(searchElement) || e.Description!.ToLower().Contains(searchElement.ToLower()) || 
+                (string.IsNullOrEmpty(searchElement) || e.Description!.ToLower().Contains(searchElement.ToLower()) ||
                  e.Title!.ToLower().Contains(searchElement.ToLower())) &&
                 (!date.HasValue || e.EventDate.Date == date.Value.Date))
                 .Include(e => e.TicketTypes)
                 .Include(e => e.Tickets)
                 .Include(e => e.BookedSeats)
+                .Include(e => e.Images)
                 .OrderByDescending(e => e.EventDate);
 
         var events = await query

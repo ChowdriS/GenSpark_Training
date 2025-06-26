@@ -41,6 +41,10 @@ public class ObjectMapper
     public ICollection<EventResponseTicketTypeDTO> TypeMapper(ICollection<TicketType>? types)
     {
         ICollection<EventResponseTicketTypeDTO> response = [];
+        if (types == null)
+        {
+            return response;
+        }
         foreach (var type in types!)
         {
             response.Add(EventResponseTicketTypeDTOMapper(type));
@@ -60,6 +64,18 @@ public class ObjectMapper
         }
         return response;
     }
+    public ICollection<Guid> ImageMapper(ICollection<EventImage>? images)
+    {
+        ICollection<Guid> response = [];
+        if (images != null)
+        {
+            foreach (var item in images)
+            {
+                response.Add(item.Id);
+            }
+        }
+        return response;
+    }
     public EventResponseDTO EvenetResponseDTOMapper(Event ev) => new()
     {
         Id = ev.Id,
@@ -69,7 +85,8 @@ public class ObjectMapper
         EventStatus = ev.EventStatus.ToString(),
         EventType = ev.EventType.ToString(),
         TicketTypes = TypeMapper(ev.TicketTypes),
-        BookedSeats = SeatsMapper(ev.BookedSeats)
+        BookedSeats = SeatsMapper(ev.BookedSeats),
+        Images = ImageMapper(ev.Images)
     };
 
     public EventResponseTicketTypeDTO EventResponseTicketTypeDTOMapper(TicketType type) => new()

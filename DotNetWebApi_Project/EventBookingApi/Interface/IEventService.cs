@@ -6,6 +6,8 @@ namespace EventBookingApi.Interface;
 
 public interface IEventService
 {
+    // public Task<EventResponseDTO> UpdateEventImageUrl(Guid eventId, IFormFile imageFile);
+
     public Task<PaginatedResultDTO<EventResponseDTO>> GetAllEvents(int pageNumber, int pageSize);
     public Task<EventResponseDTO> GetEventById(Guid id);
     public Task<PaginatedResultDTO<EventResponseDTO>> FilterEvents(string searchElement, DateTime? date, int pageNumber, int pageSize);
