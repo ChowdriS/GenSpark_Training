@@ -1,0 +1,98 @@
+presidio@Presidios-MacBook-Pro GenSpark_Training % ls
+DotNetWebApi_Project    Week 1                  Week 3                  Week 5                  Week 7
+README.md               Week 2                  Week 4                  Week 6                  Week 8
+presidio@Presidios-MacBook-Pro GenSpark_Training % ls -lart
+
+total 40
+-rw-r--r--   1 presidio  staff    19 May 26 19:11 README.md
+drwxr-xr-x   7 presidio  staff   224 May 26 19:11 Week 1
+drwxr-xr-x   7 presidio  staff   224 May 26 19:11 Week 2
+drwxr-xr-x   7 presidio  staff   224 May 26 19:11 Week 3
+drwxr-xr-x@  8 presidio  staff   256 Jun  2 10:18 Week 4
+drwxr-xr-x@  6 presidio  staff   192 Jun  6 11:52 Week 5
+drwxr-xr-x@  9 presidio  staff   288 Jun 13 11:02 Week 6
+drwxr-xr-x@  8 presidio  staff   256 Jun 15 11:54 DotNetWebApi_Project
+drwxr-xr-x   8 presidio  staff   256 Jun 20 16:46 Week 7
+-rw-r--r--   1 presidio  staff   332 Jun 20 16:49 .gitignore
+drwx------@ 13 presidio  staff   416 Jun 22 19:47 ..
+drwxr-xr-x@ 15 presidio  staff   480 Jun 25 14:37 .
+-rw-r--r--@  1 presidio  staff  8196 Jun 25 14:37 .DS_Store
+drwxr-xr-x  15 presidio  staff   480 Jun 25 17:22 .git
+drwxr-xr-x   4 presidio  staff   128 Jun 26 11:45 Week 8
+presidio@Presidios-MacBook-Pro GenSpark_Training % pwd
+
+/Users/presidio/Desktop/GenSpark_Training
+presidio@Presidios-MacBook-Pro GenSpark_Training % cd Week\ 8/Day38\ \(26-06-2025\) 
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % cd ..
+presidio@Presidios-MacBook-Pro Week 8 % cd Day38\ \(26-06-2025\) 
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % mkdir practice_folder
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % mkdir practice_folder_backup
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % ls
+Readme.md               practice_folder         practice_folder_backup  scripts.bash
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % cd practice_folder
+presidio@Presidios-MacBook-Pro practice_folder % touch index.html
+presidio@Presidios-MacBook-Pro practice_folder % ls
+index.html
+presidio@Presidios-MacBook-Pro practice_folder % cd ..
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % cp -r practice_folder/ practice_folder_backup 
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % cd practice_folder_backup 
+presidio@Presidios-MacBook-Pro practice_folder_backup % ls
+index.html
+presidio@Presidios-MacBook-Pro practice_folder_backup % cd ..
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % mv practice_folder/index.html practice_folder/newfile.html
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % cd practice_folder
+presidio@Presidios-MacBook-Pro practice_folder % ls
+newfile.html
+presidio@Presidios-MacBook-Pro practice_folder % cd ..
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % cd practice_folder
+presidio@Presidios-MacBook-Pro practice_folder % touch dummyFile.txt
+presidio@Presidios-MacBook-Pro practice_folder % rm dummyFile.txt 
+presidio@Presidios-MacBook-Pro practice_folder % ls
+newfile.html
+presidio@Presidios-MacBook-Pro practice_folder % ls
+newfile.html
+presidio@Presidios-MacBook-Pro practice_folder % cd ..
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % cd practice_folder_backup 
+presidio@Presidios-MacBook-Pro practice_folder_backup % ls
+index.html
+presidio@Presidios-MacBook-Pro practice_folder_backup % cd ..
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % rm -r practice_folder_backup 
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % ls
+Readme.md       practice_folder scripts.bash
+presidio@Presidios-MacBook-Pro Day38 (26-06-2025) % cd practice_folder 
+presidio@Presidios-MacBook-Pro practice_folder % cat newfile.html 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>%                                                                                                                                                                             
+presidio@Presidios-MacBook-Pro practice_folder % vi newfile.html 
+presidio@Presidios-MacBook-Pro practice_folder % cat newfile.html 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <p>Hello World </p> 
+</body>
+</html>
+presidio@Presidios-MacBook-Pro practice_folder % man ls
+presidio@Presidios-MacBook-Pro practice_folder % top
+presidio@Presidios-MacBook-Pro practice_folder % htop                        
+zsh: command not found: htop
+presidio@Presidios-MacBook-Pro practice_folder % top
+presidio@Presidios-MacBook-Pro practice_folder % ls -l newfile.html 
+-rw-r--r--  1 presidio  staff  225 Jun 26 11:55 newfile.html
+presidio@Presidios-MacBook-Pro practice_folder % chmod 755 newfile.html 
+presidio@Presidios-MacBook-Pro practice_folder % ls -l newfile.html    
+-rwxr-xr-x  1 presidio  staff  225 Jun 26 11:55 newfile.html
+presidio@Presidios-MacBook-Pro practice_folder % 
