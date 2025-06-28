@@ -11,6 +11,7 @@ public class EventService : IEventService
     private readonly IRepository<Guid, Event> _eventRepository;
     private readonly IRepository<Guid, TicketType> _ticketTypeRepository;
     private readonly IRepository<Guid, User> _userRepository;
+    private readonly IRepository<Guid, Cities> _cityRepository;
     private readonly IOtherFunctionalities _otherFunctionalities;
     private readonly ObjectMapper _mapper;
     private readonly IRepository<Guid, Ticket> _ticketRepository;
@@ -23,6 +24,7 @@ public class EventService : IEventService
                         IRepository<Guid, EventImage> imageRepository,
                         IRepository<Guid, User> userRepository,
                         IRepository<Guid, Payment> paymentRepository,
+                        IRepository<Guid, Cities> cityRepository,
                         IOtherFunctionalities otherFunctionalities,
                         ObjectMapper mapper)
     {
@@ -30,6 +32,7 @@ public class EventService : IEventService
         _imageRepository = imageRepository;
         _ticketTypeRepository = ticketTypeRepository;
         _userRepository = userRepository;
+        _cityRepository = cityRepository;
         _otherFunctionalities = otherFunctionalities;
         _mapper = mapper;
         _ticketRepository = ticketRepository;
@@ -48,9 +51,9 @@ public class EventService : IEventService
         return _mapper.EvenetResponseDTOMapper(ev);
     }
 
-    public async Task<PaginatedResultDTO<EventResponseDTO>> FilterEvents(string? searchElement, DateTime? date, int pageNumber, int pageSize)
+    public async Task<PaginatedResultDTO<EventResponseDTO>> FilterEvents(EventCategory? category, Guid? cityId,EventType? type, string? searchElement, DateTime? date, int pageNumber, int pageSize)
     {
-        return await _otherFunctionalities.GetPaginatedEventsByFilter(searchElement, date, pageNumber, pageSize);
+        return await _otherFunctionalities.GetPaginatedEventsByFilter(category,cityId,type,searchElement, date, pageNumber, pageSize);
     }
 
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetManagedEventsByUserId(Guid managerId, int pageNumber, int pageSize)
@@ -58,10 +61,15 @@ public class EventService : IEventService
         return await _otherFunctionalities.GetPaginatedEventsByManager(managerId, pageNumber, pageSize);
     }
 
-    public async Task<EventResponseDTO> AddEvent(EventAddRequestDTO dto,Guid ManagerId)
+    public async Task<IEnumerable<Cities>> getAllCities()
+    {
+        var cities = await _cityRepository.GetAll();
+        return cities;
+    }
+    public async Task<EventResponseDTO> AddEvent(EventAddRequestDTO dto, Guid ManagerId)
     {
         var manager = await _userRepository.GetById(ManagerId);
-
+        var city = await _cityRepository.GetById(dto.CityId);
 
         var newEvent = new Event
         {
@@ -70,6 +78,8 @@ public class EventService : IEventService
             EventType = dto.EventType,
             EventDate = dto.EventDate.ToUniversalTime(),
             ManagerId = manager?.Id,
+            Category = dto.Category,
+            CityId = dto.CityId
         };
 
         newEvent = await _eventRepository.Add(newEvent);

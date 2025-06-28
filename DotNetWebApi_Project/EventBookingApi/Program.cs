@@ -85,6 +85,7 @@ builder.Services.AddTransient<IRepository<Guid, TicketType>, TicketTypeRepositor
 builder.Services.AddTransient<IRepository<Guid, Payment>, PaymentRepository>();
 builder.Services.AddTransient<IRepository<Guid, BookedSeat>, BookedSeatRepository>();
 builder.Services.AddTransient<IRepository<Guid, EventImage>, EventImageRepository>();
+builder.Services.AddTransient<IRepository<Guid, Cities>, CityRepository>();
 #endregion
 
 #region Services

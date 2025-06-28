@@ -1,4 +1,5 @@
 using EventBookingApi.Interface;
+using EventBookingApi.Model;
 using EventBookingApi.Model.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -159,17 +160,30 @@ namespace EventBookingApi.Controller
         }
 
         [HttpGet("filter")]
-        public async Task<IActionResult> FilterEvents([FromQuery] string? searchElement, [FromQuery] DateTime? date,
+        public async Task<IActionResult> FilterEvents([FromQuery]EventCategory? category, [FromQuery]Guid? cityId,[FromQuery] EventType? type,[FromQuery] string? searchElement, [FromQuery] DateTime? date,
                                                     [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             try
             {
-                var events = await _eventService.FilterEvents(searchElement, date, pageNumber, pageSize);
+                var events = await _eventService.FilterEvents(category,cityId,type,searchElement, date, pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("Filtered events fetched", events));
             }
             catch (Exception ex)
             {
                 return BadRequest(ApiResponse<object>.ErrorResponse("Failed to filter events", new { ex.Message }));
+            }
+        }
+        [HttpGet("cities")]
+        public async Task<IActionResult> GetAllCities()
+        {
+            try
+            {
+                var events = await _eventService.getAllCities();
+                return Ok(ApiResponse<object>.SuccessResponse("Cities Fetched", events));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ApiResponse<object>.ErrorResponse("Cities fetch failed", new { ex.Message }));
             }
         }
     }

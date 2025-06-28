@@ -86,7 +86,9 @@ public class ObjectMapper
         EventType = ev.EventType.ToString(),
         TicketTypes = TypeMapper(ev.TicketTypes),
         BookedSeats = SeatsMapper(ev.BookedSeats),
-        Images = ImageMapper(ev.Images)
+        Images = ImageMapper(ev.Images),
+        Location = ev.City.CityName + ", " + ev.City.StateName,
+        Category = ev.Category.ToString()
     };
 
     public EventResponseTicketTypeDTO EventResponseTicketTypeDTOMapper(TicketType type) => new()

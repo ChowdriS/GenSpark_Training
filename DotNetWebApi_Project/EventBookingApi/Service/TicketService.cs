@@ -317,22 +317,19 @@ public class TicketService : ITicketService
         );
         using (var ms = new System.IO.MemoryStream())
         {
-            var document = new PdfDocument();  // Create a new PDF document
-            var page = document.AddPage();    // Add a new page to the document
-            var gfx = XGraphics.FromPdfPage(page);  // Create drawing context for the page
+            var document = new PdfDocument();  
+            var page = document.AddPage();    
+            var gfx = XGraphics.FromPdfPage(page); 
             var font = new XFont("Arial", 12);
 
-            // Set up content positioning
             double xPos = 40;
             double yPos = 50;
 
-            // Title
             gfx.DrawString("TICKET RECEIPT", new XFont("Arial", 18, XFontStyle.Bold), XBrushes.Black, new XRect(xPos, yPos, page.Width, page.Height), XStringFormats.TopCenter);
             yPos += 40;
             gfx.DrawString("------------------------------------------------------------------------------------------------------------------------------------", font, XBrushes.Black, xPos, yPos);
             yPos += 20;
 
-            // Event Details
             gfx.DrawString($"Ticket Id : {ticket.Id}", font, XBrushes.Black, xPos, yPos);
             yPos += 20;
             gfx.DrawString($"Event: {eventObj?.Title}", font, XBrushes.Black, xPos, yPos);
@@ -373,7 +370,6 @@ public class TicketService : ITicketService
 
             gfx.DrawString("Thank you for your booking!", new XFont("Arial", 12, XFontStyle.Italic), XBrushes.Black, new XRect(xPos, yPos, page.Width, page.Height), XStringFormats.TopCenter);
 
-            // Save to memory stream and return as byte array
             document.Save(ms);
             return ms.ToArray();
         }
