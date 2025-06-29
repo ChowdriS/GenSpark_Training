@@ -165,7 +165,7 @@ namespace EventBookingApi.Controller
         {
             try
             {
-                var events = await _eventService.FilterEvents(category,cityId,type,searchElement, date, pageNumber, pageSize);
+                var events = await _eventService.FilterEvents(category,cityId,type,searchElement!, date, pageNumber, pageSize);
                 return Ok(ApiResponse<object>.SuccessResponse("Filtered events fetched", events));
             }
             catch (Exception ex)

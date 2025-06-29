@@ -24,6 +24,7 @@ public class EventImageController : ControllerBase
         try
         {
             var images = await _imageRepository.GetAll();
+            images = images.Where(img => img?.Event?.EventStatus != EventStatus.Cancelled);
             var result = images.Select(i => new { i.Id, i.FileName, i.EventId, i.FileType });
             return Ok(result);
         }

@@ -12,7 +12,7 @@ public class EventImageRepository : Repository<Guid,EventImage>
 
     public override async Task<EventImage> GetById(Guid key)
     {
-        var file = await _eventContext.EventImages.SingleOrDefaultAsync(i => i.Id == key);
+        var file = await _eventContext.EventImages.Include(e => e.Event).SingleOrDefaultAsync(i => i.Id == key);
         if (file == null)
         {
             throw new Exception("Id not Found");
@@ -22,7 +22,7 @@ public class EventImageRepository : Repository<Guid,EventImage>
 
     public override async Task<IEnumerable<EventImage>> GetAll()
     {
-        return await _eventContext.EventImages.ToListAsync();
+        return await _eventContext.EventImages.Include(e=> e.Event).ToListAsync();
         // return files;
     }
 }
