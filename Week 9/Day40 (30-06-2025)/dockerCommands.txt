@@ -1,0 +1,60 @@
+To see the version of the docker
+    docker --version
+
+To See info of the docker
+    docker info
+
+To pull and run a image from the dockerhub
+    docker run <image_name>
+    eg.,
+        docker run hello-world
+
+To run a image in a particular port of our local machine
+    docker run -d -p <machine_port>:<image_port> --name <nameForContainer> <image_name>
+    note:
+        -d => to run in the background
+        -p => flag to represent port mapping
+        machine_port => the port to which you want to map the image port in the local machine
+        image_port => the port to which you want to map the machine port in the image
+        --name => flag to represent we gave name to the container
+    eg.,
+        docker run nginx -d -p 8080:80 --name ngnix_server nginx
+
+To see all running containers
+    docker ps
+
+To see all containers,
+    docker ps -a
+
+To see all the images in the local machine
+    docker images
+
+To stop a running container
+    docker stop <container_id>/<container_name>
+
+To start a stopped container
+    docker start <container_id>/<container_name>
+
+To remove a container
+    docker rm <container_id>/<container_name>
+
+To remove a image
+    docker rmi <image_id>/<image_name>
+
+To run the alpine image (li9 wi8 linux distro)
+    docker run -it alpine /bin/sh
+    notes.,
+        -i => to open in interactive mode
+        -t => to use the psedo terminal
+        /bin/sh => commands to execute after running the container
+
+To see logs of a container
+    docker logs <container_id>/<container_name>
+
+To prune or delete the containers or images that are not used
+    docker images prune => all untagged images that are not used by container(dangling images)
+    docker images prune -a => all dangling images and unused images that have taggs
+        */Both will not remove the tagged images that are used in containers either that is running or stopped
+
+    docker container prune => remove all exited conntainers with confirmation
+    docker container prune -f => remove with auto confirmation
