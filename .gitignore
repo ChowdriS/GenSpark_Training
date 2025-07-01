@@ -23,7 +23,6 @@ packages/
 *.DotSettings.user
 
 # Logs
-*.log
 
 # Others
 *.cache

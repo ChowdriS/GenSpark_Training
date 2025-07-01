@@ -1,0 +1,72 @@
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker build -t my-debian-node-app .
+
+[+] Building 318.3s (10/10) FINISHED                                                                                                                            docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                                            0.0s
+ => => transferring dockerfile: 367B                                                                                                                                            0.0s
+ => [internal] load metadata for docker.io/library/debian:bullseye                                                                                                              3.6s
+ => [auth] library/debian:pull token for registry-1.docker.io                                                                                                                   0.0s
+ => [internal] load .dockerignore                                                                                                                                               0.0s
+ => => transferring context: 2B                                                                                                                                                 0.0s
+ => [1/4] FROM docker.io/library/debian:bullseye@sha256:6d4f6b40afca63b59a44ffcedbb2e457e83b645710916d7f094b79c6c591ac28                                                      113.5s
+ => => resolve docker.io/library/debian:bullseye@sha256:6d4f6b40afca63b59a44ffcedbb2e457e83b645710916d7f094b79c6c591ac28                                                        0.0s
+ => => sha256:2d765646d883a37610a09973a079fbba4c7596e54d18d0447bdfff142389d1f7 53.75MB / 53.75MB                                                                              110.7s
+ => => extracting sha256:2d765646d883a37610a09973a079fbba4c7596e54d18d0447bdfff142389d1f7                                                                                       2.7s
+ => [internal] load build context                                                                                                                                               0.0s
+ => => transferring context: 809B                                                                                                                                               0.0s
+ => [2/4] WORKDIR /app                                                                                                                                                          0.2s
+ => [3/4] RUN apt-get update &&    apt-get install -y curl &&    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - &&    apt-get install -y nodejs                    178.7s
+ => [4/4] COPY . .                                                                                                                                                              0.1s 
+ => exporting to image                                                                                                                                                         22.0s 
+ => => exporting layers                                                                                                                                                        16.8s 
+ => => exporting manifest sha256:6b54b8e836b2cf27a571980ad76ff7f4df9427d6739928009ccdee2eb25088b6                                                                               0.0s 
+ => => exporting config sha256:9ae91e1c725b133046cd8c2654683bea552111f34e2304f6a7c7a2a286e89025                                                                                 0.0s 
+ => => exporting attestation manifest sha256:ab7c1345c13c23f7a81eb21273342a0715defd606dd286d3cf13081abca784c1                                                                   0.0s 
+ => => exporting manifest list sha256:9d181dfac880146599d37a676a4831eb795a6ca0a44478596f3092beb5c866c6                                                                          0.0s
+ => => naming to docker.io/library/my-debian-node-app:latest                                                                                                                    0.0s
+ => => unpacking to docker.io/library/my-debian-node-app:latest                                                                                                                 5.0s
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker images
+REPOSITORY           TAG       IMAGE ID       CREATED          SIZE
+my-debian-node-app   latest    9d181dfac880   28 seconds ago   614MB
+nginx                latest    dc53c8f25a10   6 days ago       279MB
+alpine               latest    8a1f59ffb675   4 weeks ago      12.8MB
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker ps -a
+CONTAINER ID   IMAGE     COMMAND     CREATED        STATUS                      PORTS     NAMES
+3d4ea85847fa   alpine    "/bin/sh"   22 hours ago   Exited (130) 22 hours ago             nice_jones
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker run -d -p 3000:3000 9d181dfac880
+4c866f886a11695598a8dbc2c17cfde305915c832d26d00722723365e5a8b69c
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker ps -a
+CONTAINER ID   IMAGE          COMMAND       CREATED         STATUS                      PORTS                    NAMES
+4c866f886a11   9d181dfac880   "npm start"   6 seconds ago   Up 5 seconds                0.0.0.0:3000->3000/tcp   sad_chaum
+3d4ea85847fa   alpine         "/bin/sh"     22 hours ago    Exited (130) 22 hours ago                            nice_jones
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker stop 4c866f886a11
+4c866f886a11
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker ps -a
+CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS                      PORTS     NAMES
+4c866f886a11   9d181dfac880   "npm start"   About a minute ago   Exited (1) 9 seconds ago              sad_chaum
+3d4ea85847fa   alpine         "/bin/sh"     22 hours ago         Exited (130) 22 hours ago             nice_jones
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % 
+
+
+
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker login -u chowdrisakthivel
+
+i Info → A Personal Access Token (PAT) can be used instead.
+         To create a PAT, visit https://app.docker.com/settings
+         
+         
+Password: 
+Login Succeeded
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker images
+REPOSITORY           TAG       IMAGE ID       CREATED          SIZE
+my-debian-node-app   latest    9d181dfac880   40 minutes ago   614MB
+nginx                latest    dc53c8f25a10   6 days ago       279MB
+alpine               latest    8a1f59ffb675   4 weeks ago      12.8MB
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker tag my-debian-node-app chowdrisakthivel/practice_dockerfile 
+presidio@Presidios-MacBook-Pro Day41 (01-07-2025) % docker push chowdrisakthivel/practice_dockerfile:latest
+The push refers to repository [docker.io/chowdrisakthivel/practice_dockerfile]
+2d765646d883: Pushed 
+8cfd58a6672c: Pushed 
+f0466ad50268: Pushed 
+c39fbbb54f81: Pushed 
+a0926fa1bc2b: Pushed 
+latest: digest: sha256:9d181dfac880146599d37a676a4831eb795a6ca0a44478596f3092beb5c866c6 size: 856

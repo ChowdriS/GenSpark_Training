@@ -1,0 +1,195 @@
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker build -t liveCode .
+[+] Building 0.0s (0/0)                                                                                                                                         docker:desktop-linux
+ERROR: invalid tag "liveCode": repository name must be lowercase
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker build -t live-code .
+[+] Building 89.6s (11/11) FINISHED                                                                                                                             docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                                            0.0s
+ => => transferring dockerfile: 154B                                                                                                                                            0.0s
+ => [internal] load metadata for docker.io/library/node:22                                                                                                                      4.5s
+ => [auth] library/node:pull token for registry-1.docker.io                                                                                                                     0.0s
+ => [internal] load .dockerignore                                                                                                                                               0.0s
+ => => transferring context: 2B                                                                                                                                                 0.0s
+ => [1/5] FROM docker.io/library/node:22@sha256:0c0734eb7051babbb3e95cd74e684f940552b31472152edf0bb23e54ab44a0d7                                                               79.0s
+ => => resolve docker.io/library/node:22@sha256:0c0734eb7051babbb3e95cd74e684f940552b31472152edf0bb23e54ab44a0d7                                                                0.0s
+ => => sha256:c679f505fe98f24c0c72003defc3c6f3f9f72cd5126ea83d95ea515b2dca030e 446B / 446B                                                                                      0.5s
+ => => sha256:97a7f918b8f7ddf85d879d2913ba3c8e78b08a4de66f7f9d786e43ff07a9aac4 1.25MB / 1.25MB                                                                                  1.3s
+ => => sha256:ad47b6c85558c94d45db6b6f2dd9f037af6237e7cfdf4988508368b6fe9b5924 56.45MB / 56.45MB                                                                               29.8s
+ => => sha256:66c945334f0694722812d0ebd7f0ec6872875e04fd0b0fba5266f9c3dd4beb3a 3.33kB / 3.33kB                                                                                  1.5s
+ => => sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d 211.37MB / 211.37MB                                                                             64.1s
+ => => sha256:b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a 64.40MB / 64.40MB                                                                               27.3s
+ => => sha256:3b1eb73e993990490aa137c00e60ff4ca9d1715bafb8e888dbb0986275edb13f 24.02MB / 24.02MB                                                                               15.5s
+ => => sha256:0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226 48.49MB / 48.49MB                                                                               29.8s
+ => => extracting sha256:0c01110621e0ec1eded421406c9f117f7ae5486c8f7b0a0d1a37cc7bc9317226                                                                                       2.7s
+ => => extracting sha256:3b1eb73e993990490aa137c00e60ff4ca9d1715bafb8e888dbb0986275edb13f                                                                                       0.9s
+ => => extracting sha256:b1b8a0660a31403a35d70b276c3c86b1200b8683e83cd77a92ec98744017684a                                                                                       3.4s
+ => => extracting sha256:48b8862a18fa961ebfbac8484877dd4894e96ee88177d8c4f1f54d9727262b7d                                                                                       9.6s
+ => => extracting sha256:66c945334f0694722812d0ebd7f0ec6872875e04fd0b0fba5266f9c3dd4beb3a                                                                                       0.0s
+ => => extracting sha256:ad47b6c85558c94d45db6b6f2dd9f037af6237e7cfdf4988508368b6fe9b5924                                                                                       4.4s
+ => => extracting sha256:97a7f918b8f7ddf85d879d2913ba3c8e78b08a4de66f7f9d786e43ff07a9aac4                                                                                       0.2s
+ => => extracting sha256:c679f505fe98f24c0c72003defc3c6f3f9f72cd5126ea83d95ea515b2dca030e                                                                                       0.0s
+ => [internal] load build context                                                                                                                                               0.0s
+ => => transferring context: 703B                                                                                                                                               0.0s
+ => [2/5] WORKDIR /app                                                                                                                                                          0.5s
+ => [3/5] COPY package.json ./                                                                                                                                                  0.1s
+ => [4/5] RUN npm install                                                                                                                                                       4.2s
+ => [5/5] COPY . .                                                                                                                                                              0.0s 
+ => exporting to image                                                                                                                                                          1.0s 
+ => => exporting layers                                                                                                                                                         0.4s 
+ => => exporting manifest sha256:bf6ef25a0f069ce0bea1047e4025cfab0148aad00bdf1b81e6971b8b39b1a1da                                                                               0.0s
+ => => exporting config sha256:563d4899ae7a4734c25a0b50fe7ce295eb2706e048dad058f09f1babbdfa8b3a                                                                                 0.0s
+ => => exporting attestation manifest sha256:7491c89490a52a80d9e70ff40d61de941860d1f4eb11ee7ecbe7cadb44513978                                                                   0.0s
+ => => exporting manifest list sha256:2c297b7c9f04d4fd5a2c33686a479f54eb90d12089b66235ba2160446f6801e5                                                                          0.0s
+ => => naming to docker.io/library/live-code:latest                                                                                                                             0.0s
+ => => unpacking to docker.io/library/live-code:latest                                                                                                                          0.4s
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker iimages 
+docker: unknown command: docker iimages
+
+Run 'docker --help' for more information
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker images 
+REPOSITORY                             TAG       IMAGE ID       CREATED             SIZE
+live-code                              latest    2c297b7c9f04   22 seconds ago      1.62GB
+chowdrisakthivel/practice_dockerfile   latest    9d181dfac880   About an hour ago   614MB
+my-debian-node-app                     latest    9d181dfac880   About an hour ago   614MB
+nginx                                  latest    dc53c8f25a10   6 days ago          279MB
+alpine                                 latest    8a1f59ffb675   4 weeks ago         12.8MB
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker run -it live-code
+node:internal/modules/cjs/loader:1404
+  throw err;
+  ^
+
+Error: Cannot find module '/app/nodemon'
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1401:15)
+    at defaultResolveImpl (node:internal/modules/cjs/loader:1057:19)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1062:22)
+    at Function._load (node:internal/modules/cjs/loader:1211:37)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:171:5)
+    at node:internal/main/run_main_module:36:49 {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: []
+}
+
+Node.js v22.17.0
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker build -t live-code .
+[+] Building 11.1s (11/11) FINISHED                                                                                                                             docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                                            0.0s
+ => => transferring dockerfile: 163B                                                                                                                                            0.0s
+ => [internal] load metadata for docker.io/library/node:22                                                                                                                      1.8s
+ => [internal] load .dockerignore                                                                                                                                               0.0s
+ => => transferring context: 2B                                                                                                                                                 0.0s
+ => [1/6] FROM docker.io/library/node:22@sha256:0c0734eb7051babbb3e95cd74e684f940552b31472152edf0bb23e54ab44a0d7                                                                0.0s
+ => => resolve docker.io/library/node:22@sha256:0c0734eb7051babbb3e95cd74e684f940552b31472152edf0bb23e54ab44a0d7                                                                0.0s
+ => [internal] load build context                                                                                                                                               0.0s
+ => => transferring context: 411B                                                                                                                                               0.0s
+ => CACHED [2/6] WORKDIR /app                                                                                                                                                   0.0s
+ => [3/6] COPY package.json .                                                                                                                                                   0.0s
+ => [4/6] RUN npm install                                                                                                                                                       6.4s
+ => [5/6] RUN npm install                                                                                                                                                       1.5s 
+ => [6/6] COPY . .                                                                                                                                                              0.0s 
+ => exporting to image                                                                                                                                                          1.0s
+ => => exporting layers                                                                                                                                                         0.5s
+ => => exporting manifest sha256:1727812bce4fce50f321c4a69ba9a2a5082471eb587b6f0ded915e48ac01c67b                                                                               0.0s
+ => => exporting config sha256:5d51914744617abe4f2ab40a94a058e0e7e5d8d19dac2240d4da03becfde3c80                                                                                 0.0s
+ => => exporting attestation manifest sha256:cc93d0ec087858ee358a1008b4546959549a0bdc96a45e6e7fafe620be0c3367                                                                   0.0s
+ => => exporting manifest list sha256:bdb1d494246d559a2a91bf2b6731b367adc09f18e352bcaf8728b89ae4d33f0d                                                                          0.0s
+ => => naming to docker.io/library/live-code:latest                                                                                                                             0.0s
+ => => unpacking to docker.io/library/live-code:latest                                                                                                                          0.4s
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker run -it live-code   
+
+> docker-node-app@1.0.0 start
+> nodemon index.js
+
+[nodemon] 3.1.10
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node index.js`
+Hello world
+[nodemon] clean exit - waiting for changes before restart
+npm error path /app
+npm error command failed
+npm error signal SIGINT
+npm error command sh -c nodemon index.js
+npm error A complete log of this run can be found in: /root/.npm/_logs/2025-07-01T06_50_33_119Z-debug-0.log
+presidio@Presidios-MacBook-Pro Code Sync with Containers % 
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker build -t live-code .
+[+] Building 1.7s (10/10) FINISHED                                                                                                                              docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                                            0.0s
+ => => transferring dockerfile: 146B                                                                                                                                            0.0s
+ => [internal] load metadata for docker.io/library/node:22                                                                                                                      1.2s
+ => [internal] load .dockerignore                                                                                                                                               0.0s
+ => => transferring context: 2B                                                                                                                                                 0.0s
+ => [1/5] FROM docker.io/library/node:22@sha256:0c0734eb7051babbb3e95cd74e684f940552b31472152edf0bb23e54ab44a0d7                                                                0.0s
+ => => resolve docker.io/library/node:22@sha256:0c0734eb7051babbb3e95cd74e684f940552b31472152edf0bb23e54ab44a0d7                                                                0.0s
+ => [internal] load build context                                                                                                                                               0.0s
+ => => transferring context: 206B                                                                                                                                               0.0s
+ => CACHED [2/5] WORKDIR /app                                                                                                                                                   0.0s
+ => CACHED [3/5] COPY package.json .                                                                                                                                            0.0s
+ => CACHED [4/5] RUN npm install                                                                                                                                                0.0s
+ => [5/5] COPY . .                                                                                                                                                              0.0s
+ => exporting to image                                                                                                                                                          0.2s
+ => => exporting layers                                                                                                                                                         0.1s
+ => => exporting manifest sha256:41a77fba68996a70bbf3a471be69e08ce1b5b681b4e14aa05210e3de76beafa8                                                                               0.0s
+ => => exporting config sha256:448c24c0c6212edc73462a1ee97baeefd24d003409a9fa1c6608057f25a8328e                                                                                 0.0s
+ => => exporting attestation manifest sha256:98e23434b1e007f6b540604780dbc65e0c34bf33ee244ebf4abf64492fa50e6d                                                                   0.0s
+ => => exporting manifest list sha256:eb060976bf8bb190003fd955a95456a4357df82c659a937d8dbc08eea845ab33                                                                          0.0s
+ => => naming to docker.io/library/live-code:latest                                                                                                                             0.0s
+ => => unpacking to docker.io/library/live-code:latest                                                                                                                          0.0s
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker run -it live-code   
+
+> docker-node-app@1.0.0 start
+> nodemon index.js
+
+[nodemon] 3.1.10
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node index.js`
+Hello world
+[nodemon] clean exit - waiting for changes before restart
+npm error path /app
+npm error command failed
+npm error signal SIGINT
+npm error command sh -c nodemon index.js
+npm error A complete log of this run can be found in: /root/.npm/_logs/2025-07-01T06_51_05_603Z-debug-0.log
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker run --rm -it -v ${pwd}:/app live-code
+docker: invalid spec: :/app: empty section between colons
+
+Run 'docker run --help' for more information
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker run --rm -it -v $(pwd):/app live-code
+docker: invalid reference format: repository name (9/Day41) must be lowercase
+
+Run 'docker run --help' for more information
+presidio@Presidios-MacBook-Pro Code Sync with Containers % pwd
+/Users/presidio/Desktop/GenSpark_Training/Week 9/Day41 (01-07-2025)/Code Sync with Containers
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker run --rm -it -v "$(pwd)":/app live-code
+
+> docker-node-app@1.0.0 start
+> nodemon index.js
+
+sh: 1: nodemon: not found
+presidio@Presidios-MacBook-Pro Code Sync with Containers % npm i
+
+added 29 packages, and audited 30 packages in 9s
+
+4 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+presidio@Presidios-MacBook-Pro Code Sync with Containers % docker run --rm -it -v "$(pwd)":/app live-code
+
+> docker-node-app@1.0.0 start
+> nodemon index.js
+
+[nodemon] 3.1.10
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node index.js`
+Hello world
+[nodemon] clean exit - waiting for changes before restart
+[nodemon] restarting due to changes...
+[nodemon] starting `node index.js`
+Hello world chow3
+[nodemon] clean exit - waiting for changes before restart
