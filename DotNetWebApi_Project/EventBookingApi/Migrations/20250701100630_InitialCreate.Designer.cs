@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EventBookingApi.Migrations
 {
     [DbContext(typeof(EventContext))]
-    [Migration("20250610053933_init")]
-    partial class init
+    [Migration("20250701100630_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,10 +55,37 @@ namespace EventBookingApi.Migrations
                     b.ToTable("BookedSeats");
                 });
 
+            modelBuilder.Entity("EventBookingApi.Model.Cities", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("StateName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cities");
+                });
+
             modelBuilder.Entity("EventBookingApi.Model.Event", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Category")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("CityId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
@@ -93,9 +120,44 @@ namespace EventBookingApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CityId");
+
                     b.HasIndex("ManagerId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("EventBookingApi.Model.EventImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid");
+
+                    b.Property<byte[]>("FileContent")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("FileType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("EventImages");
                 });
 
             modelBuilder.Entity("EventBookingApi.Model.Payment", b =>
@@ -189,6 +251,9 @@ namespace EventBookingApi.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10,2)");
 
@@ -275,12 +340,31 @@ namespace EventBookingApi.Migrations
 
             modelBuilder.Entity("EventBookingApi.Model.Event", b =>
                 {
+                    b.HasOne("EventBookingApi.Model.Cities", "City")
+                        .WithMany("Events")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("EventBookingApi.Model.User", "Manager")
                         .WithMany("ManagedEvents")
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.Navigation("City");
+
                     b.Navigation("Manager");
+                });
+
+            modelBuilder.Entity("EventBookingApi.Model.EventImage", b =>
+                {
+                    b.HasOne("EventBookingApi.Model.Event", "Event")
+                        .WithMany("Images")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
                 });
 
             modelBuilder.Entity("EventBookingApi.Model.Payment", b =>
@@ -332,9 +416,16 @@ namespace EventBookingApi.Migrations
                     b.Navigation("Event");
                 });
 
+            modelBuilder.Entity("EventBookingApi.Model.Cities", b =>
+                {
+                    b.Navigation("Events");
+                });
+
             modelBuilder.Entity("EventBookingApi.Model.Event", b =>
                 {
                     b.Navigation("BookedSeats");
+
+                    b.Navigation("Images");
 
                     b.Navigation("TicketTypes");
 
