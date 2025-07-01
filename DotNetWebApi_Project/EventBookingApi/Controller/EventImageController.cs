@@ -1,4 +1,5 @@
 using EventBookingApi.Interface;
+using EventBookingApi.Misc;
 using EventBookingApi.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ public class EventImageController : ControllerBase
 {
     private readonly IRepository<Guid, EventImage> _imageRepository;
     private readonly IRepository<Guid, Event> _eventRepository;
+    private readonly IOtherFunctionalities _other;
 
-    public EventImageController(IRepository<Guid, EventImage> imageRepository, IRepository<Guid, Event> eventRepository)
+    public EventImageController(IRepository<Guid, EventImage> imageRepository, IRepository<Guid, Event> eventRepository, IOtherFunctionalities other)
     {
         _imageRepository = imageRepository;
         _eventRepository = eventRepository;
+        _other = other;
     }
 
     [HttpGet("getall")]
@@ -25,6 +28,22 @@ public class EventImageController : ControllerBase
         {
             var images = await _imageRepository.GetAll();
             images = images.Where(img => img?.Event?.EventStatus != EventStatus.Cancelled);
+            var result = images.Select(i => new { i.Id, i.FileName, i.EventId, i.FileType });
+            return Ok(result);
+        }
+        catch (Exception err)
+        {
+            return BadRequest(err.Message);
+        }
+    }
+    [HttpGet("myevent/getall")]
+    public async Task<IActionResult> getMyEventImages()
+    {
+        try
+        {
+            var userId =  _other.GetLoggedInUserId(User);
+            var images = await _imageRepository.GetAll();
+            images = images.Where(img => img?.Event?.EventStatus != EventStatus.Cancelled && img?.Event?.ManagerId == userId);
             var result = images.Select(i => new { i.Id, i.FileName, i.EventId, i.FileType });
             return Ok(result);
         }
