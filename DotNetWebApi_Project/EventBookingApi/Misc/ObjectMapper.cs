@@ -9,6 +9,7 @@ public class ObjectMapper
     public TicketResponseDTO TicketResponseDTOMapper(Ticket ticket, Event eventObj, TicketType ticketType, Payment? payment) => new()
     {
         Id = ticket.Id,
+        UserId = ticket.UserId,
         EventTitle = eventObj?.Title ?? "",
         TicketType = ticketType?.TypeName.ToString() ?? "",
         PricePerTicket = ticketType?.Price ?? 0,
