@@ -1,4 +1,4 @@
-version: '3.8'
+version: '1.0'
 
 services:
   app:
@@ -25,6 +25,17 @@ services:
       - "5435:5432"
     networks:
       - mynet
+
+  frontend:
+    build:
+      context: /Users/presidio/Desktop/EventTicketBooking/Client/EventBookingClient
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
+    networks:
+      - mynet
+    depends_on:
+      - app
 
 volumes:
   postgres_data:

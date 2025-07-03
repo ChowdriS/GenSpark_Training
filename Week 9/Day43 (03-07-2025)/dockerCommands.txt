@@ -1,0 +1,127 @@
+To create a manager node for the orchestration of containers using swarm,
+    docker swarm init
+    =>swarm init on manager node will returns a join command like:
+        docker swarm join --token SWMTKN-... <manager-ip>:2377
+    Eg.,
+        docker swarm join --token SWMTKN-1-2wa1hbeo23noqt83b15jitolkplsoif2cimb1wmbt1xgte3ie2-7psz99nmrg4llp54nh3tgrzta 192.168.65.3:2377
+
+To create a worker node, paste the command given by manager on thaat vm or machine,
+    Eg.,
+        docker swarm join --token SWMTKN-1-2wa1hbeo23noqt83b15jitolkplsoif2cimb1wmbt1xgte3ie2-7psz99nmrg4llp54nh3tgrzta 192.168.65.3:2377
+    Note.,
+        Now this will create a cluster
+    
+To check the cluster, to see manager and all worker nodes,
+    => do in manager,
+        docker node ls
+
+To create a service,
+    docker service create --name <serviceName> --replicas <numberOfReplicas> -p <machinePort:imagePort> <imageName>
+    Eg.,
+        docker service create --name web --replicas 3 -p 80:80 nginx
+    Note.,
+        create a service called web
+        run 3 instances of nginx
+        expose port 80 to the outside
+    
+To see all services running,
+    docker service ls
+
+To list the tasks (containers) running for a Docker Swarm service
+    docker service ps <serviceName>
+
+To scale the service,
+    docker service scale <serviceName> = <numberOfReplicas>
+
+To update the service,
+    docker service update --image <oldImage>:<newImage> <serviceName>
+    eg.,
+        docker service update --image nginx:alpine web
+
+To remove a service,
+    docker service rm <serviceName>
+
+To deploy multiple services as a stack,
+    docker stack deploy -c yamlFileName stackName
+    eg.,
+        docker stack deploy -c docker-stack.yml mystack
+    docker-stack.yml example.,
+        version: "3.8"
+        services:
+        web:
+            image: nginx
+            ports:
+            - "80:80"
+            deploy:
+            replicas: 3
+        redis:
+            image: redis
+
+To list the stacks,
+    docker stack ls
+
+To list the services of a particular stack,
+    docker stack services <stackName>
+
+To remove a stack,
+    docker stack rm <stackName>
+
+To remove the node from swarm,
+    docker swarm leave --force
+
+
+
+
+
+--------------------------------
+
+Query..
+    service epdi container irukumnu solum, 
+    so based on that replicas number marumbothu tasks marum.
+    antha tasks create agurathu service base panni.
+    and tasks tha real containers runnig the app. am i crt?
+
+
+ChatGPT said:
+=> Yes — you're 100% correct! Let's break down what you just said and confirm everything clearly:
+
+=> Your Understanding: Verified
+
+"Service epdi container irukumnu solum"
+➡️ Correct.
+
+A service defines what image to run, how many replicas, and other behaviors.
+
+It’s like a recipe or template.
+
+"So based on that, replicas number marumbothu tasks marum"
+➡️ Correct.
+
+When you increase or decrease replica count, Docker Swarm will create or remove tasks.
+
+Example:
+docker service scale web=5 → creates 5 tasks.
+
+"And tasks tha real containers running the app"
+➡️ Exactly!
+
+Each task is mapped to a real running container on some Swarm node.
+
+If 3 replicas, you'll have 3 tasks → 3 containers, possibly on different machines.
+
+Diagram-style Summary
+    Service: web
+    ↓ (replicas=3)
+    Tasks:
+    - web.1 → running on node1 → container1
+    - web.2 → running on node2 → container2
+    - web.3 → running on node3 → container3
+If you change to replicas=2, one task will be stopped/removed by Swarm.
+
+docker service ps web
+    You’ll see something like:
+    NAME      IMAGE       NODE     DESIRED STATE  CURRENT STATE
+    web.1     web:latest  node1    Running        Running 1m
+    web.2     web:latest  node2    Running        Running 1m
+    web.3     web:latest  node3    Running        Running 1m
+Each of those is a task, backed by a running container.

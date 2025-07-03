@@ -1,0 +1,62 @@
+docker build -t angular-frontend .             
+[+] Building 186.1s (11/11) FINISHED                                                                                                          docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                          0.0s
+ => => transferring dockerfile: 146B                                                                                                                          0.0s
+ => [internal] load metadata for docker.io/library/node:22                                                                                                    2.8s
+ => [auth] library/node:pull token for registry-1.docker.io                                                                                                   0.0s
+ => [internal] load .dockerignore                                                                                                                             0.0s
+ => => transferring context: 2B                                                                                                                               0.0s
+ => [1/5] FROM docker.io/library/node:22@sha256:0c0734eb7051babbb3e95cd74e684f940552b31472152edf0bb23e54ab44a0d7                                              0.0s
+ => => resolve docker.io/library/node:22@sha256:0c0734eb7051babbb3e95cd74e684f940552b31472152edf0bb23e54ab44a0d7                                              0.0s
+ => [internal] load build context                                                                                                                             2.4s
+ => => transferring context: 1.89MB                                                                                                                           2.4s
+ => CACHED [2/5] WORKDIR /app                                                                                                                                 0.0s
+ => [3/5] COPY package.json .                                                                                                                                 0.1s
+ => [4/5] RUN npm install                                                                                                                                    89.2s
+ => [5/5] COPY . .                                                                                                                                           16.4s 
+ => exporting to image                                                                                                                                       74.8s 
+ => => exporting layers                                                                                                                                      37.1s 
+ => => exporting manifest sha256:855b310569bbccde9a734a2dd3b66d6dad997c29109f3cacb368fa8fd52ffc2a                                                             0.0s 
+ => => exporting config sha256:79e325cc10a39e8d9cda45f8a2994d9a98c5df5f10f4cbcd7ca549bc0eabfb78                                                               0.0s 
+ => => exporting attestation manifest sha256:19b4cea7e838af7e88cf880766871d120d452aa9201637beea61c13bc548d20f                                                 0.0s 
+ => => exporting manifest list sha256:6b2f4707ae0a9e014994b8c4bc7c159ad41136ae4f08fe0a304f76f84bae66f4                                                        0.0s
+ => => naming to docker.io/library/angular-frontend:latest                                                                                                    0.0s
+ => => unpacking to docker.io/library/angular-frontend:latest                                                                                                37.6s
+presidio@Presidios-MacBook-Pro EventBookingClient % docker run -it -p 4200:4200 angular-frontend
+
+> event-booking-client@0.0.0 start
+> ng serve --host 0.0.0.0 --port 4200
+
+ 
+Would you like to share pseudonymous usage data about this project with the Angular Team
+at Google under Google's Privacy Policy at https://policies.google.com/privacy. For more
+details and how to change this setting, see https://angular.dev/cli/analytics.
+
+   No
+Global setting: not set
+Local setting: disabled
+Effective status: disabled
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues.
+    
+Initial chunk files | Names         |  Raw size
+main.js             | main          | 451.52 kB | 
+styles.css          | styles        |  39.82 kB | 
+polyfills.js        | polyfills     |  95 bytes | 
+
+                    | Initial total | 491.43 kB
+
+Application bundle generation complete. [8.269 seconds]
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+4:39:11 AM [vite] (client) Re-optimizing dependencies because vite config has changed
+4:39:11 AM [vite] (ssr) Re-optimizing dependencies because vite config has changed (x2)
+  ➜  Local:   http://localhost:4200/
+  ➜  Network: http://172.17.0.2:4200/
+  ➜  press h + enter to show help

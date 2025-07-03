@@ -1,0 +1,62 @@
+presidio@Presidios-MacBook-Pro sample % docker build -t https-in-dotnet .
+[+] Building 30.7s (19/19) FINISHED                                                                                                                                                        docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                                                                       0.0s
+ => => transferring dockerfile: 1.18kB                                                                                                                                                                     0.0s
+ => [internal] load metadata for mcr.microsoft.com/dotnet/sdk:8.0                                                                                                                                          0.5s
+ => [internal] load metadata for mcr.microsoft.com/dotnet/aspnet:8.0                                                                                                                                       0.5s
+ => [internal] load .dockerignore                                                                                                                                                                          0.0s
+ => => transferring context: 2B                                                                                                                                                                            0.0s
+ => [build 1/6] FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:57c3bf930db9ac075c9019b83fdfc77c474b11b874120b84bc97fa65f33662dd                                                                              0.0s
+ => => resolve mcr.microsoft.com/dotnet/sdk:8.0@sha256:57c3bf930db9ac075c9019b83fdfc77c474b11b874120b84bc97fa65f33662dd                                                                                    0.0s
+ => [internal] load build context                                                                                                                                                                          0.0s
+ => => transferring context: 12.03kB                                                                                                                                                                       0.0s
+ => [base 1/4] FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:68669af44214899b4a5ff5fa0dd5fc10e7e9d665669a44dcbc1a142a99b2ec5b                                                                            0.0s
+ => => resolve mcr.microsoft.com/dotnet/aspnet:8.0@sha256:68669af44214899b4a5ff5fa0dd5fc10e7e9d665669a44dcbc1a142a99b2ec5b                                                                                 0.0s
+ => CACHED [base 2/4] WORKDIR /app                                                                                                                                                                         0.0s
+ => CACHED [base 3/4] RUN apt-get update && apt-get install -y openssl                                                                                                                                     0.0s
+ => CACHED [base 4/4] RUN mkdir /https &&     openssl req -x509 -nodes -days 365       -newkey rsa:2048       -keyout /https/aspnetcore.key       -out /https/aspnetcore.crt       -subj "/CN=localhost"   0.0s
+ => CACHED [final 1/2] WORKDIR /app                                                                                                                                                                        0.0s
+ => CACHED [build 2/6] WORKDIR /src                                                                                                                                                                        0.0s
+ => [build 3/6] COPY sample.csproj .                                                                                                                                                                       0.1s
+ => [build 4/6] RUN dotnet restore "sample.csproj"                                                                                                                                                        11.2s
+ => [build 5/6] COPY . .                                                                                                                                                                                   0.1s 
+ => [build 6/6] RUN dotnet build "sample.csproj" -c Release -o /app/build                                                                                                                                 11.4s 
+ => [publish 1/1] RUN dotnet publish "sample.csproj" -c Release -o /app/publish /p:UseAppHost=false                                                                                                        4.4s 
+ => [final 2/2] COPY --from=publish /app/publish .                                                                                                                                                         0.1s 
+ => exporting to image                                                                                                                                                                                     2.5s 
+ => => exporting layers                                                                                                                                                                                    1.8s 
+ => => exporting manifest sha256:5ed3dcbd2ff8299eb9abc26fba189a68adfabe75f6252e17a4ce2b4c59db89dc                                                                                                          0.0s 
+ => => exporting config sha256:6a7f5448b73afe8d4f72a5ae9dcffc4d4b10b46e3105991e26ef8c66eb4b78f9                                                                                                            0.0s
+ => => exporting attestation manifest sha256:06824d301ac54aa3681245ffc8298e54115bd3d299d484002bfce880ade66bda                                                                                              0.0s
+ => => exporting manifest list sha256:8a727c882c9e82a9488d2fdae92d817f5cd3190ba9871939f945db0455da9f24                                                                                                     0.0s
+ => => naming to docker.io/library/https-in-dotnet:latest                                                                                                                                                  0.0s
+ => => unpacking to docker.io/library/https-in-dotnet:latest                                                                                                                                               0.6s
+presidio@Presidios-MacBook-Pro sample % docker images
+REPOSITORY                             TAG       IMAGE ID       CREATED         SIZE
+https-in-dotnet                        latest    8a727c882c9e   7 seconds ago   359MB
+eventbookingapi-frontend               latest    8ef346dd346d   2 hours ago     3.16GB
+angular-frontend                       latest    6b2f4707ae0a   2 hours ago     3.16GB
+eventbookingapi-app                    latest    922f711717c9   2 hours ago     348MB
+dotnet-project                         latest    8acfcb8ee1bf   47 hours ago    348MB
+live-code                              latest    eb060976bf8b   2 days ago      1.62GB
+chowdrisakthivel/practice_dockerfile   latest    9d181dfac880   2 days ago      614MB
+my-debian-node-app                     latest    9d181dfac880   2 days ago      614MB
+nginx                                  latest    dc53c8f25a10   8 days ago      279MB
+postgres                               15        b77bf42292af   3 weeks ago     608MB
+alpine                                 latest    8a1f59ffb675   4 weeks ago     12.8MB
+presidio@Presidios-MacBook-Pro sample % docker run -it -p 8081:8081 https-in-dotnet
+warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+      Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://+:8080;https://+:8081'.
+warn: Microsoft.AspNetCore.Server.Kestrel[0]
+      Overriding address(es) 'http://+:8080, https://+:8081'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://[::]:8080
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: https://[::]:8081
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /app
+info: Microsoft.Hosting.Lifetime[0]
