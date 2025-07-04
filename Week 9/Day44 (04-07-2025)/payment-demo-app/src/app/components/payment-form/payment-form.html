@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="payNow()" novalidate>
+  <div>
+    <label>Amount</label>
+    <input type="number" formControlName="amount" />
+    @if(form.controls.amount.invalid && form.controls.amount.touched) {
+      <small>Amount must be > 0</small>
+    }
+  </div>
+
+  <div>
+    <label>Name</label>
+    <input type="text" formControlName="customerName" />
+    @if(form.controls.customerName.invalid && form.controls.customerName.touched) {
+      <small>Name is required</small>
+    }
+  </div>
+
+  <div>
+    <label>Email</label>
+    <input type="email" formControlName="email" />
+    @if(form.controls.email.invalid && form.controls.email.touched) {
+      <small>Valid email is required</small>
+    }
+  </div>
+
+  <div>
+    <label>Contact Number</label>
+    <input type="text" formControlName="contact" />
+    @if(form.controls.contact.invalid && form.controls.contact.touched) {
+      <small>Valid 10-digit contact is required</small>
+    }
+  </div>
+
+  <button type="submit">Pay Now</button>
+</form>
+
+@if(paymentStatus) {
+  <p>{{ paymentStatus }}</p>
+}
