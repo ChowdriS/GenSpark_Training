@@ -1,0 +1,61 @@
+presidio@Presidios-MacBook-Pro Task1 % docker build -t task1 .
+[+] Building 29.1s (11/11) FINISHED                                                                                    docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                   0.0s
+ => => transferring dockerfile: 152B                                                                                                   0.0s
+ => [internal] load metadata for docker.io/library/node:22-alpine                                                                      5.4s
+ => [auth] library/node:pull token for registry-1.docker.io                                                                            0.0s
+ => [internal] load .dockerignore                                                                                                      0.0s
+ => => transferring context: 2B                                                                                                        0.0s
+ => [1/5] FROM docker.io/library/node:22-alpine@sha256:5340cbfc2df14331ab021555fdd9f83f072ce811488e705b0e736b11adeec4bb               20.3s
+ => => resolve docker.io/library/node:22-alpine@sha256:5340cbfc2df14331ab021555fdd9f83f072ce811488e705b0e736b11adeec4bb                0.0s
+ => => sha256:3a953394efe83b66644f5172a1e983c6e0a4562da73bdc99ed9f7a56e6f4c43b 446B / 446B                                             0.4s
+ => => sha256:4e500f9ee51d1efbea35adb29056db1db8cde5c30697af21e62da5fe6727f741 1.26MB / 1.26MB                                         1.2s
+ => => sha256:0f5de7b9fedaabe948ed84b67afe5e940933cc96fa1a88a1fbef64d739e5cbf6 51.04MB / 51.04MB                                      16.5s
+ => => extracting sha256:0f5de7b9fedaabe948ed84b67afe5e940933cc96fa1a88a1fbef64d739e5cbf6                                              3.5s
+ => => extracting sha256:4e500f9ee51d1efbea35adb29056db1db8cde5c30697af21e62da5fe6727f741                                              0.1s
+ => => extracting sha256:3a953394efe83b66644f5172a1e983c6e0a4562da73bdc99ed9f7a56e6f4c43b                                              0.0s
+ => [internal] load build context                                                                                                      0.0s
+ => => transferring context: 7.91kB                                                                                                    0.0s
+ => [2/5] WORKDIR /app                                                                                                                 0.2s
+ => [3/5] COPY package.json .                                                                                                          0.0s
+ => [4/5] RUN npm install                                                                                                              2.1s
+ => [5/5] COPY . .                                                                                                                     0.0s 
+ => exporting to image                                                                                                                 0.7s 
+ => => exporting layers                                                                                                                0.3s
+ => => exporting manifest sha256:912b29b3701d4d1938f7ddc12ffc281a35c1db70c8d4e0114be2e61edbe0f5c6                                      0.0s
+ => => exporting config sha256:339c28a83103e16542d2df72bb90fd7c5c09fc416474f80f131fd761d5252ccd                                        0.0s
+ => => exporting attestation manifest sha256:9d1181dd837cb8835cb879e39017ff9a576bccf2b930ca636c99cd804ca28116                          0.0s
+ => => exporting manifest list sha256:b47f7ae07ca39ab26ed2949b64736b80735c548fd66b392479819ff516da8aa0                                 0.0s
+ => => naming to docker.io/library/task1:latest                                                                                        0.0s
+ => => unpacking to docker.io/library/task1:latest                                                                                     0.2s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/wr5yn08ut7cov3r8564sj8flu
+presidio@Presidios-MacBook-Pro Task1 % docker images
+REPOSITORY                             TAG       IMAGE ID       CREATED         SIZE
+task1                                  latest    b47f7ae07ca3   9 seconds ago   230MB
+payment-imgae                          latest    db2d542a13b5   3 hours ago     2.52GB
+web                                    latest    42bdaaae7ef3   23 hours ago    79.3MB
+api                                    latest    39ba4d8f27df   25 hours ago    207MB
+https-in-dotnet                        latest    8a727c882c9e   26 hours ago    359MB
+eventbookingapi-frontend               latest    8ef346dd346d   28 hours ago    3.16GB
+angular-frontend                       latest    6b2f4707ae0a   28 hours ago    3.16GB
+eventbookingapi-app                    latest    922f711717c9   29 hours ago    348MB
+dotnet-project                         latest    8acfcb8ee1bf   3 days ago      348MB
+live-code                              latest    eb060976bf8b   3 days ago      1.62GB
+chowdrisakthivel/practice_dockerfile   latest    9d181dfac880   3 days ago      614MB
+my-debian-node-app                     latest    9d181dfac880   3 days ago      614MB
+nginx                                  latest    dc53c8f25a10   9 days ago      279MB
+postgres                               15        b77bf42292af   3 weeks ago     608MB
+alpine                                 latest    8a1f59ffb675   4 weeks ago     12.8MB
+presidio@Presidios-MacBook-Pro Task1 % docker run -it -p 3000:3000 task1
+
+> docker-node-app@1.0.0 start
+> node index.js
+
+Server running at http://localhost:3000
+npm error path /app
+npm error command failed
+npm error signal SIGINT
+npm error command sh -c node index.js
+npm error A complete log of this run can be found in: /root/.npm/_logs/2025-07-04T09_03_04_232Z-debug-0.log
+presidio@Presidios-MacBook-Pro Task1 % 

@@ -1,0 +1,22 @@
+version: '1.0'
+
+services:
+  api:
+    build: ./api
+    container_name : task4-api
+    ports:
+      - "5000:5000"
+    networks: 
+      - mynet
+  
+  web:
+    build: ./web
+    container_name : task4-web
+    ports:
+      - 3000:80
+    networks: 
+      - mynet
+  
+networks:
+  mynet:
+    driver: bridge

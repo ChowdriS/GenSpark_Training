@@ -1,0 +1,84 @@
+presidio@Presidios-MacBook-Pro api % docker-compose up --build
+WARN[0000] /Users/presidio/Desktop/GenSpark_Training/Week 9/Day44 (04-07-2025)/DockerTasks/Task4/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+Compose can now delegate builds to bake for better performance.
+ To do so, set COMPOSE_BAKE=true.
+[+] Building 3.8s (21/21) FINISHED                                                                                     docker:desktop-linux
+ => [web internal] load build definition from Dockerfile                                                                               0.0s
+ => => transferring dockerfile: 234B                                                                                                   0.0s
+ => [api internal] load build definition from Dockerfile                                                                               0.0s
+ => => transferring dockerfile: 152B                                                                                                   0.0s
+ => [web internal] load metadata for docker.io/library/nginx:alpine                                                                    1.7s
+ => [api internal] load metadata for docker.io/library/node:22-alpine                                                                  1.7s
+ => [web internal] load .dockerignore                                                                                                  0.0s
+ => => transferring context: 2B                                                                                                        0.0s
+ => [api internal] load .dockerignore                                                                                                  0.0s
+ => => transferring context: 2B                                                                                                        0.0s
+ => [web 1/4] FROM docker.io/library/nginx:alpine@sha256:b2e814d28359e77bd0aa5fed1939620075e4ffa0eb20423cc557b375bd5c14ad              0.1s
+ => => resolve docker.io/library/nginx:alpine@sha256:b2e814d28359e77bd0aa5fed1939620075e4ffa0eb20423cc557b375bd5c14ad                  0.0s
+ => [web internal] load build context                                                                                                  0.0s
+ => => transferring context: 695B                                                                                                      0.0s
+ => [api 1/5] FROM docker.io/library/node:22-alpine@sha256:5340cbfc2df14331ab021555fdd9f83f072ce811488e705b0e736b11adeec4bb            0.1s
+ => => resolve docker.io/library/node:22-alpine@sha256:5340cbfc2df14331ab021555fdd9f83f072ce811488e705b0e736b11adeec4bb                0.1s
+ => [api internal] load build context                                                                                                  0.1s
+ => => transferring context: 42.08kB                                                                                                   0.1s
+ => CACHED [web 2/4] RUN rm /usr/share/nginx/html/index.html                                                                           0.0s
+ => [web 3/4] COPY index.html /usr/share/nginx/html/index.html                                                                         0.1s
+ => CACHED [api 2/5] WORKDIR /app                                                                                                      0.0s
+ => CACHED [api 3/5] COPY package.json .                                                                                               0.0s
+ => CACHED [api 4/5] RUN npm install                                                                                                   0.0s
+ => CACHED [api 5/5] COPY . .                                                                                                          0.0s
+ => [web 4/4] COPY nginx.conf /etc/nginx/nginx.conf                                                                                    0.1s
+ => [api] exporting to image                                                                                                           1.4s
+ => => exporting layers                                                                                                                0.0s
+ => => exporting manifest sha256:b2dc5b154f4b24aeb77b8550d7a7e18ae0b602d0f44e51bcb34dc1dbe9a3de43                                      0.0s
+ => => exporting config sha256:a58788917313bea15f987cd441fe1d2262ec3f81e151b4ffda5b31a706abd0f2                                        0.0s
+ => => exporting attestation manifest sha256:a972b057209e9bccfbdf783c02e400b5055413728181597417ae568855078c54                          0.0s
+ => => exporting manifest list sha256:a3e25b09f44792278e653dade614aa0283399bd739370eba628d273051b23ed0                                 0.0s
+ => => naming to docker.io/library/task4-api:latest                                                                                    0.0s
+ => => unpacking to docker.io/library/task4-api:latest                                                                                 1.2s
+ => [web] exporting to image                                                                                                           0.3s
+ => => exporting layers                                                                                                                0.1s
+ => => exporting manifest sha256:6d1cce2b65dd3b79205c81cc843c9a950ea81ce281c84a570df4d41b27268422                                      0.0s
+ => => exporting config sha256:abc0439bcf7e5d2b8e304f7df1220f84da3f89e3914b26fe4b5c0d8f3055d3c1                                        0.0s
+ => => exporting attestation manifest sha256:ca090d37dd2b76e3b3d210223dc05a50e5ff006ce8d286faf32ce2f35557d944                          0.0s
+ => => exporting manifest list sha256:f92410a8508a7fa8d0fa88815b298a573194f54cfe8f9f026ecd71edd21eb506                                 0.0s
+ => => naming to docker.io/library/task4-web:latest                                                                                    0.0s
+ => => unpacking to docker.io/library/task4-web:latest                                                                                 0.1s
+ => [web] resolving provenance for metadata file                                                                                       0.0s
+ => [api] resolving provenance for metadata file                                                                                       0.0s
+[+] Running 5/5
+ ✔ api                  Built                                                                                                          0.0s 
+ ✔ web                  Built                                                                                                          0.0s 
+ ✔ Network task4_mynet  Created                                                                                                        0.1s 
+ ✔ Container task4-api  Created                                                                                                        0.3s 
+ ✔ Container task4-web  Created                                                                                                        0.3s 
+Attaching to task4-api, task4-web
+task4-web  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+task4-web  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+task4-web  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+task4-web  | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+task4-web  | 10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+task4-web  | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+task4-web  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+task4-web  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+task4-web  | /docker-entrypoint.sh: Configuration complete; ready for start up
+task4-api  | 
+task4-api  | > docker-node-app@1.0.0 start
+task4-api  | > node index.js
+task4-api  | 
+task4-api  | Server running at http://localhost:5000
+task4-web  | 192.168.65.1 - - [04/Jul/2025:10:40:37 +0000] "GET / HTTP/1.1" 200 626 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0"
+task4-web  | 2025/07/04 10:40:38 [error] 30#30: *2 open() "/usr/share/nginx/html/.well-known/appspecific/com.chrome.devtools.json" failed (2: No such file or directory), client: 192.168.65.1, server: , request: "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1", host: "localhost:3000"
+task4-web  | 192.168.65.1 - - [04/Jul/2025:10:40:38 +0000] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 555 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0"
+task4-web  | 192.168.65.1 - - [04/Jul/2025:10:40:38 +0000] "GET /api/ HTTP/1.1" 200 37 "http://localhost:3000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36 Edg/137.0.0.0"
+Gracefully stopping... (press Ctrl+C again to force)
+[+] Stopping 2/2
+ ✔ Container task4-api  Stopped                                                                                                        0.9s 
+ ✔ Container task4-web  Stopped                                                                                                        0.3s 
+presidio@Presidios-MacBook-Pro api % docker-compose down      
+WARN[0000] /Users/presidio/Desktop/GenSpark_Training/Week 9/Day44 (04-07-2025)/DockerTasks/Task4/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+[+] Running 3/3
+ ✔ Container task4-api  Removed                                                                                                        0.1s 
+ ✔ Container task4-web  Removed                                                                                                        0.1s 
+ ✔ Network task4_mynet  Removed                                                                                                        0.3s 
+presidio@Presidios-MacBook-Pro api % 
