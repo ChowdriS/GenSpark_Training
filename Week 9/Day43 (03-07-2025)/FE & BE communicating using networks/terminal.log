@@ -1,0 +1,83 @@
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % docker swarm init
+Swarm initialized: current node (6fc41s5xxb0s4o76uu8uvux7b) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-4sl6t66393w19ldl8tbnc60sw7xsp3div9lc5q1ukgdhuignxh-4ne50t6se5azgf9a9j3m7a0ip 192.168.65.3:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % docker build -t api:latest ./api
+[+] Building 4.4s (11/11) FINISHED                                                                                                      docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                    0.0s
+ => => transferring dockerfile: 178B                                                                                                                    0.0s
+ => [internal] load metadata for docker.io/library/node:20-alpine                                                                                       4.0s
+ => [auth] library/node:pull token for registry-1.docker.io                                                                                             0.0s
+ => [internal] load .dockerignore                                                                                                                       0.0s
+ => => transferring context: 2B                                                                                                                         0.0s
+ => [1/5] FROM docker.io/library/node:20-alpine@sha256:674181320f4f94582c6182eaa151bf92c6744d478be0f1d12db804b7d59b2d11                                 0.0s
+ => => resolve docker.io/library/node:20-alpine@sha256:674181320f4f94582c6182eaa151bf92c6744d478be0f1d12db804b7d59b2d11                                 0.0s
+ => [internal] load build context                                                                                                                       0.0s
+ => => transferring context: 402B                                                                                                                       0.0s
+ => CACHED [2/5] WORKDIR /app                                                                                                                           0.0s
+ => CACHED [3/5] COPY package.json .                                                                                                                    0.0s
+ => CACHED [4/5] RUN npm install                                                                                                                        0.0s
+ => CACHED [5/5] COPY index.js .                                                                                                                        0.0s
+ => exporting to image                                                                                                                                  0.2s
+ => => exporting layers                                                                                                                                 0.0s
+ => => exporting manifest sha256:23ea7d3bc69ef55926e36ea919aef40f21b5121309a218d6ec1ae56898565bdc                                                       0.0s
+ => => exporting config sha256:4f349ae8f3c07f8b5c6876bbd307ccf845da47700fa7d4d99991d93b8ff86d5b                                                         0.0s
+ => => exporting attestation manifest sha256:e05ca41c74972c9e5b8905238adc2e3e31e9c50535837055c11b867c2be79d78                                           0.0s
+ => => exporting manifest list sha256:39ba4d8f27df10990732db486f7a20d26aef0471f778ba0ff66fd9035f416ba6                                                  0.0s
+ => => naming to docker.io/library/api:latest                                                                                                           0.0s
+ => => unpacking to docker.io/library/api:latest                                                                                                        0.0s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/pifms0vsblbjwaxtazu20vu2w
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % docker build -t web:latest ./web
+[+] Building 3.9s (9/9) FINISHED                                                                                                        docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                    0.0s
+ => => transferring dockerfile: 152B                                                                                                                    0.0s
+ => [internal] load metadata for docker.io/library/nginx:alpine                                                                                         3.3s
+ => [auth] library/nginx:pull token for registry-1.docker.io                                                                                            0.0s
+ => [internal] load .dockerignore                                                                                                                       0.0s
+ => => transferring context: 2B                                                                                                                         0.0s
+ => CACHED [1/3] FROM docker.io/library/nginx:alpine@sha256:b2e814d28359e77bd0aa5fed1939620075e4ffa0eb20423cc557b375bd5c14ad                            0.0s
+ => => resolve docker.io/library/nginx:alpine@sha256:b2e814d28359e77bd0aa5fed1939620075e4ffa0eb20423cc557b375bd5c14ad                                   0.0s
+ => [internal] load build context                                                                                                                       0.0s
+ => => transferring context: 713B                                                                                                                       0.0s
+ => [2/3] COPY index.html /usr/share/nginx/html/index.html                                                                                              0.1s
+ => [3/3] COPY nginx.conf /etc/nginx/nginx.conf                                                                                                         0.1s
+ => exporting to image                                                                                                                                  0.3s
+ => => exporting layers                                                                                                                                 0.1s
+ => => exporting manifest sha256:2e3328ff7359f0c2958f5879ab2d6f315db1aee35c1ee3e27d0f59dc4ec92cdf                                                       0.0s
+ => => exporting config sha256:10f0d437dc050781d1f7241faf5694ec2ec1cdf9dc811c1fa8650db957d46479                                                         0.0s
+ => => exporting attestation manifest sha256:00e11396e836934d38a4191085beff05784646fa1e632b7478bd15015ec50805                                           0.0s
+ => => exporting manifest list sha256:42bdaaae7ef359dd7854ddceddc88131d7164646d244fccb3bdded1567bbba74                                                  0.0s
+ => => naming to docker.io/library/web:latest                                                                                                           0.0s
+ => => unpacking to docker.io/library/web:latest                                                                                                        0.1s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/m48wotjt8eb4ap2ly3izgxbjv
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % docker stack deploy -c docker-compose.yml mystack
+Ignoring unsupported options: build
+
+Since --detach=false was not specified, tasks will be created in the background.
+In a future release, --detach=false will become the default.
+Creating network mystack_appnet
+Creating service mystack_api
+Creating service mystack_web
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % docker stack services mystack
+ID             NAME          MODE         REPLICAS   IMAGE        PORTS
+pt5dsu1c8chv   mystack_api   replicated   2/2        api:latest   
+wx7gv3703so2   mystack_web   replicated   0/2        web:latest   *:8080->80/tcp
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % docker stack ls
+NAME      SERVICES
+mystack   2
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % docker rm stack mystack
+Error response from daemon: No such container: stack
+Error response from daemon: No such container: mystack
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % docker stack rm mystack
+Removing service mystack_api
+Removing service mystack_web
+Removing network mystack_appnet
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % docker swarm leave --force
+Node left the swarm.
+presidio@Presidios-MacBook-Pro FE & BE communicating using networks % 
