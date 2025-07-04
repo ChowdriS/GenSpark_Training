@@ -28,7 +28,7 @@ export class PaymentForm {
 
     const formValue = this.form.value;
     const options = {
-      key: 'rzp_test_c6prLkpX6pGyV3', 
+      key: '', 
       amount: formValue.amount! * 100,
       currency: 'INR',
       name: formValue.customerName,
