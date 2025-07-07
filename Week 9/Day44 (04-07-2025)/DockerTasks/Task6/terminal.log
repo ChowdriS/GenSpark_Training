@@ -1,0 +1,54 @@
+presidio@Presidios-MacBook-Pro Task6 % docker swarm init
+Swarm initialized: current node (bmmlonvrhy556k419evwih11h) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-5z8bkymbkqqq6oodicd6wjagv4jqe6hihpg5cfzeds1lrywxyn-7w8ifst6ik49k3a1oiyjjbz9u 192.168.65.3:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+presidio@Presidios-MacBook-Pro Task6 % docker service create --name nginx-web --replicas 3 -p  8080:80 nginx
+myzfpajxz55psca21vx2yi859
+overall progress: 3 out of 3 tasks 
+1/3: running   [==================================================>] 
+2/3: running   [==================================================>] 
+3/3: running   [==================================================>] 
+verify: Service myzfpajxz55psca21vx2yi859 converged 
+presidio@Presidios-MacBook-Pro Task6 % docker service ls
+ID             NAME        MODE         REPLICAS   IMAGE          PORTS
+myzfpajxz55p   nginx-web   replicated   3/3        nginx:latest   *:8080->80/tcp
+presidio@Presidios-MacBook-Pro Task6 % docker service ps nginx-web
+ID             NAME          IMAGE          NODE             DESIRED STATE   CURRENT STATE            ERROR     PORTS
+eip2nqox1cu2   nginx-web.1   nginx:latest   docker-desktop   Running         Running 58 seconds ago             
+u2tgj69jencb   nginx-web.2   nginx:latest   docker-desktop   Running         Running 58 seconds ago             
+lqb7fjk1gxk0   nginx-web.3   nginx:latest   docker-desktop   Running         Running 58 seconds ago             
+presidio@Presidios-MacBook-Pro Task6 % curl http://localhost:8080
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+presidio@Presidios-MacBook-Pro Task6 % docker service rm nginx-web
+nginx-web
+presidio@Presidios-MacBook-Pro Task6 % docker service ls
+ID        NAME      MODE      REPLICAS   IMAGE     PORTS
+presidio@Presidios-MacBook-Pro Task6 % docker swarm leave --force
+Node left the swarm.
+presidio@Presidios-MacBook-Pro Task6 % 

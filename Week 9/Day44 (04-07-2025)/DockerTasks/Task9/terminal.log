@@ -1,0 +1,15 @@
+presidio@Presidios-MacBook-Pro Task9 % docker service update --image httpd:alpine webapp
+webapp
+overall progress: 3 out of 3 tasks 
+1/3: running   [==================================================>] 
+2/3: running   [==================================================>] 
+3/3: running   [==================================================>] 
+verify: Service webapp converged 
+presidio@Presidios-MacBook-Pro Task9 %  docker service ps webapp 
+ID             NAME           IMAGE          NODE             DESIRED STATE   CURRENT STATE             ERROR     PORTS
+smi8gmo7jnd4   webapp.1       httpd:alpine   docker-desktop   Running         Running 43 seconds ago              
+jitc0q48npcx    \_ webapp.1   httpd:latest   docker-desktop   Shutdown        Shutdown 51 seconds ago             
+mwzmjwv54g0j   webapp.2       httpd:alpine   docker-desktop   Running         Running 30 seconds ago              
+l55f3dg6z8zx    \_ webapp.2   httpd:latest   docker-desktop   Shutdown        Shutdown 30 seconds ago             
+oes14wn7n052   webapp.3       httpd:alpine   docker-desktop   Running         Running 17 seconds ago              
+yxbmtwroyvli    \_ webapp.3   httpd:latest   docker-desktop   Shutdown        Shutdown 18 seconds ago  

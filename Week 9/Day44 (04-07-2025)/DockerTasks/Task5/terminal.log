@@ -1,0 +1,80 @@
+presidio@Presidios-MacBook-Pro Task5 % docker build -t node-mongo-image .
+[+] Building 14.5s (11/11) FINISHED                                                                                                                                                        docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                                                                                                       0.0s
+ => => transferring dockerfile: 152B                                                                                                                                                                       0.0s
+ => [internal] load metadata for docker.io/library/node:22-alpine                                                                                                                                          3.0s
+ => [auth] library/node:pull token for registry-1.docker.io                                                                                                                                                0.0s
+ => [internal] load .dockerignore                                                                                                                                                                          0.0s
+ => => transferring context: 2B                                                                                                                                                                            0.0s
+ => [1/5] FROM docker.io/library/node:22-alpine@sha256:5340cbfc2df14331ab021555fdd9f83f072ce811488e705b0e736b11adeec4bb                                                                                    0.0s
+ => => resolve docker.io/library/node:22-alpine@sha256:5340cbfc2df14331ab021555fdd9f83f072ce811488e705b0e736b11adeec4bb                                                                                    0.0s
+ => [internal] load build context                                                                                                                                                                          0.0s
+ => => transferring context: 1.33kB                                                                                                                                                                        0.0s
+ => CACHED [2/5] WORKDIR /app                                                                                                                                                                              0.0s
+ => [3/5] COPY package.json .                                                                                                                                                                              0.0s
+ => [4/5] RUN npm install                                                                                                                                                                                  8.0s
+ => [5/5] COPY . .                                                                                                                                                                                         0.1s 
+ => exporting to image                                                                                                                                                                                     3.1s 
+ => => exporting layers                                                                                                                                                                                    1.8s 
+ => => exporting manifest sha256:4339922c15c6f3c33f362e9f00191cc82611239c6bfdc52607fb21b6875bad31                                                                                                          0.0s 
+ => => exporting config sha256:55a3ce96a923ecaf5b34e92ea172812f32ecda8c75fb3b923b0afe4039fb36db                                                                                                            0.0s 
+ => => exporting attestation manifest sha256:c9569ba2f7b6969ad9f62cb6d5fc352789b42684184bf111c80ca390ef741b23                                                                                              0.0s 
+ => => exporting manifest list sha256:4f291999c836291b346e7a718836476269ed97bab31e3cbf3d44a7868db91c7d                                                                                                     0.0s
+ => => naming to docker.io/library/node-mongo-image:latest                                                                                                                                                 0.0s
+ => => unpacking to docker.io/library/node-mongo-image:latest                                                                                                                                              1.1s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/76okdp12g7qvnkv9evbgws93c
+presidio@Presidios-MacBook-Pro Task5 % docker images
+REPOSITORY                             TAG       IMAGE ID       CREATED          SIZE
+node-mongo-image                       latest    4f291999c836   10 seconds ago   295MB
+task4-web                              latest    f92410a8508a   2 days ago       79.3MB
+task4-api                              latest    a3e25b09f447   2 days ago       251MB
+task3                                  latest    c022ece51f57   2 days ago       79.5MB
+task1                                  latest    b47f7ae07ca3   2 days ago       230MB
+payment-imgae                          latest    db2d542a13b5   2 days ago       2.52GB
+web                                    latest    42bdaaae7ef3   3 days ago       79.3MB
+api                                    latest    39ba4d8f27df   3 days ago       207MB
+https-in-dotnet                        latest    8a727c882c9e   3 days ago       359MB
+eventbookingapi-frontend               latest    8ef346dd346d   3 days ago       3.16GB
+angular-frontend                       latest    6b2f4707ae0a   3 days ago       3.16GB
+eventbookingapi-app                    latest    922f711717c9   3 days ago       348MB
+dotnet-project                         latest    8acfcb8ee1bf   5 days ago       348MB
+live-code                              latest    eb060976bf8b   5 days ago       1.62GB
+chowdrisakthivel/practice_dockerfile   latest    9d181dfac880   5 days ago       614MB
+my-debian-node-app                     latest    9d181dfac880   5 days ago       614MB
+mongo                                  latest    5941949d3887   8 days ago       1.21GB
+nginx                                  latest    dc53c8f25a10   11 days ago      279MB
+postgres                               15        b77bf42292af   4 weeks ago      608MB
+alpine                                 latest    8a1f59ffb675   5 weeks ago      12.8MB
+mysql                                  latest    f1049ce35b39   2 months ago     1.17GB
+presidio@Presidios-MacBook-Pro Task5 % docker swarm init                                   
+Swarm initialized: current node (zbruaxps1b43l3e5wik0o24as) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-3nc2yo7vrnnb9sgoed4u4gt5fy0737sb51ca65jy7mposqcl9z-blm5eb0z2s5q2jnzlqz9rox2o 192.168.65.3:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+presidio@Presidios-MacBook-Pro Task5 % docker stack deploy -c Docker-compose.yml mongostack
+Since --detach=false was not specified, tasks will be created in the background.
+In a future release, --detach=false will become the default.
+Creating network mongostack_default
+Creating service mongostack_mongo
+Creating service mongostack_api
+presidio@Presidios-MacBook-Pro Task5 % docker stack service mongostack
+docker: unknown command: docker stack service
+
+Usage:  docker stack [OPTIONS]
+
+Run 'docker stack --help' for more information
+presidio@Presidios-MacBook-Pro Task5 % docker stack services mongostack
+ID             NAME               MODE         REPLICAS   IMAGE                     PORTS
+2pwlko2y9m48   mongostack_api     replicated   1/1        node-mongo-image:latest   *:3000->3000/tcp
+i7os0xa5jsvy   mongostack_mongo   replicated   1/1        mongo:latest              *:27017->27017/tcp
+presidio@Presidios-MacBook-Pro Task5 % docker stack rm mongostack
+Removing service mongostack_api
+Removing service mongostack_mongo
+Removing network mongostack_default
+presidio@Presidios-MacBook-Pro Task5 % docker swarm leave --force
+Node left the swarm.
+presidio@Presidios-MacBook-Pro Task5 % 

@@ -1,0 +1,134 @@
+presidio@Presidios-MacBook-Pro Task7 % docker swarm init
+Swarm initialized: current node (inj5qxhsk2b7cac95veiw9di7) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-5ctcgqyxar5iddcooe5dnlhpaa60rw5d7dxuncpmiufab60mqi-9l9b0n5rf8717g1yxt2ddlg7t 192.168.65.3:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+presidio@Presidios-MacBook-Pro Task7 % docker service create --name nginx-web --replicas 3 -p  8080:80 nginx
+ep8dj910uyddf0w0a2lae1fzq
+overall progress: 3 out of 3 tasks 
+1/3: running   [==================================================>] 
+2/3: running   [==================================================>] 
+3/3: running   [==================================================>] 
+verify: Service ep8dj910uyddf0w0a2lae1fzq converged 
+presidio@Presidios-MacBook-Pro Task7 % docker service ls
+ID             NAME        MODE         REPLICAS   IMAGE          PORTS
+ep8dj910uydd   nginx-web   replicated   3/3        nginx:latest   *:8080->80/tcp
+presidio@Presidios-MacBook-Pro Task7 % docker service update --image nginx:alpine nginx-web
+nginx-web
+overall progress: 3 out of 3 tasks 
+1/3: running   [==================================================>] 
+2/3: running   [==================================================>] 
+3/3: running   [==================================================>] 
+verify: Service nginx-web converged 
+presidio@Presidios-MacBook-Pro Task7 % docker service ls                                   
+ID             NAME        MODE         REPLICAS   IMAGE          PORTS
+ep8dj910uydd   nginx-web   replicated   3/3        nginx:alpine   *:8080->80/tcp
+presidio@Presidios-MacBook-Pro Task7 % docker service ps nginx-web
+ID             NAME              IMAGE          NODE             DESIRED STATE   CURRENT STATE             ERROR     PORTS
+rikqfyjh17rh   nginx-web.1       nginx:alpine   docker-desktop   Running         Running 37 seconds ago              
+jrjcsp89pu49    \_ nginx-web.1   nginx:latest   docker-desktop   Shutdown        Shutdown 38 seconds ago             
+17b8ixpid887   nginx-web.2       nginx:alpine   docker-desktop   Running         Running 34 seconds ago              
+okz42tzl29ay    \_ nginx-web.2   nginx:latest   docker-desktop   Shutdown        Shutdown 34 seconds ago             
+qstdxv8e30ej   nginx-web.3       nginx:alpine   docker-desktop   Running         Running 30 seconds ago              
+h6h0a95k65a4    \_ nginx-web.3   nginx:latest   docker-desktop   Shutdown        Shutdown 30 seconds ago             
+presidio@Presidios-MacBook-Pro Task7 % docker service inspect nginx-web --pretty
+
+ID:             ep8dj910uyddf0w0a2lae1fzq
+Name:           nginx-web
+Service Mode:   Replicated
+ Replicas:      3
+UpdateStatus:
+ State:         completed
+ Started:       About a minute ago
+ Completed:     54 seconds ago
+ Message:       update completed
+Placement:
+UpdateConfig:
+ Parallelism:   1
+ On failure:    pause
+ Monitoring Period: 5s
+ Max failure ratio: 0
+ Update order:      stop-first
+RollbackConfig:
+ Parallelism:   1
+ On failure:    pause
+ Monitoring Period: 5s
+ Max failure ratio: 0
+ Rollback order:    stop-first
+ContainerSpec:
+ Image:         nginx:alpine@sha256:b2e814d28359e77bd0aa5fed1939620075e4ffa0eb20423cc557b375bd5c14ad
+ Init:          false
+Resources:
+Endpoint Mode:  vip
+Ports:
+ PublishedPort = 8080
+  Protocol = tcp
+  TargetPort = 80
+  PublishMode = ingress 
+
+presidio@Presidios-MacBook-Pro Task7 % curl localhost:8080
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+
+<p>For online documentation and support please refer to
+<a href="http://nginx.org/">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="http://nginx.com/">nginx.com</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+presidio@Presidios-MacBook-Pro Task7 % docker service ps nginx-web
+ID             NAME              IMAGE          NODE             DESIRED STATE   CURRENT STATE            ERROR     PORTS
+rikqfyjh17rh   nginx-web.1       nginx:alpine   docker-desktop   Running         Running 3 minutes ago              
+jrjcsp89pu49    \_ nginx-web.1   nginx:latest   docker-desktop   Shutdown        Shutdown 3 minutes ago             
+17b8ixpid887   nginx-web.2       nginx:alpine   docker-desktop   Running         Running 3 minutes ago              
+okz42tzl29ay    \_ nginx-web.2   nginx:latest   docker-desktop   Shutdown        Shutdown 3 minutes ago             
+qstdxv8e30ej   nginx-web.3       nginx:alpine   docker-desktop   Running         Running 3 minutes ago              
+h6h0a95k65a4    \_ nginx-web.3   nginx:latest   docker-desktop   Shutdown        Shutdown 3 minutes ago             
+presidio@Presidios-MacBook-Pro Task7 % docker service scale nginx-web = 5
+invalid scale specifier 'nginx-web'.
+See 'docker service scale --help'.
+
+Usage:  docker service scale SERVICE=REPLICAS [SERVICE=REPLICAS...]
+
+Scale one or multiple replicated services
+presidio@Presidios-MacBook-Pro Task7 % docker service scale nginx-web=5  
+nginx-web scaled to 5
+overall progress: 5 out of 5 tasks 
+1/5: running   [==================================================>] 
+2/5: running   [==================================================>] 
+3/5: running   [==================================================>] 
+4/5: running   [==================================================>] 
+5/5: running   [==================================================>] 
+verify: Service nginx-web converged 
+presidio@Presidios-MacBook-Pro Task7 % docker service ps nginx-web       
+ID             NAME              IMAGE          NODE             DESIRED STATE   CURRENT STATE             ERROR     PORTS
+xt6vf6a70pfb   nginx-web.1       nginx:alpine   docker-desktop   Running         Running 13 seconds ago              
+rikqfyjh17rh    \_ nginx-web.1   nginx:alpine   docker-desktop   Shutdown        Shutdown 15 seconds ago             
+jrjcsp89pu49    \_ nginx-web.1   nginx:latest   docker-desktop   Shutdown        Shutdown 12 minutes ago             
+cmhhgm4wg13h   nginx-web.2       nginx:alpine   docker-desktop   Running         Running 13 seconds ago              
+17b8ixpid887    \_ nginx-web.2   nginx:alpine   docker-desktop   Shutdown        Shutdown 15 seconds ago             
+okz42tzl29ay    \_ nginx-web.2   nginx:latest   docker-desktop   Shutdown        Shutdown 12 minutes ago             
+f80bqoclzggp   nginx-web.3       nginx:alpine   docker-desktop   Running         Running 13 seconds ago              
+qstdxv8e30ej    \_ nginx-web.3   nginx:alpine   docker-desktop   Shutdown        Shutdown 15 seconds ago             
+h6h0a95k65a4    \_ nginx-web.3   nginx:latest   docker-desktop   Shutdown        Shutdown 12 minutes ago             
+8laka47cbvux   nginx-web.4       nginx:alpine   docker-desktop   Running         Running 9 seconds ago               
+i9jy1hzocbm2   nginx-web.5       nginx:alpine   docker-desktop   Running         Running 9 seconds ago               
+presidio@Presidios-MacBook-Pro Task7 % docker service rm nginx-web
+nginx-web

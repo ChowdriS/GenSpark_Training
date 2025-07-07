@@ -1,0 +1,16 @@
+presidio@Presidios-MacBook-Pro Task9 % docker service create \
+  --name=viz \
+  --publish=8080:8080 \
+  --constraint=node.role==manager \
+  --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+  dockersamples/visualizer
+
+14gd15k6bwv36zm2sjj3es70k
+overall progress: 1 out of 1 tasks 
+1/1: running   [==================================================>] 
+verify: Service 14gd15k6bwv36zm2sjj3es70k converged 
+presidio@Presidios-MacBook-Pro Task9 % docker service rm viz                                                    
+viz
+presidio@Presidios-MacBook-Pro Task9 % docker swarm leave --force
+Node left the swarm.
+presidio@Presidios-MacBook-Pro Task9 % 
