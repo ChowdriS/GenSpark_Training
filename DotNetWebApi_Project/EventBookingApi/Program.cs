@@ -16,7 +16,7 @@ using Microsoft.OpenApi.Models;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls("http://0.0.0.0:5000");
+// builder.WebHost.UseUrls("http://0.0.0.0:5000");
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen();
 //     .Enrich.FromLogContext()
 //     .CreateLogger();
 
-builder.Host.UseSerilog();
+// builder.Host.UseSerilog();
 
 
 builder.Services.AddSwaggerGen(
@@ -158,70 +158,70 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-#region Logging
-app.Use(async (context, next) =>
-{
-    context.Request.EnableBuffering();
+// #region Logging
+// app.Use(async (context, next) =>
+// {
+//     context.Request.EnableBuffering();
 
-    string requestBody = "";
-    if (context.Request.ContentLength > 0 && context.Request.ContentType?.Contains("application/json") == true)
-    {
-        using var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true);
-        requestBody = await reader.ReadToEndAsync();
-        context.Request.Body.Position = 0;
+//     string requestBody = "";
+//     if (context.Request.ContentLength > 0 && context.Request.ContentType?.Contains("application/json") == true)
+//     {
+//         using var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true);
+//         requestBody = await reader.ReadToEndAsync();
+//         context.Request.Body.Position = 0;
 
-        requestBody = MaskSensitiveFields(requestBody);
-    }
+//         requestBody = MaskSensitiveFields(requestBody);
+//     }
 
-    var originalBodyStream = context.Response.Body;
-    using var responseBody = new MemoryStream();
-    context.Response.Body = responseBody;
+//     var originalBodyStream = context.Response.Body;
+//     using var responseBody = new MemoryStream();
+//     context.Response.Body = responseBody;
 
-    await next();
+//     await next();
 
-    context.Response.Body.Seek(0, SeekOrigin.Begin);
-    var responseText = await new StreamReader(context.Response.Body).ReadToEndAsync();
-    context.Response.Body.Seek(0, SeekOrigin.Begin);
+//     context.Response.Body.Seek(0, SeekOrigin.Begin);
+//     var responseText = await new StreamReader(context.Response.Body).ReadToEndAsync();
+//     context.Response.Body.Seek(0, SeekOrigin.Begin);
 
-    Log.Information("HTTP {Method} {Path} | RequestBody: {RequestBody} | Status: {StatusCode}",
-        context.Request.Method,
-        context.Request.Path,
-        requestBody,
-        context.Response.StatusCode);
+//     Log.Information("HTTP {Method} {Path} | RequestBody: {RequestBody} | Status: {StatusCode}",
+//         context.Request.Method,
+//         context.Request.Path,
+//         requestBody,
+//         context.Response.StatusCode);
 
-    await responseBody.CopyToAsync(originalBodyStream);
+//     await responseBody.CopyToAsync(originalBodyStream);
 
-    string MaskSensitiveFields(string body)
-    {
-        var sensitiveKeys = new[] { "password", "confirmPassword", "token", "accessToken", "refreshToken" };
+//     string MaskSensitiveFields(string body)
+//     {
+//         var sensitiveKeys = new[] { "password", "confirmPassword", "token", "accessToken", "refreshToken" };
 
-        try
-        {
-            using var doc = JsonDocument.Parse(body);
-            var root = doc.RootElement;
+//         try
+//         {
+//             using var doc = JsonDocument.Parse(body);
+//             var root = doc.RootElement;
 
-            var masked = new Dictionary<string, object>();
-            foreach (var prop in root.EnumerateObject())
-            {
-                if (sensitiveKeys.Contains(prop.Name, StringComparer.OrdinalIgnoreCase))
-                {
-                    masked[prop.Name] = "***";
-                }
-                else
-                {
-                    masked[prop.Name] = prop.Value.ValueKind == JsonValueKind.String ? prop.Value.GetString()! : prop.Value.ToString();
-                }
-            }
+//             var masked = new Dictionary<string, object>();
+//             foreach (var prop in root.EnumerateObject())
+//             {
+//                 if (sensitiveKeys.Contains(prop.Name, StringComparer.OrdinalIgnoreCase))
+//                 {
+//                     masked[prop.Name] = "***";
+//                 }
+//                 else
+//                 {
+//                     masked[prop.Name] = prop.Value.ValueKind == JsonValueKind.String ? prop.Value.GetString()! : prop.Value.ToString();
+//                 }
+//             }
 
-            return JsonSerializer.Serialize(masked);
-        }
-        catch
-        {
-            return body;
-        }
-    }
-});
-#endregion
+//             return JsonSerializer.Serialize(masked);
+//         }
+//         catch
+//         {
+//             return body;
+//         }
+//     }
+// });
+// #endregion
 
 app.UseCors();
 app.UseAuthentication();
