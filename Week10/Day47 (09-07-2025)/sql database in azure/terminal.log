@@ -1,0 +1,501 @@
+presidio@Presidios-MacBook-Pro Week10 % az version
+{
+  "azure-cli": "2.75.0",
+  "azure-cli-core": "2.75.0",
+  "azure-cli-telemetry": "1.1.0",
+  "extensions": {}
+}
+presidio@Presidios-MacBook-Pro Week10 % az login
+A web browser has been opened at https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize. Please continue the login in the web browser. If no web browser is available or if the web browser fails to open, use device code flow with `az login --use-device-code`.
+
+Retrieving tenants and subscriptions for the selection...
+The following tenants don't contain accessible subscriptions. Use `az login --allow-no-subscriptions` to have tenant level access.
+7f7268a4-7179-4a42-9837-40255b1c21e5 'Presidio Network Solutions'
+6c4e0f67-00c8-475b-b1d4-cf723426db0b 'Pyramid Consulting, Inc.'
+
+[Tenant and subscription selection]
+
+No     Subscription name    Subscription ID                       Tenant
+-----  -------------------  ------------------------------------  ----------------------------
+[1] *  DevOps - Training    e34397b2-486a-417d-bd5a-b9113a4a1b0c  Presidio Networked Solutions
+
+The default is marked with an *; the default tenant is 'Presidio Networked Solutions' and subscription is 'DevOps - Training' (e34397b2-486a-417d-bd5a-b9113a4a1b0c).
+
+Select a subscription and tenant (Type a number or Enter for no changes): 
+
+Tenant: Presidio Networked Solutions
+Subscription: DevOps - Training (e34397b2-486a-417d-bd5a-b9113a4a1b0c)
+
+[Announcements]
+With the new Azure CLI login experience, you can select the subscription you want to use more easily. Learn more about it and its configuration at https://go.microsoft.com/fwlink/?linkid=2271236
+
+If you encounter any problem, please open an issue at https://aka.ms/azclibug
+
+[Warning] The login output has been updated. Please be aware that it no longer displays the full list of available subscriptions by default.
+
+presidio@Presidios-MacBook-Pro Week10 % az account show
+{
+  "environmentName": "AzureCloud",
+  "homeTenantId": "2a731c61-a2b2-4661-8409-5b861cf40d0c",
+  "id": "e34397b2-486a-417d-bd5a-b9113a4a1b0c",
+  "isDefault": true,
+  "managedByTenants": [],
+  "name": "DevOps - Training",
+  "state": "Enabled",
+  "tenantDefaultDomain": "presidiorocks.com",
+  "tenantDisplayName": "Presidio Networked Solutions",
+  "tenantId": "2a731c61-a2b2-4661-8409-5b861cf40d0c",
+  "user": {
+    "name": "chowdris@presidio.com",
+    "type": "user"
+  }
+}
+presidio@Presidios-MacBook-Pro Week10 % az group show --name Chowdri-rg
+{
+  "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg",
+  "location": "eastus",
+  "managedBy": null,
+  "name": "Chowdri-rg",
+  "properties": {
+    "provisioningState": "Succeeded"
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/resourceGroups"
+}
+presidio@Presidios-MacBook-Pro Week10 % cd Day47\ \(09-07-2025\) 
+presidio@Presidios-MacBook-Pro Day47 (09-07-2025) % cd sql\ database\ in\ azure 
+presidio@Presidios-MacBook-Pro sql database in azure % az deployment group create --resource-group Chowdri-rg --template-file azuredeploy.json --parameters @parameters.json
+{"status":"Failed","error":{"code":"DeploymentFailed","target":"/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Resources/deployments/azuredeploy","message":"At least one resource deployment operation failed. Please list deployment operations for details. Please see https://aka.ms/arm-deployment-operations for usage details.","details":[{"code":"ResourceDeploymentFailure","target":"/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Sql/servers/sampleserver022","message":"The resource write operation failed to complete successfully, because it reached terminal provisioning state 'Failed'.","details":[{"code":"InvalidParameterValue","message":"Invalid value given for parameter Password. Specify a valid parameter value."}]}]}}
+presidio@Presidios-MacBook-Pro sql database in azure % az deployment group create --resource-group Chowdri-rg --template-file azuredeploy.json --parameters @parameters.json
+('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))
+presidio@Presidios-MacBook-Pro sql database in azure % az deployment group create --resource-group Chowdri-rg --template-file azuredeploy.json --parameters @parameters.json
+{
+  "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Resources/deployments/azuredeploy",
+  "location": null,
+  "name": "azuredeploy",
+  "properties": {
+    "correlationId": "0fc64407-ebe2-46db-ae35-b7bc6b2eac29",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Sql/servers/sampleserver022",
+            "resourceGroup": "Chowdri-rg",
+            "resourceName": "sampleserver022",
+            "resourceType": "Microsoft.Sql/servers"
+          },
+          {
+            "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Sql/servers/sampleserver022/connectionPolicies/Default",
+            "resourceGroup": "Chowdri-rg",
+            "resourceName": "sampleserver022/Default",
+            "resourceType": "Microsoft.Sql/servers/connectionPolicies"
+          }
+        ],
+        "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Sql/servers/sampleserver022/databases/sampledb",
+        "resourceGroup": "Chowdri-rg",
+        "resourceName": "sampleserver022/sampledb",
+        "resourceType": "Microsoft.Sql/servers/databases"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Sql/servers/sampleserver022",
+            "resourceGroup": "Chowdri-rg",
+            "resourceName": "sampleserver022",
+            "resourceType": "Microsoft.Sql/servers"
+          }
+        ],
+        "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Sql/servers/sampleserver022/connectionPolicies/Default",
+        "resourceGroup": "Chowdri-rg",
+        "resourceName": "sampleserver022/Default",
+        "resourceType": "Microsoft.Sql/servers/connectionPolicies"
+      }
+    ],
+    "diagnostics": null,
+    "duration": "PT57.8312506S",
+    "error": null,
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Sql/servers/sampleserver022",
+        "resourceGroup": "Chowdri-rg"
+      },
+      {
+        "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Sql/servers/sampleserver022/connectionPolicies/Default",
+        "resourceGroup": "Chowdri-rg"
+      },
+      {
+        "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Sql/servers/sampleserver022/databases/sampledb",
+        "resourceGroup": "Chowdri-rg"
+      }
+    ],
+    "outputs": null,
+    "parameters": {
+      "administratorLogin": {
+        "type": "String",
+        "value": "serveradmin022"
+      },
+      "administratorLoginPassword": {
+        "type": "SecureString"
+      },
+      "administrators": {
+        "type": "Object",
+        "value": {}
+      },
+      "allowAzureIps": {
+        "type": "Bool",
+        "value": false
+      },
+      "allowClientIp": {
+        "type": "Bool",
+        "value": false
+      },
+      "autoPauseDelay": {
+        "type": "Int",
+        "value": 60
+      },
+      "availabilityZone": {
+        "type": "String",
+        "value": "NoPreference"
+      },
+      "blobStorageContainerName": {
+        "type": "String",
+        "value": ""
+      },
+      "clientIpRuleName": {
+        "type": "String",
+        "value": "ClientIp-2025-7-9_15-12-52"
+      },
+      "clientIpValue": {
+        "type": "String",
+        "value": "223.237.179.236"
+      },
+      "collation": {
+        "type": "String",
+        "value": "SQL_Latin1_General_CP1_CI_AS"
+      },
+      "connectionType": {
+        "type": "String",
+        "value": "Default"
+      },
+      "databaseName": {
+        "type": "String",
+        "value": "sampledb"
+      },
+      "databaseTags": {
+        "type": "Object",
+        "value": {}
+      },
+      "digestAccountResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "digestRegion": {
+        "type": "String",
+        "value": ""
+      },
+      "digestStorageName": {
+        "type": "String",
+        "value": ""
+      },
+      "digestStorageOption": {
+        "type": "String",
+        "value": ""
+      },
+      "enableADS": {
+        "type": "Bool",
+        "value": false
+      },
+      "enableDigestStorage": {
+        "type": "String",
+        "value": "Disabled"
+      },
+      "enablePrivateDnsZone": {
+        "type": "Bool",
+        "value": true
+      },
+      "enablePrivateEndpoint": {
+        "type": "Bool",
+        "value": false
+      },
+      "enableSqlLedger": {
+        "type": "Bool",
+        "value": false
+      },
+      "enableVA": {
+        "type": "Bool",
+        "value": false
+      },
+      "federatedClientId": {
+        "type": "String",
+        "value": ""
+      },
+      "freeLimitExhaustionBehavior": {
+        "type": "String",
+        "value": "AutoPause"
+      },
+      "identity": {
+        "type": "Object",
+        "value": {
+          "type": "None"
+        }
+      },
+      "isNewDigestLocation": {
+        "type": "Bool",
+        "value": false
+      },
+      "isPermissionAssigned": {
+        "type": "Bool",
+        "value": false
+      },
+      "keyId": {
+        "type": "String",
+        "value": ""
+      },
+      "licenseType": {
+        "type": "String",
+        "value": ""
+      },
+      "location": {
+        "type": "String",
+        "value": "eastus"
+      },
+      "maintenanceConfigurationId": {
+        "type": "String",
+        "value": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"
+      },
+      "maxSizeBytes": {
+        "type": "Int",
+        "value": 34359738368
+      },
+      "minCapacity": {
+        "type": "String",
+        "value": "0.5"
+      },
+      "minimalTlsVersion": {
+        "type": "String",
+        "value": "1.2"
+      },
+      "numberOfReplicas": {
+        "type": "Int",
+        "value": 0
+      },
+      "primaryUserAssignedIdentityId": {
+        "type": "String",
+        "value": ""
+      },
+      "privateDnsForPrivateEndpointIpConfigTemplateLink": {
+        "type": "String",
+        "value": "https://sqlazureextension.hosting.portal.azure.net/sqlazureextension/Content/2.1.03092.276--73455/DeploymentTemplates/PrivateDnsForPrivateEndpointIpConfig.json"
+      },
+      "privateDnsForPrivateEndpointNicTemplateLink": {
+        "type": "String",
+        "value": "https://sqlazureextension.hosting.portal.azure.net/sqlazureextension/Content/2.1.03092.276--73455/DeploymentTemplates/PrivateDnsForPrivateEndpointNic.json"
+      },
+      "privateDnsForPrivateEndpointTemplateLink": {
+        "type": "String",
+        "value": "https://sqlazureextension.hosting.portal.azure.net/sqlazureextension/Content/2.1.03092.276--73455/DeploymentTemplates/PrivateDnsForPrivateEndpoint.json"
+      },
+      "privateEndpointDnsRecordUniqueId": {
+        "type": "String",
+        "value": "23fb3aae-e05f-43d6-aaaf-a531bd60b01e"
+      },
+      "privateEndpointLocation": {
+        "type": "String",
+        "value": ""
+      },
+      "privateEndpointName": {
+        "type": "String",
+        "value": ""
+      },
+      "privateEndpointNestedTemplateId": {
+        "type": "String",
+        "value": "pe-23fb3aae-e05f-43d6-aaaf-a531bd60b01b"
+      },
+      "privateEndpointResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "privateEndpointSubnetId": {
+        "type": "String",
+        "value": ""
+      },
+      "privateEndpointSubnetName": {
+        "type": "String",
+        "value": ""
+      },
+      "privateEndpointSubscriptionId": {
+        "type": "String",
+        "value": ""
+      },
+      "privateEndpointTemplateLink": {
+        "type": "String",
+        "value": "https://sqlazureextension.hosting.portal.azure.net/sqlazureextension/Content/2.1.03092.276--73455/DeploymentTemplates/PrivateEndpoint.json"
+      },
+      "privateEndpointVnetName": {
+        "type": "String",
+        "value": ""
+      },
+      "privateEndpointVnetResourceGroup": {
+        "type": "String",
+        "value": ""
+      },
+      "privateEndpointVnetSubscriptionId": {
+        "type": "String",
+        "value": ""
+      },
+      "privateLinkPrivateDnsZoneFQDN": {
+        "type": "String",
+        "value": "privatelink.database.windows.net"
+      },
+      "privateLinkPrivateDnsZoneRG": {
+        "type": "String",
+        "value": ""
+      },
+      "privateLinkServiceName": {
+        "type": "String",
+        "value": ""
+      },
+      "privateLinkServiceServiceId": {
+        "type": "String",
+        "value": ""
+      },
+      "publicNetworkAccess": {
+        "type": "String",
+        "value": "Disabled"
+      },
+      "readScaleOut": {
+        "type": "String",
+        "value": "Disabled"
+      },
+      "requestedBackupStorageRedundancy": {
+        "type": "String",
+        "value": "Local"
+      },
+      "retentionDays": {
+        "type": "String",
+        "value": ""
+      },
+      "retentionPolicy": {
+        "type": "Bool",
+        "value": false
+      },
+      "sampleName": {
+        "type": "String",
+        "value": ""
+      },
+      "serverName": {
+        "type": "String",
+        "value": "sampleserver022"
+      },
+      "serverTags": {
+        "type": "Object",
+        "value": {}
+      },
+      "servicePrincipal": {
+        "type": "Object",
+        "value": {
+          "type": "None"
+        }
+      },
+      "skuName": {
+        "type": "String",
+        "value": "GP_S_Gen5_1"
+      },
+      "sqlLedgerTemplateLink": {
+        "type": "String",
+        "value": "https://sqlazureextension.hosting.portal.azure.net/sqlazureextension/Content/2.1.03092.276--73455/DeploymentTemplates/SqlLedger.json"
+      },
+      "storageAccountdigestRegion": {
+        "type": "String",
+        "value": ""
+      },
+      "tier": {
+        "type": "String",
+        "value": "GeneralPurpose"
+      },
+      "useFreeLimit": {
+        "type": "Bool",
+        "value": false
+      },
+      "useVAManagedIdentity": {
+        "type": "Bool",
+        "value": false
+      },
+      "vaStoragelessEnabled": {
+        "type": "Bool",
+        "value": false
+      },
+      "zoneRedundant": {
+        "type": "Bool",
+        "value": false
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Sql",
+        "providerAuthorizationConsentState": null,
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              "eastus"
+            ],
+            "properties": null,
+            "resourceType": "servers",
+            "zoneMappings": null
+          },
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              "eastus"
+            ],
+            "properties": null,
+            "resourceType": "servers/databases",
+            "zoneMappings": null
+          },
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              "eastus"
+            ],
+            "properties": null,
+            "resourceType": "servers/connectionPolicies",
+            "zoneMappings": null
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "templateHash": "12342294184546380697",
+    "templateLink": null,
+    "timestamp": "2025-07-09T10:15:09.822414+00:00",
+    "validatedResources": null,
+    "validationLevel": null
+  },
+  "resourceGroup": "Chowdri-rg",
+  "tags": null,
+  "type": "Microsoft.Resources/deployments"
+}
+presidio@Presidios-MacBook-Pro sql database in azure %    
