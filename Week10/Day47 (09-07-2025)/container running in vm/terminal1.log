@@ -1,0 +1,116 @@
+presidio@Presidios-MacBook-Pro docker-api-vm-task % docker build -t docker-vm-api-task-image .                         
+[+] Building 11.4s (15/15) FINISHED                                                                                docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                               0.0s
+ => => transferring dockerfile: 521B                                                                                               0.0s
+ => [internal] load metadata for mcr.microsoft.com/dotnet/aspnet:8.0                                                               0.3s
+ => [internal] load metadata for mcr.microsoft.com/dotnet/sdk:8.0                                                                  0.3s
+ => [internal] load .dockerignore                                                                                                  0.0s
+ => => transferring context: 2B                                                                                                    0.0s
+ => [build 1/6] FROM mcr.microsoft.com/dotnet/sdk:8.0@sha256:e6748a3b3d8cea753f643cacac0e577d8c409285b3924232db1354693bdbd3d7      0.0s
+ => => resolve mcr.microsoft.com/dotnet/sdk:8.0@sha256:e6748a3b3d8cea753f643cacac0e577d8c409285b3924232db1354693bdbd3d7            0.0s
+ => [stage-1 1/3] FROM mcr.microsoft.com/dotnet/aspnet:8.0@sha256:35095f3e2bf5ab1f0c6953ed1364028343b5aef029932454cf2ce9e9680827d  0.0s
+ => => resolve mcr.microsoft.com/dotnet/aspnet:8.0@sha256:35095f3e2bf5ab1f0c6953ed1364028343b5aef029932454cf2ce9e9680827d8         0.0s
+ => [internal] load build context                                                                                                  0.0s
+ => => transferring context: 6.18kB                                                                                                0.0s
+ => CACHED [build 2/6] WORKDIR /app                                                                                                0.0s
+ => CACHED [build 3/6] COPY *.csproj ./                                                                                            0.0s
+ => CACHED [build 4/6] RUN dotnet restore                                                                                          0.0s
+ => [build 5/6] COPY . ./                                                                                                          0.1s
+ => [build 6/6] RUN dotnet publish -c Release -o out                                                                              10.1s
+ => CACHED [stage-1 2/3] WORKDIR /app                                                                                              0.0s 
+ => CACHED [stage-1 3/3] COPY --from=build /app/out .                                                                              0.0s 
+ => exporting to image                                                                                                             0.2s 
+ => => exporting layers                                                                                                            0.0s 
+ => => exporting manifest sha256:3f330362553501d7ba012ea8da35ad4f492ba7284b2cbb4c8dcafe323141d5b4                                  0.0s
+ => => exporting config sha256:6980a4f71d68f54a56cf99cbf4de063d8d40682d2fd364db93ce91add7013eb3                                    0.0s
+ => => exporting attestation manifest sha256:c87bf4b6ce52e3879ef234f92ae24369f95ac15aeaed5adb4e52e4e0beaccc87                      0.0s
+ => => exporting manifest list sha256:b7e1282f713f3978786a78b580b02c9eb55ae44c9ea50847d7e1c4bb77b4228d                             0.0s
+ => => naming to docker.io/library/docker-vm-api-task-image:latest                                                                 0.0s
+ => => unpacking to docker.io/library/docker-vm-api-task-image:latest                                                              0.1s
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/qqly1y5vazaohlcmo98yea4v5
+presidio@Presidios-MacBook-Pro docker-api-vm-task % docker run -it -p 5000:5000 docker-vm-api-task-image                           
+warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+      Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://0.0.0.0:5000'.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://0.0.0.0:5000
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /app
+^Cinfo: Microsoft.Hosting.Lifetime[0]
+      Application is shutting down...
+presidio@Presidios-MacBook-Pro docker-api-vm-task % docker tag docker-vm-api-task-image chowdrisakthivel/docker_api_image:latest   
+presidio@Presidios-MacBook-Pro docker-api-vm-task % docker push chowdrisakthivel/docker_api_image:latest    
+The push refers to repository [docker.io/chowdrisakthivel/docker_api_image]
+f94b132160cc: Pushed 
+952fdf4fa312: Mounted from chowdrisakthivel/docker-api-vm-image 
+b5523f7f70f6: Mounted from chowdrisakthivel/docker-api-vm-image 
+b509daa9c209: Mounted from chowdrisakthivel/docker-api-vm-image 
+2af7ab45db44: Mounted from chowdrisakthivel/docker-api-vm-image 
+44bc7aa14c9c: Mounted from chowdrisakthivel/docker-api-vm-image 
+81ac83745e69: Mounted from chowdrisakthivel/docker-api-vm-image 
+3da95a905ed5: Mounted from chowdrisakthivel/docker-api-vm-image 
+dcdda036ab40: Mounted from chowdrisakthivel/docker-api-vm-image 
+latest: digest: sha256:b7e1282f713f3978786a78b580b02c9eb55ae44c9ea50847d7e1c4bb77b4228d size: 856
+presidio@Presidios-MacBook-Pro docker-api-vm-task % docker push chowdrisakthivel/docker_api_image:latest
+The push refers to repository [docker.io/chowdrisakthivel/docker_api_image]
+3da95a905ed5: Layer already exists 
+b509daa9c209: Layer already exists 
+81ac83745e69: Layer already exists 
+b5523f7f70f6: Layer already exists 
+f94b132160cc: Already exists 
+952fdf4fa312: Layer already exists 
+2af7ab45db44: Layer already exists 
+44bc7aa14c9c: Layer already exists 
+dcdda036ab40: Layer already exists 
+latest: digest: sha256:b7e1282f713f3978786a78b580b02c9eb55ae44c9ea50847d7e1c4bb77b4228d size: 856
+presidio@Presidios-MacBook-Pro docker-api-vm-task % docker push chowdrisakthivel/docker_api_image:latest
+The push refers to repository [docker.io/chowdrisakthivel/docker_api_image]
+f94b132160cc: Already exists 
+2af7ab45db44: Layer already exists 
+44bc7aa14c9c: Layer already exists 
+3da95a905ed5: Layer already exists 
+b5523f7f70f6: Layer already exists 
+952fdf4fa312: Layer already exists 
+dcdda036ab40: Layer already exists 
+b509daa9c209: Layer already exists 
+81ac83745e69: Layer already exists 
+latest: digest: sha256:b7e1282f713f3978786a78b580b02c9eb55ae44c9ea50847d7e1c4bb77b4228d size: 856
+
+presidio@Presidios-MacBook-Pro docker-api-vm-task % docker images
+REPOSITORY                             TAG       IMAGE ID       CREATED             SIZE
+chowdrisakthivel/docker_api_image      latest    b7e1282f713f   About an hour ago   324MB
+docker-vm-api-task-image               latest    b7e1282f713f   About an hour ago   324MB
+node-mongo-image                       latest    4f291999c836   2 days ago          295MB
+task4-web                              latest    f92410a8508a   4 days ago          79.3MB
+task4-api                              latest    a3e25b09f447   4 days ago          251MB
+task3                                  latest    c022ece51f57   4 days ago          79.5MB
+task1                                  latest    b47f7ae07ca3   4 days ago          230MB
+payment-imgae                          latest    db2d542a13b5   5 days ago          2.52GB
+web                                    latest    42bdaaae7ef3   5 days ago          79.3MB
+api                                    latest    39ba4d8f27df   5 days ago          207MB
+https-in-dotnet                        latest    8a727c882c9e   5 days ago          359MB
+eventbookingapi-frontend               latest    8ef346dd346d   6 days ago          3.16GB
+angular-frontend                       latest    6b2f4707ae0a   6 days ago          3.16GB
+eventbookingapi-app                    latest    922f711717c9   6 days ago          348MB
+dotnet-project                         latest    8acfcb8ee1bf   7 days ago          348MB
+live-code                              latest    eb060976bf8b   7 days ago          1.62GB
+chowdrisakthivel/practice_dockerfile   latest    9d181dfac880   8 days ago          614MB
+my-debian-node-app                     latest    9d181dfac880   8 days ago          614MB
+mongo                                  latest    5941949d3887   11 days ago         1.21GB
+nginx                                  latest    dc53c8f25a10   2 weeks ago         279MB
+nginx                                  alpine    b2e814d28359   2 weeks ago         79.2MB
+nginx                                  latest    93230cd54060   2 weeks ago         279MB
+postgres                               15        b77bf42292af   4 weeks ago         608MB
+httpd                                  alpine    cc34b8bdde6e   5 weeks ago         93.1MB
+alpine                                 latest    8a1f59ffb675   5 weeks ago         12.8MB
+mysql                                  latest    f1049ce35b39   2 months ago        1.17GB
+httpd                                  latest    1ae8051591a5   5 months ago        221MB
+dockersamples/visualizer               latest    530c863672e7   4 years ago         332MB
+presidio@Presidios-MacBook-Pro docker-api-vm-task % docker save -o myimage.tar chowdrisakthivel/docker_api_image:latest
+presidio@Presidios-MacBook-Pro docker-api-vm-task % scp -i docker-api-vm_key.pem myimage.tar azureuser@20.55.100.115:~
+myimage.tar                                                                                                                                         100%   87MB 681.2KB/s   02:10    
+presidio@Presidios-MacBook-Pro docker-api-vm-task % 

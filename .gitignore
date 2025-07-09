@@ -3,6 +3,10 @@
 **/obj/
 **/appsettings.json
 
+# private keys
+**/*.pem
+**/*.tar
+
 # User-specific files
 *.user
 *.suo
