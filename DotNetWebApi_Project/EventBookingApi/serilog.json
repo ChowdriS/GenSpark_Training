@@ -6,7 +6,7 @@
       {
         "Name": "AzureBlobStorage",
         "Args": {
-          "connectionString": "DefaultEndpointsProtocol=https;AccountName=chowdristorageacc022;AccountKey=D94SLntE9GT4rcHLA9dgFmRi81JmzRNL1M/CdPES2uSrqfi7oj/EUUmvWipFE53/ycnyfaRtHnoq+AStK+Ws7g==;EndpointSuffix=core.windows.net",
+          "connectionString": "",
           "storageContainerName": "apilogs",
           "storageFileName": "log-{yyyy-MM-dd}.txt"
         }
