@@ -1,21 +1,16 @@
 {
   "Serilog": {
+    "Using": [ "Serilog.Sinks.AzureLogAnalytics" ],
     "MinimumLevel": "Information",
     "WriteTo": [
       {
-        "Name": "Console"
-      },
-      {
-        "Name": "File",
+        "Name": "AzureBlobStorage",
         "Args": {
-          "path": "Logs/app-log-.log",
-          "rollingInterval": "Day"
+          "connectionString": "DefaultEndpointsProtocol=https;AccountName=chowdristorageacc022;AccountKey=D94SLntE9GT4rcHLA9dgFmRi81JmzRNL1M/CdPES2uSrqfi7oj/EUUmvWipFE53/ycnyfaRtHnoq+AStK+Ws7g==;EndpointSuffix=core.windows.net",
+          "storageContainerName": "apilogs",
+          "storageFileName": "log-{yyyy-MM-dd}.txt"
         }
       }
-    ],
-    "Enrich": [ "FromLogContext", "WithMachineName", "WithThreadId" ],
-    "Properties": {
-      "Application": "EventBookingApi"
-    }
+    ]
   }
 }

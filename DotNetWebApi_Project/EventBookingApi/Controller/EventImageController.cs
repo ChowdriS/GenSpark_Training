@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using EventBookingApi.Interface;
 using EventBookingApi.Misc;
 using EventBookingApi.Model;
@@ -13,12 +14,15 @@ public class EventImageController : ControllerBase
     private readonly IRepository<Guid, EventImage> _imageRepository;
     private readonly IRepository<Guid, Event> _eventRepository;
     private readonly IOtherFunctionalities _other;
+    // private readonly BlobContainerClient _containerClinet;
 
     public EventImageController(IRepository<Guid, EventImage> imageRepository, IRepository<Guid, Event> eventRepository, IOtherFunctionalities other)
     {
         _imageRepository = imageRepository;
         _eventRepository = eventRepository;
         _other = other;
+        // var sasUrl = configuration["AzureBlob:ContainerSasUrl"];
+        // _containerClinet = new BlobContainerClient(new Uri(sasUrl!));
     }
 
     [HttpGet("getall")]
@@ -41,7 +45,7 @@ public class EventImageController : ControllerBase
     {
         try
         {
-            var userId =  _other.GetLoggedInUserId(User);
+            var userId = _other.GetLoggedInUserId(User);
             var images = await _imageRepository.GetAll();
             images = images.Where(img => img?.Event?.EventStatus != EventStatus.Cancelled && img?.Event?.ManagerId == userId);
             var result = images.Select(i => new { i.Id, i.FileName, i.EventId, i.FileType });
@@ -76,7 +80,6 @@ public class EventImageController : ControllerBase
 
         using var ms = new MemoryStream();
         await image.CopyToAsync(ms);
-
         var imageModel = new EventImage
         {
             FileName = image.FileName,
@@ -87,6 +90,19 @@ public class EventImageController : ControllerBase
         };
 
         await _imageRepository.Add(imageModel);
+
+        //azure blob
+        //using var stream = image.OpenReadStream();
+        //var blobClient = _containerClinet.GetBlobClient(imageModel.Id.ToString());
+        //await blobClient.UploadAsync(stream,overwrite:true);
+
+        // return Ok(new
+        // {
+        //     imageModel.Id,
+        //     imageModel.FileName,
+        //     Url = $"https://chowdristorageacc022.blob.core.windows.net/images/{imageModel.Id}.{image.FileType}"
+        // });
+        //end azure blob
 
         return Ok(new
         {
@@ -100,6 +116,17 @@ public class EventImageController : ControllerBase
     {
         var image = await _imageRepository.GetById(id);
         if (image == null) return NotFound();
+
+        // azure blob
+        // var blobClient = _containerClinet?.GetBlobClient(id.ToString());
+        // if(await blobClient!.ExistsAsync())
+        // {
+        //     var downloadInfor = await blobClient.DownloadStreamingAsync();
+        //     var contentType = GetMimeType(image.FileType);
+        //     return File(downloadInfor.Value.Content, contentType, image.FileName);
+        // }
+        // return NotFound();
+        //end azure
 
         var contentType = GetMimeType(image.FileType);
         return File(image.FileContent, contentType, image.FileName);
@@ -116,34 +143,4 @@ public class EventImageController : ControllerBase
             _ => "application/octet-stream"
         };
     }
-    //     [HttpPut("update/{id}")]
-    //     public async Task<IActionResult> UpdateImage(Guid id, IFormFile newImage)
-    //     {
-    //         if (newImage == null || newImage.Length == 0)
-    //             return BadRequest("No image provided.");
-
-    //         var existingImage = await _imageRepository.GetById(id);
-    //         if (existingImage == null)
-    //             return NotFound("Image not found.");
-
-    //         using var ms = new MemoryStream();
-    //         await newImage.CopyToAsync(ms);
-
-    //         existingImage.FileName = newImage.FileName;
-    //         existingImage.FileType = Path.GetExtension(newImage.FileName)?.TrimStart('.').ToLower() ?? "webp";
-    //         existingImage.FileContent = ms.ToArray();
-    //         existingImage.UploadedAt = DateTime.UtcNow;
-
-    //         await _imageRepository.Update(id, existingImage);
-
-    //         return Ok(new
-    //         {
-    //             existingImage.Id,
-    //             existingImage.FileName,
-    //             Message = "Image updated successfully",
-    //             Url = $"http://localhost:5279/api/eventimage/download/{existingImage.Id}"
-    //         });
-    //     }
-
-    // }
 }

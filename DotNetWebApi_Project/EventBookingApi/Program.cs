@@ -19,19 +19,35 @@ var builder = WebApplication.CreateBuilder(args);
 // builder.WebHost.UseUrls("http://0.0.0.0:5000");
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Serilog.Debugging.SelfLog.Enable(Console.Error);
+// var logfileName = $"log-{DateTime.UtcNow:yyyy-MM-dd}.txt";
+
+// try
+// {
+//     Log.Logger = new LoggerConfiguration()
+//         .MinimumLevel.Debug()
+//         .Enrich.FromLogContext()
+//         .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day,
+//             outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
+//         .WriteTo.AzureBlobStorage(
+//             connectionString: builder.Configuration["Azure:StorageConnectionString"],
+//             storageContainerName: "apilogs",
+//             storageFileName: logfileName,
+//             outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
+//         )
+//         .CreateLogger();
+
+//     Log.Information("Serilog is configured properly");
+// }
+// catch (Exception ex)
+// {
+//     Console.WriteLine("Configuration failed: " + ex.Message);
+// }
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// var configuration = new ConfigurationBuilder()
-//     .AddJsonFile("serilog.json", optional: false, reloadOnChange: true)
-//     .Build();
-
-// Log.Logger = new LoggerConfiguration()
-//     .ReadFrom.Configuration(configuration)
-//     .Enrich.FromLogContext()
-//     .CreateLogger();
-
-// builder.Host.UseSerilog();
 
 
 builder.Services.AddSwaggerGen(
@@ -151,77 +167,81 @@ builder.Services.AddCors(options =>
 
 
 var app = builder.Build();
-
+app.Lifetime.ApplicationStopping.Register(() => 
+{
+    Log.CloseAndFlush();
+    Console.WriteLine("Logger flushed on shutdown");
+});
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// #region Logging
-// app.Use(async (context, next) =>
-// {
-//     context.Request.EnableBuffering();
+#region Logging
+app.Use(async (context, next) =>
+{
+    context.Request.EnableBuffering();
 
-//     string requestBody = "";
-//     if (context.Request.ContentLength > 0 && context.Request.ContentType?.Contains("application/json") == true)
-//     {
-//         using var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true);
-//         requestBody = await reader.ReadToEndAsync();
-//         context.Request.Body.Position = 0;
+    string requestBody = "";
+    if (context.Request.ContentLength > 0 && context.Request.ContentType?.Contains("application/json") == true)
+    {
+        using var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true);
+        requestBody = await reader.ReadToEndAsync();
+        context.Request.Body.Position = 0;
 
-//         requestBody = MaskSensitiveFields(requestBody);
-//     }
+        requestBody = MaskSensitiveFields(requestBody);
+    }
 
-//     var originalBodyStream = context.Response.Body;
-//     using var responseBody = new MemoryStream();
-//     context.Response.Body = responseBody;
+    var originalBodyStream = context.Response.Body;
+    using var responseBody = new MemoryStream();
+    context.Response.Body = responseBody;
 
-//     await next();
+    await next();
 
-//     context.Response.Body.Seek(0, SeekOrigin.Begin);
-//     var responseText = await new StreamReader(context.Response.Body).ReadToEndAsync();
-//     context.Response.Body.Seek(0, SeekOrigin.Begin);
+    context.Response.Body.Seek(0, SeekOrigin.Begin);
+    var responseText = await new StreamReader(context.Response.Body).ReadToEndAsync();
+    context.Response.Body.Seek(0, SeekOrigin.Begin);
 
-//     Log.Information("HTTP {Method} {Path} | RequestBody: {RequestBody} | Status: {StatusCode}",
-//         context.Request.Method,
-//         context.Request.Path,
-//         requestBody,
-//         context.Response.StatusCode);
+    Log.Information("HTTP {Method} {Path} | RequestBody: {RequestBody} | Status: {StatusCode}",
+        context.Request.Method,
+        context.Request.Path,
+        requestBody,
+        context.Response.StatusCode);
 
-//     await responseBody.CopyToAsync(originalBodyStream);
+    await responseBody.CopyToAsync(originalBodyStream);
 
-//     string MaskSensitiveFields(string body)
-//     {
-//         var sensitiveKeys = new[] { "password", "confirmPassword", "token", "accessToken", "refreshToken" };
+    string MaskSensitiveFields(string body)
+    {
+        var sensitiveKeys = new[] { "password", "confirmPassword", "token", "accessToken", "refreshToken" };
 
-//         try
-//         {
-//             using var doc = JsonDocument.Parse(body);
-//             var root = doc.RootElement;
+        try
+        {
+            using var doc = JsonDocument.Parse(body);
+            var root = doc.RootElement;
 
-//             var masked = new Dictionary<string, object>();
-//             foreach (var prop in root.EnumerateObject())
-//             {
-//                 if (sensitiveKeys.Contains(prop.Name, StringComparer.OrdinalIgnoreCase))
-//                 {
-//                     masked[prop.Name] = "***";
-//                 }
-//                 else
-//                 {
-//                     masked[prop.Name] = prop.Value.ValueKind == JsonValueKind.String ? prop.Value.GetString()! : prop.Value.ToString();
-//                 }
-//             }
+            var masked = new Dictionary<string, object>();
+            foreach (var prop in root.EnumerateObject())
+            {
+                if (sensitiveKeys.Contains(prop.Name, StringComparer.OrdinalIgnoreCase))
+                {
+                    masked[prop.Name] = "***";
+                }
+                else
+                {
+                    masked[prop.Name] = prop.Value.ValueKind == JsonValueKind.String ? prop.Value.GetString()! : prop.Value.ToString();
+                }
+            }
 
-//             return JsonSerializer.Serialize(masked);
-//         }
-//         catch
-//         {
-//             return body;
-//         }
-//     }
-// });
-// #endregion
+            return JsonSerializer.Serialize(masked);
+        }
+        catch
+        {
+            return body;
+        }
+    }
+});
+#endregion
 
 app.UseCors();
 app.UseAuthentication();
