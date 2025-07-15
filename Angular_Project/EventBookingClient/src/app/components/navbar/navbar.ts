@@ -16,6 +16,7 @@ import { NotificationService } from '../../services/Notification/notification-se
 })
 export class Navbar implements OnInit {
   user = signal<User | null>(null);
+  menuopen = signal<boolean>(false);
   // role :string = "";
   constructor(public router: Router, private userService: UserService, private auth : Auth,  private notify: NotificationService) {}
 
@@ -23,7 +24,9 @@ export class Navbar implements OnInit {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
-
+  menuOpen(){
+    this.menuopen.set(!this.menuopen());
+  }
   ngOnInit(): void {
     this.getMyDetail();
     // this.role = Getrole(this.auth.getToken());
