@@ -1,0 +1,481 @@
+presidio@Presidios-MacBook-Pro PresidioMay25 % az login
+A web browser has been opened at https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize. Please continue the login in the web browser. If no web browser is available or if the web browser fails to open, use device code flow with `az login --use-device-code`.
+
+Retrieving tenants and subscriptions for the selection...
+The following tenants don't contain accessible subscriptions. Use `az login --allow-no-subscriptions` to have tenant level access.
+7f7268a4-7179-4a42-9837-40255b1c21e5 'Presidio Network Solutions'
+6c4e0f67-00c8-475b-b1d4-cf723426db0b 'Pyramid Consulting, Inc.'
+
+[Tenant and subscription selection]
+
+No     Subscription name    Subscription ID                       Tenant
+-----  -------------------  ------------------------------------  ----------------------------
+[1] *  DevOps - Training    e34397b2-486a-417d-bd5a-b9113a4a1b0c  Presidio Networked Solutions
+
+The default is marked with an *; the default tenant is 'Presidio Networked Solutions' and subscription is 'DevOps - Training' (e34397b2-486a-417d-bd5a-b9113a4a1b0c).
+
+Select a subscription and tenant (Type a number or Enter for no changes): 
+
+Tenant: Presidio Networked Solutions
+Subscription: DevOps - Training (e34397b2-486a-417d-bd5a-b9113a4a1b0c)
+
+[Announcements]
+With the new Azure CLI login experience, you can select the subscription you want to use more easily. Learn more about it and its configuration at https://go.microsoft.com/fwlink/?linkid=2271236
+
+If you encounter any problem, please open an issue at https://aka.ms/azclibug
+
+[Warning] The login output has been updated. Please be aware that it no longer displays the full list of available subscriptions by default.
+
+presidio@Presidios-MacBook-Pro PresidioMay25 % az storage account create --name chowdriblobstorage022 --location eastus --resource-group Chowdri-rg --sku Standard_LRS
+
+{
+  "accessTier": "Hot",
+  "accountMigrationInProgress": null,
+  "allowBlobPublicAccess": false,
+  "allowCrossTenantReplication": false,
+  "allowSharedKeyAccess": null,
+  "allowedCopyScope": null,
+  "azureFilesIdentityBasedAuthentication": null,
+  "blobRestoreStatus": null,
+  "creationTime": "2025-07-16T05:13:14.257990+00:00",
+  "customDomain": null,
+  "defaultToOAuthAuthentication": null,
+  "dnsEndpointType": null,
+  "enableExtendedGroups": null,
+  "enableHttpsTrafficOnly": true,
+  "enableNfsV3": null,
+  "encryption": {
+    "encryptionIdentity": null,
+    "keySource": "Microsoft.Storage",
+    "keyVaultProperties": null,
+    "requireInfrastructureEncryption": null,
+    "services": {
+      "blob": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-16T05:13:14.476742+00:00"
+      },
+      "file": {
+        "enabled": true,
+        "keyType": "Account",
+        "lastEnabledTime": "2025-07-16T05:13:14.476742+00:00"
+      },
+      "queue": null,
+      "table": null
+    }
+  },
+  "extendedLocation": null,
+  "failoverInProgress": null,
+  "geoReplicationStats": null,
+  "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Storage/storageAccounts/chowdriblobstorage022",
+  "identity": null,
+  "immutableStorageWithVersioning": null,
+  "isHnsEnabled": null,
+  "isLocalUserEnabled": null,
+  "isSftpEnabled": null,
+  "isSkuConversionBlocked": null,
+  "keyCreationTime": {
+    "key1": "2025-07-16T05:13:14.461113+00:00",
+    "key2": "2025-07-16T05:13:14.461113+00:00"
+  },
+  "keyPolicy": null,
+  "kind": "StorageV2",
+  "largeFileSharesState": null,
+  "lastGeoFailoverTime": null,
+  "location": "eastus",
+  "minimumTlsVersion": "TLS1_0",
+  "name": "chowdriblobstorage022",
+  "networkRuleSet": {
+    "bypass": "AzureServices",
+    "defaultAction": "Allow",
+    "ipRules": [],
+    "ipv6Rules": [],
+    "resourceAccessRules": null,
+    "virtualNetworkRules": []
+  },
+  "primaryEndpoints": {
+    "blob": "https://chowdriblobstorage022.blob.core.windows.net/",
+    "dfs": "https://chowdriblobstorage022.dfs.core.windows.net/",
+    "file": "https://chowdriblobstorage022.file.core.windows.net/",
+    "internetEndpoints": null,
+    "microsoftEndpoints": null,
+    "queue": "https://chowdriblobstorage022.queue.core.windows.net/",
+    "table": "https://chowdriblobstorage022.table.core.windows.net/",
+    "web": "https://chowdriblobstorage022.z13.web.core.windows.net/"
+  },
+  "primaryLocation": "eastus",
+  "privateEndpointConnections": [],
+  "provisioningState": "Succeeded",
+  "publicNetworkAccess": null,
+  "resourceGroup": "Chowdri-rg",
+  "routingPreference": null,
+  "sasPolicy": null,
+  "secondaryEndpoints": null,
+  "secondaryLocation": null,
+  "sku": {
+    "name": "Standard_LRS",
+    "tier": "Standard"
+  },
+  "statusOfPrimary": "available",
+  "statusOfSecondary": null,
+  "storageAccountSkuConversionStatus": null,
+  "tags": {
+    "Backup": "True"
+  },
+  "type": "Microsoft.Storage/storageAccounts"
+}
+presidio@Presidios-MacBook-Pro PresidioMay25 % az functionapp create \
+  --resource-group Chowdri-rg \
+  --consumption-plan-location eastus \ 
+  --name mydotnetfunc022 \     
+  --storage-account chowdriblobstorage022 \
+  --runtime dotnet-isolated \
+  --functions-version 4
+
+Application Insights "mydotnetfunc022" was created for this Function App. You can visit https://portal.azure.com/#resource/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/microsoft.insights/components/mydotnetfunc022/overview to view your Application Insights component
+{
+  "availabilityState": "Normal",
+  "clientAffinityEnabled": false,
+  "clientCertEnabled": false,
+  "clientCertExclusionPaths": null,
+  "clientCertMode": "Required",
+  "cloningInfo": null,
+  "containerSize": 1536,
+  "customDomainVerificationId": "337321C7608529B945AF8A633FC856F74611C4BFCD4671E650F57ABDFDBF87CC",
+  "dailyMemoryTimeQuota": 0,
+  "daprConfig": null,
+  "defaultHostName": "mydotnetfunc022.azurewebsites.net",
+  "enabled": true,
+  "enabledHostNames": [
+    "mydotnetfunc022.azurewebsites.net",
+    "mydotnetfunc022.scm.azurewebsites.net"
+  ],
+  "endToEndEncryptionEnabled": false,
+  "extendedLocation": null,
+  "hostNameSslStates": [
+    {
+      "certificateResourceId": null,
+      "hostType": "Standard",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "mydotnetfunc022.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIPv6": null,
+      "virtualIp": null
+    },
+    {
+      "certificateResourceId": null,
+      "hostType": "Repository",
+      "ipBasedSslResult": null,
+      "ipBasedSslState": "NotConfigured",
+      "name": "mydotnetfunc022.scm.azurewebsites.net",
+      "sslState": "Disabled",
+      "thumbprint": null,
+      "toUpdate": null,
+      "toUpdateIpBasedSsl": null,
+      "virtualIPv6": null,
+      "virtualIp": null
+    }
+  ],
+  "hostNames": [
+    "mydotnetfunc022.azurewebsites.net"
+  ],
+  "hostNamesDisabled": false,
+  "hostingEnvironmentProfile": null,
+  "httpsOnly": false,
+  "hyperV": false,
+  "id": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Web/sites/mydotnetfunc022",
+  "identity": null,
+  "inProgressOperationId": null,
+  "isDefaultContainer": null,
+  "isXenon": false,
+  "keyVaultReferenceIdentity": "SystemAssigned",
+  "kind": "functionapp",
+  "lastModifiedTimeUtc": "2025-07-16T05:15:19.576666",
+  "location": "eastus",
+  "managedEnvironmentId": null,
+  "maxNumberOfWorkers": null,
+  "name": "mydotnetfunc022",
+  "outboundIpAddresses": "52.226.97.243,52.226.98.174,52.226.98.238,52.149.189.29,52.226.99.134,52.226.99.209,20.49.104.46",
+  "possibleOutboundIpAddresses": "52.226.97.243,52.226.98.174,52.226.98.238,52.149.189.29,52.226.99.134,52.226.99.209,57.152.58.92,52.226.99.242,52.191.99.38,52.226.100.78,52.226.100.110,52.226.100.182,52.226.101.48,52.226.101.73,52.226.101.85,52.226.101.228,52.226.102.12,52.226.102.146,52.151.243.222,52.226.103.13,52.226.103.16,52.226.103.215,52.224.133.159,52.249.240.7,52.249.241.81,52.249.241.150,52.249.241.156,52.249.241.206,52.188.94.243,52.249.241.252,52.249.242.105,20.49.104.46",
+  "publicNetworkAccess": null,
+  "redundancyMode": "None",
+  "repositorySiteName": "mydotnetfunc022",
+  "reserved": false,
+  "resourceConfig": null,
+  "resourceGroup": "Chowdri-rg",
+  "scmSiteAlsoStopped": false,
+  "serverFarmId": "/subscriptions/e34397b2-486a-417d-bd5a-b9113a4a1b0c/resourceGroups/Chowdri-rg/providers/Microsoft.Web/serverfarms/EastUSPlan",
+  "siteConfig": {
+    "acrUseManagedIdentityCreds": false,
+    "acrUserManagedIdentityId": null,
+    "alwaysOn": false,
+    "antivirusScanEnabled": null,
+    "apiDefinition": null,
+    "apiManagementConfig": null,
+    "appCommandLine": null,
+    "appSettings": null,
+    "autoHealEnabled": null,
+    "autoHealRules": null,
+    "autoSwapSlotName": null,
+    "azureMonitorLogCategories": null,
+    "azureStorageAccounts": null,
+    "clusteringEnabled": false,
+    "connectionStrings": null,
+    "cors": null,
+    "customAppPoolIdentityAdminState": null,
+    "customAppPoolIdentityTenantState": null,
+    "defaultDocuments": null,
+    "detailedErrorLoggingEnabled": null,
+    "documentRoot": null,
+    "elasticWebAppScaleLimit": null,
+    "experiments": null,
+    "fileChangeAuditEnabled": null,
+    "ftpsState": null,
+    "functionAppScaleLimit": 0,
+    "functionsRuntimeScaleMonitoringEnabled": null,
+    "handlerMappings": null,
+    "healthCheckPath": null,
+    "http20Enabled": false,
+    "http20ProxyFlag": null,
+    "httpLoggingEnabled": null,
+    "ipSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "headers": null,
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 2147483647,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "ipSecurityRestrictionsDefaultAction": null,
+    "javaContainer": null,
+    "javaContainerVersion": null,
+    "javaVersion": null,
+    "keyVaultReferenceIdentity": null,
+    "limits": null,
+    "linuxFxVersion": "",
+    "loadBalancing": null,
+    "localMySqlEnabled": null,
+    "logsDirectorySizeLimit": null,
+    "machineKey": null,
+    "managedPipelineMode": null,
+    "managedServiceIdentityId": null,
+    "metadata": null,
+    "minTlsCipherSuite": null,
+    "minTlsVersion": null,
+    "minimumElasticInstanceCount": 0,
+    "netFrameworkVersion": null,
+    "nodeVersion": null,
+    "numberOfWorkers": 1,
+    "phpVersion": null,
+    "powerShellVersion": null,
+    "preWarmedInstanceCount": null,
+    "publicNetworkAccess": null,
+    "publishingPassword": null,
+    "publishingUsername": null,
+    "push": null,
+    "pythonVersion": null,
+    "remoteDebuggingEnabled": null,
+    "remoteDebuggingVersion": null,
+    "requestTracingEnabled": null,
+    "requestTracingExpirationTime": null,
+    "routingRules": null,
+    "runtimeADUser": null,
+    "runtimeADUserPassword": null,
+    "sandboxType": null,
+    "scmIpSecurityRestrictions": [
+      {
+        "action": "Allow",
+        "description": "Allow all access",
+        "headers": null,
+        "ipAddress": "Any",
+        "name": "Allow all",
+        "priority": 2147483647,
+        "subnetMask": null,
+        "subnetTrafficTag": null,
+        "tag": null,
+        "vnetSubnetResourceId": null,
+        "vnetTrafficTag": null
+      }
+    ],
+    "scmIpSecurityRestrictionsDefaultAction": null,
+    "scmIpSecurityRestrictionsUseMain": null,
+    "scmMinTlsCipherSuite": null,
+    "scmMinTlsVersion": null,
+    "scmSupportedTlsCipherSuites": null,
+    "scmType": null,
+    "sitePort": null,
+    "sitePrivateLinkHostEnabled": null,
+    "storageType": null,
+    "supportedTlsCipherSuites": null,
+    "tracingOptions": null,
+    "use32BitWorkerProcess": null,
+    "virtualApplications": null,
+    "vnetName": null,
+    "vnetPrivatePortsCount": null,
+    "vnetRouteAllEnabled": null,
+    "webSocketsEnabled": null,
+    "websiteTimeZone": null,
+    "winAuthAdminState": null,
+    "winAuthTenantState": null,
+    "windowsConfiguredStacks": null,
+    "windowsFxVersion": null,
+    "xManagedServiceIdentityId": null
+  },
+  "slotSwapStatus": null,
+  "state": "Running",
+  "storageAccountRequired": false,
+  "suspendedTill": null,
+  "tags": {
+    "Backup": "True"
+  },
+  "targetSwapSlot": null,
+  "trafficManagerHostNames": null,
+  "type": "Microsoft.Web/sites",
+  "usageState": "Normal",
+  "virtualNetworkSubnetId": null,
+  "vnetContentShareEnabled": false,
+  "vnetImagePullEnabled": false,
+  "vnetRouteAllEnabled": false,
+  "workloadProfileName": null
+}
+presidio@Presidios-MacBook-Pro PresidioMay25 % az functionapp identity assign --name mydotnetfunc022 --resource-group Chowdri-rg
+{
+  "principalId": "e46d33ec-9dac-4849-9450-75c3d4268c9b",
+  "tenantId": "2a731c61-a2b2-4661-8409-5b861cf40d0c",
+  "type": "SystemAssigned",
+  "userAssignedIdentities": null
+}
+presidio@Presidios-MacBook-Pro PresidioMay25 % az functionapp config appsettings set \
+  --name mydotnetfunc022 \
+  --resource-group Chowdri-rg \
+  --settings AzureStorageConnectionString="DefaultEndpointsProtocol=https;AccountName=chowdriblobstorage022;AccountKey=1G8YnNu4FjMyrorl48rDFsiTq4H874vpC1Jc55ccTVz39wJ3EMLIs/ofHUqWgaQ26UqL4UohknPA+AStP7IMJQ==;EndpointSuffix=core.windows.net" \
+             ContainerName="images" \
+             KeyVaultUri="https://chowdrivault.vault.azure.net/"
+[
+  {
+    "name": "FUNCTIONS_WORKER_RUNTIME",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "FUNCTIONS_EXTENSION_VERSION",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "AzureWebJobsStorage",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "WEBSITE_CONTENTSHARE",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "AzureStorageConnectionString",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "ContainerName",
+    "slotSetting": false,
+    "value": null
+  },
+  {
+    "name": "KeyVaultUri",
+    "slotSetting": false,
+    "value": null
+  }
+]
+presidio@Presidios-MacBook-Pro PresidioMay25 % az keyvault set-policy \
+  --name ChowdriVault \
+  --object-id e46d33ec-9dac-4849-9450-75c3d4268c9b \
+  --secret-permissions set
+Cannot set policies to a vault with '--enable-rbac-authorization' specified
+presidio@Presidios-MacBook-Pro PresidioMay25 % func azure functionapp publish mydotnetfunc022     
+zsh: command not found: func
+presidio@Presidios-MacBook-Pro PresidioMay25 % npm install -g azure-functions-core-tools@4 --unsafe-perm true
+
+added 35 packages in 1m
+
+5 packages are looking for funding
+  run `npm fund` for details
+presidio@Presidios-MacBook-Pro PresidioMay25 % func azure functionapp publish mydotnetfunc022                
+Unable to find project root. Expecting to find one of host.json in project root.
+presidio@Presidios-MacBook-Pro PresidioMay25 % cd Azure/Company.FunctionApp2/Company.FunctionApp2 
+presidio@Presidios-MacBook-Pro Company.FunctionApp2 % func azure functionapp publish mydotnetfunc022    
+
+  Determining projects to restore...
+  Restored /Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Company.FunctionApp2.csproj (in 20.82 sec).
+/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Function.cs(29,35): warning CS8600: Converting null literal or possible null value to non-nullable type. [/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Company.FunctionApp2.csproj]
+/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Function.cs(30,32): warning CS8600: Converting null literal or possible null value to non-nullable type. [/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Company.FunctionApp2.csproj]
+/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Function.cs(31,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Company.FunctionApp2.csproj]
+/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Function.cs(47,29): warning CS8600: Converting null literal or possible null value to non-nullable type. [/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Company.FunctionApp2.csproj]
+  Determining projects to restore...
+  Restored /Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/obj/release/net8.0/WorkerExtensions/WorkerExtensions.csproj (in 12.18 sec).
+  WorkerExtensions -> /Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/obj/release/net8.0/WorkerExtensions/buildout/Microsoft.Azure.Functions.Worker.Extensions.dll
+  Company.FunctionApp2 -> /Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/bin/publish/Company.FunctionApp2.dll
+
+Build succeeded.
+
+/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Function.cs(29,35): warning CS8600: Converting null literal or possible null value to non-nullable type. [/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Company.FunctionApp2.csproj]
+/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Function.cs(30,32): warning CS8600: Converting null literal or possible null value to non-nullable type. [/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Company.FunctionApp2.csproj]
+/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Function.cs(31,30): warning CS8600: Converting null literal or possible null value to non-nullable type. [/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Company.FunctionApp2.csproj]
+/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Function.cs(47,29): warning CS8600: Converting null literal or possible null value to non-nullable type. [/Users/presidio/Desktop/TrainnerRepo/PresidioMay25/Azure/Company.FunctionApp2/Company.FunctionApp2/Company.FunctionApp2.csproj]
+    4 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:46.04
+
+
+Getting site publishing info...
+[2025-07-16T05:46:28.488Z] Starting the function app deployment...
+Creating archive for current directory...
+Uploading 4.24 MB [###############################################################################]
+Upload completed successfully.
+Deployment completed successfully.
+[2025-07-16T05:47:04.614Z] Syncing triggers...
+Functions in mydotnetfunc022:
+    Function - [httpTrigger]
+        Invoke url: https://mydotnetfunc022.azurewebsites.net/api/generate-sas/{blobname}
+
+presidio@Presidios-MacBook-Pro Company.FunctionApp2 % az functionapp function keys list \
+  --resource-group Chowdri-rg \
+  --name mydotnetfunc022 \     
+  --function-name Function
+{
+  "default": "NLDVEC6ML572GkXLYfk9sZEymb8YKpEslKgoaFM84VQQAzFuQ36aZQ==",
+  "id": null,
+  "kind": null,
+  "name": null,
+  "properties": null,
+  "type": null
+}
+presidio@Presidios-MacBook-Pro Company.FunctionApp2 % 
