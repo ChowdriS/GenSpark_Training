@@ -21,7 +21,9 @@ namespace BlobAPI.Services
 
         private async Task<BlobClient> GetBlobClientWithSas(string fileName)
         {
-            string functionUrl = $"https://mydotnetfunc022.azurewebsites.net/api/generate-sas/{fileName}?code=NLDVEC6ML572GkXLYfk9sZEymb8YKpEslKgoaFM84VQQAzFuQ36aZQ==";
+            var appurl = _configuration["AzureBlob:AppURL"];
+            var app_code = _configuration["AzureBlob:AppCode"];
+            string functionUrl = $"{appurl}{fileName}?code={app_code}";
             var client = _httpClientFactory.CreateClient();
             var sasResponse = await client.GetAsync(functionUrl);
             if (!sasResponse.IsSuccessStatusCode)
