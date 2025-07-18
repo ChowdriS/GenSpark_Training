@@ -1,0 +1,541 @@
+2025-07-17 14:47:18.327 +05:30 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-07-17 14:47:19.419 +05:30 [DBG] Entity Framework Core 9.0.5 initialized 'BugContext' using provider 'Npgsql.EntityFrameworkCore.PostgreSQL:9.0.4+fd2380957bee5cd86f336466af36b08c0163f1a5' with options: None
+2025-07-17 14:47:19.460 +05:30 [DBG] Creating DbConnection.
+2025-07-17 14:47:19.507 +05:30 [DBG] Created DbConnection. (42ms).
+2025-07-17 14:47:19.517 +05:30 [DBG] Opening connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:19.621 +05:30 [ERR] An error occurred using the connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:19.791 +05:30 [DBG] Migrating using database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:19.795 +05:30 [DBG] Opening connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:19.799 +05:30 [DBG] Opening connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:19.811 +05:30 [DBG] An error occurred using the connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:19.823 +05:30 [DBG] Creating DbConnection.
+2025-07-17 14:47:19.824 +05:30 [DBG] Created DbConnection. (0ms).
+2025-07-17 14:47:19.824 +05:30 [DBG] Opening connection to database 'postgres' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:19.954 +05:30 [DBG] Opened connection to database 'postgres' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:19.962 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:19.969 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (7ms).
+2025-07-17 14:47:19.971 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (12ms).
+2025-07-17 14:47:19.979 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE DATABASE "BugTrackingSystem";
+2025-07-17 14:47:20.344 +05:30 [INF] Executed DbCommand (360ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE DATABASE "BugTrackingSystem";
+2025-07-17 14:47:20.347 +05:30 [DBG] Closing connection to database 'postgres' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.359 +05:30 [DBG] Closed connection to database 'postgres' on server 'tcp://localhost:5432' (6ms).
+2025-07-17 14:47:20.361 +05:30 [DBG] Disposing connection to database 'postgres' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.362 +05:30 [DBG] Disposed connection to database 'postgres' on server 'tcp://localhost:5432' (1ms).
+2025-07-17 14:47:20.362 +05:30 [DBG] Opening connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.363 +05:30 [DBG] Opening connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.395 +05:30 [DBG] Opened connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.396 +05:30 [DBG] Closing connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.396 +05:30 [DBG] Closed connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432' (0ms).
+2025-07-17 14:47:20.397 +05:30 [DBG] Opening connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.423 +05:30 [DBG] Opened connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.483 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.483 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.483 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.484 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" character varying(150) NOT NULL,
+    "ProductVersion" character varying(32) NOT NULL,
+    CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+);
+2025-07-17 14:47:20.505 +05:30 [INF] Executed DbCommand (21ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" character varying(150) NOT NULL,
+    "ProductVersion" character varying(32) NOT NULL,
+    CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+);
+2025-07-17 14:47:20.511 +05:30 [DBG] Beginning transaction with isolation level 'Unspecified'.
+2025-07-17 14:47:20.515 +05:30 [DBG] Began transaction with isolation level 'ReadCommitted'.
+2025-07-17 14:47:20.517 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2025-07-17 14:47:20.518 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.518 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.519 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.519 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+LOCK TABLE "__EFMigrationsHistory" IN ACCESS EXCLUSIVE MODE
+2025-07-17 14:47:20.520 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+LOCK TABLE "__EFMigrationsHistory" IN ACCESS EXCLUSIVE MODE
+2025-07-17 14:47:20.521 +05:30 [DBG] Creating DbCommand for 'ExecuteReader'.
+2025-07-17 14:47:20.521 +05:30 [DBG] Created DbCommand for 'ExecuteReader' (0ms).
+2025-07-17 14:47:20.521 +05:30 [DBG] Initialized DbCommand for 'ExecuteReader' (0ms).
+2025-07-17 14:47:20.522 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2025-07-17 14:47:20.525 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2025-07-17 14:47:20.528 +05:30 [DBG] Closing data reader to 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.532 +05:30 [DBG] A data reader for 'BugTrackingSystem' on server 'tcp://localhost:5432' is being disposed after spending 4ms reading results.
+2025-07-17 14:47:20.540 +05:30 [INF] Applying migration '20250611143108_initalsetup'.
+2025-07-17 14:47:20.574 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.575 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.575 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.575 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Users" (
+    "Id" text NOT NULL,
+    "Username" text NOT NULL,
+    "Role" text NOT NULL,
+    "Password" text NOT NULL,
+    CONSTRAINT "PK_Users" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.579 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Users" (
+    "Id" text NOT NULL,
+    "Username" text NOT NULL,
+    "Role" text NOT NULL,
+    "Password" text NOT NULL,
+    CONSTRAINT "PK_Users" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.580 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.580 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.580 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.580 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Admins" (
+    "Id" text NOT NULL,
+    "Number" integer NOT NULL,
+    "Name" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Password" text NOT NULL,
+    CONSTRAINT "PK_Admins" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_User_Admin" FOREIGN KEY ("Id") REFERENCES "Users" ("Id") ON DELETE RESTRICT
+);
+2025-07-17 14:47:20.586 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Admins" (
+    "Id" text NOT NULL,
+    "Number" integer NOT NULL,
+    "Name" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Password" text NOT NULL,
+    CONSTRAINT "PK_Admins" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_User_Admin" FOREIGN KEY ("Id") REFERENCES "Users" ("Id") ON DELETE RESTRICT
+);
+2025-07-17 14:47:20.586 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.586 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.586 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.587 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Developers" (
+    "Id" text NOT NULL,
+    "Number" integer NOT NULL,
+    "Name" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Password" text NOT NULL,
+    CONSTRAINT "PK_Developers" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_User_Developer" FOREIGN KEY ("Id") REFERENCES "Users" ("Id") ON DELETE RESTRICT
+);
+2025-07-17 14:47:20.592 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Developers" (
+    "Id" text NOT NULL,
+    "Number" integer NOT NULL,
+    "Name" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Password" text NOT NULL,
+    CONSTRAINT "PK_Developers" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_User_Developer" FOREIGN KEY ("Id") REFERENCES "Users" ("Id") ON DELETE RESTRICT
+);
+2025-07-17 14:47:20.592 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.592 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.593 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.593 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Testers" (
+    "Id" text NOT NULL,
+    "Number" integer NOT NULL,
+    "Name" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Password" text NOT NULL,
+    CONSTRAINT "PK_Testers" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_User_Tester" FOREIGN KEY ("Id") REFERENCES "Users" ("Id") ON DELETE RESTRICT
+);
+2025-07-17 14:47:20.597 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Testers" (
+    "Id" text NOT NULL,
+    "Number" integer NOT NULL,
+    "Name" character varying(100) NOT NULL,
+    "Email" text NOT NULL,
+    "Password" text NOT NULL,
+    CONSTRAINT "PK_Testers" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_User_Tester" FOREIGN KEY ("Id") REFERENCES "Users" ("Id") ON DELETE RESTRICT
+);
+2025-07-17 14:47:20.598 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.598 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.598 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.599 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Bugs" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "Title" character varying(200) NOT NULL,
+    "Description" character varying(2000) NOT NULL,
+    "ScreenshotUrl" text,
+    "Priority" text NOT NULL,
+    "Status" text NOT NULL,
+    "CreatedBy" text NOT NULL,
+    "AssignedTo" text,
+    "IsDeleted" boolean NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_Bugs" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_Bugs_Developers_AssignedTo" FOREIGN KEY ("AssignedTo") REFERENCES "Developers" ("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_Bugs_Testers_CreatedBy" FOREIGN KEY ("CreatedBy") REFERENCES "Testers" ("Id") ON DELETE CASCADE
+);
+2025-07-17 14:47:20.606 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Bugs" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "Title" character varying(200) NOT NULL,
+    "Description" character varying(2000) NOT NULL,
+    "ScreenshotUrl" text,
+    "Priority" text NOT NULL,
+    "Status" text NOT NULL,
+    "CreatedBy" text NOT NULL,
+    "AssignedTo" text,
+    "IsDeleted" boolean NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    "UpdatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_Bugs" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_Bugs_Developers_AssignedTo" FOREIGN KEY ("AssignedTo") REFERENCES "Developers" ("Id") ON DELETE CASCADE,
+    CONSTRAINT "FK_Bugs_Testers_CreatedBy" FOREIGN KEY ("CreatedBy") REFERENCES "Testers" ("Id") ON DELETE CASCADE
+);
+2025-07-17 14:47:20.606 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.607 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.607 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.607 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Comments" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "BugId" integer NOT NULL,
+    "UserId" text NOT NULL,
+    "Message" text NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_Comments" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_Comments_Bugs_BugId" FOREIGN KEY ("BugId") REFERENCES "Bugs" ("Id") ON DELETE RESTRICT,
+    CONSTRAINT "FK_User_Comments" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id") ON DELETE RESTRICT
+);
+2025-07-17 14:47:20.611 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "Comments" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "BugId" integer NOT NULL,
+    "UserId" text NOT NULL,
+    "Message" text NOT NULL,
+    "CreatedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_Comments" PRIMARY KEY ("Id"),
+    CONSTRAINT "FK_Comments_Bugs_BugId" FOREIGN KEY ("BugId") REFERENCES "Bugs" ("Id") ON DELETE RESTRICT,
+    CONSTRAINT "FK_User_Comments" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id") ON DELETE RESTRICT
+);
+2025-07-17 14:47:20.611 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.612 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.612 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.612 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Bugs_AssignedTo" ON "Bugs" ("AssignedTo");
+2025-07-17 14:47:20.614 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Bugs_AssignedTo" ON "Bugs" ("AssignedTo");
+2025-07-17 14:47:20.614 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.615 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.615 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.615 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Bugs_CreatedBy" ON "Bugs" ("CreatedBy");
+2025-07-17 14:47:20.616 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Bugs_CreatedBy" ON "Bugs" ("CreatedBy");
+2025-07-17 14:47:20.617 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.617 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.617 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.617 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Comments_BugId" ON "Comments" ("BugId");
+2025-07-17 14:47:20.619 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Comments_BugId" ON "Comments" ("BugId");
+2025-07-17 14:47:20.620 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.620 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.620 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.620 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Comments_UserId" ON "Comments" ("UserId");
+2025-07-17 14:47:20.622 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE INDEX "IX_Comments_UserId" ON "Comments" ("UserId");
+2025-07-17 14:47:20.622 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.622 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.622 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.623 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250611143108_initalsetup', '9.0.5');
+2025-07-17 14:47:20.624 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250611143108_initalsetup', '9.0.5');
+2025-07-17 14:47:20.624 +05:30 [INF] Applying migration '20250611203732_Addedcodefiles'.
+2025-07-17 14:47:20.636 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.637 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.637 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.637 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "UploadedFileLogs" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "DeveloperId" text NOT NULL,
+    "FileName" text NOT NULL,
+    "FilePath" text NOT NULL,
+    "UploadedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_UploadedFileLogs" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.642 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "UploadedFileLogs" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "DeveloperId" text NOT NULL,
+    "FileName" text NOT NULL,
+    "FilePath" text NOT NULL,
+    "UploadedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_UploadedFileLogs" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.642 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.642 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.642 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.642 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250611203732_Addedcodefiles', '9.0.5');
+2025-07-17 14:47:20.643 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250611203732_Addedcodefiles', '9.0.5');
+2025-07-17 14:47:20.644 +05:30 [INF] Applying migration '20250612060421_FunctionalitiesUpdates'.
+2025-07-17 14:47:20.662 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.662 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.663 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.663 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "BlacklistedTokens" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "Token" text NOT NULL,
+    "ExpiryDate" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_BlacklistedTokens" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.668 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "BlacklistedTokens" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "Token" text NOT NULL,
+    "ExpiryDate" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_BlacklistedTokens" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.668 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.668 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.668 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.669 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "BugLogs" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "BugId" integer NOT NULL,
+    "Action" text NOT NULL,
+    "PerformedBy" text NOT NULL,
+    "PerformedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_BugLogs" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.672 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "BugLogs" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "BugId" integer NOT NULL,
+    "Action" text NOT NULL,
+    "PerformedBy" text NOT NULL,
+    "PerformedAt" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_BugLogs" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.673 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.673 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.673 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.673 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "PasswordResets" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "UserId" text NOT NULL,
+    "Token" text NOT NULL,
+    "Expiry" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_PasswordResets" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.678 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE "PasswordResets" (
+    "Id" integer GENERATED BY DEFAULT AS IDENTITY,
+    "UserId" text NOT NULL,
+    "Token" text NOT NULL,
+    "Expiry" timestamp with time zone NOT NULL,
+    CONSTRAINT "PK_PasswordResets" PRIMARY KEY ("Id")
+);
+2025-07-17 14:47:20.678 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.678 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.679 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.679 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250612060421_FunctionalitiesUpdates', '9.0.5');
+2025-07-17 14:47:20.679 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250612060421_FunctionalitiesUpdates', '9.0.5');
+2025-07-17 14:47:20.680 +05:30 [INF] Applying migration '20250612184640_UpdatedFunctionalities'.
+2025-07-17 14:47:20.697 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.698 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.698 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.698 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Bugs" DROP CONSTRAINT "FK_Bugs_Developers_AssignedTo";
+2025-07-17 14:47:20.700 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Bugs" DROP CONSTRAINT "FK_Bugs_Developers_AssignedTo";
+2025-07-17 14:47:20.700 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.700 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.700 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.701 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Bugs" DROP CONSTRAINT "FK_Bugs_Testers_CreatedBy";
+2025-07-17 14:47:20.701 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Bugs" DROP CONSTRAINT "FK_Bugs_Testers_CreatedBy";
+2025-07-17 14:47:20.702 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.702 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.702 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.702 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Testers" DROP COLUMN "Number";
+2025-07-17 14:47:20.703 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Testers" DROP COLUMN "Number";
+2025-07-17 14:47:20.704 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.704 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.704 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.705 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Developers" DROP COLUMN "Number";
+2025-07-17 14:47:20.706 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Developers" DROP COLUMN "Number";
+2025-07-17 14:47:20.706 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.706 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.706 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.707 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Admins" DROP COLUMN "Number";
+2025-07-17 14:47:20.708 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Admins" DROP COLUMN "Number";
+2025-07-17 14:47:20.708 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.708 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.708 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.708 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Testers" ADD "IsDeleted" boolean NOT NULL DEFAULT FALSE;
+2025-07-17 14:47:20.725 +05:30 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Testers" ADD "IsDeleted" boolean NOT NULL DEFAULT FALSE;
+2025-07-17 14:47:20.725 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.725 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.726 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.726 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Developers" ADD "IsDeleted" boolean NOT NULL DEFAULT FALSE;
+2025-07-17 14:47:20.727 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Developers" ADD "IsDeleted" boolean NOT NULL DEFAULT FALSE;
+2025-07-17 14:47:20.727 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.727 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.728 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.728 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Bugs" ADD CONSTRAINT "FK_Bugs_Developers_AssignedTo" FOREIGN KEY ("AssignedTo") REFERENCES "Developers" ("Id") ON DELETE RESTRICT;
+2025-07-17 14:47:20.732 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Bugs" ADD CONSTRAINT "FK_Bugs_Developers_AssignedTo" FOREIGN KEY ("AssignedTo") REFERENCES "Developers" ("Id") ON DELETE RESTRICT;
+2025-07-17 14:47:20.733 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.733 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.733 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.734 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Bugs" ADD CONSTRAINT "FK_Bugs_Testers_CreatedBy" FOREIGN KEY ("CreatedBy") REFERENCES "Testers" ("Id") ON DELETE RESTRICT;
+2025-07-17 14:47:20.736 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+ALTER TABLE "Bugs" ADD CONSTRAINT "FK_Bugs_Testers_CreatedBy" FOREIGN KEY ("CreatedBy") REFERENCES "Testers" ("Id") ON DELETE RESTRICT;
+2025-07-17 14:47:20.736 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.736 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.737 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.737 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250612184640_UpdatedFunctionalities', '9.0.5');
+2025-07-17 14:47:20.738 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250612184640_UpdatedFunctionalities', '9.0.5');
+2025-07-17 14:47:20.739 +05:30 [INF] Applying migration '20250615181322_AddedDTO'.
+2025-07-17 14:47:20.758 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.758 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.758 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.758 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250615181322_AddedDTO', '9.0.5');
+2025-07-17 14:47:20.759 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250615181322_AddedDTO', '9.0.5');
+2025-07-17 14:47:20.759 +05:30 [INF] Applying migration '20250615183319_UpdatedPasswordReset'.
+2025-07-17 14:47:20.772 +05:30 [DBG] Creating DbCommand for 'ExecuteNonQuery'.
+2025-07-17 14:47:20.772 +05:30 [DBG] Created DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.772 +05:30 [DBG] Initialized DbCommand for 'ExecuteNonQuery' (0ms).
+2025-07-17 14:47:20.773 +05:30 [DBG] Executing DbCommand [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250615183319_UpdatedPasswordReset', '9.0.5');
+2025-07-17 14:47:20.773 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20250615183319_UpdatedPasswordReset', '9.0.5');
+2025-07-17 14:47:20.775 +05:30 [DBG] Committing transaction.
+2025-07-17 14:47:20.779 +05:30 [DBG] Committed transaction.
+2025-07-17 14:47:20.781 +05:30 [DBG] Disposing transaction.
+2025-07-17 14:47:20.782 +05:30 [DBG] Closing connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.784 +05:30 [DBG] Closed connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432' (2ms).
+2025-07-17 14:47:20.792 +05:30 [DBG] 'BugContext' disposed.
+2025-07-17 14:47:20.794 +05:30 [DBG] Disposing connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432'.
+2025-07-17 14:47:20.794 +05:30 [DBG] Disposed connection to database 'BugTrackingSystem' on server 'tcp://localhost:5432' (0ms).
+2025-07-17 14:51:12.415 +05:30 [DBG] Registered SignalR Protocol: json, implemented by Microsoft.AspNetCore.SignalR.Protocol.JsonHubProtocol.
+2025-07-17 14:51:12.583 +05:30 [DBG] Registered model binder providers, in the following order: ["Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BinderTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ServicesModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.BodyModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.HeaderModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FloatingPointTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.EnumTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DateTimeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.SimpleTypeModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.TryParseModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CancellationTokenModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ByteArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormFileModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.FormCollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.KeyValuePairModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.DictionaryModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ArrayModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.CollectionModelBinderProvider","Microsoft.AspNetCore.Mvc.ModelBinding.Binders.ComplexObjectModelBinderProvider"]
+2025-07-17 14:51:12.652 +05:30 [DBG] Hosting starting
+2025-07-17 14:51:12.661 +05:30 [INF] User profile is available. Using '/Users/presidio/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2025-07-17 14:51:12.676 +05:30 [DBG] Reading data from file '/Users/presidio/.aspnet/DataProtection-Keys/key-7e8375af-5640-4d4f-8c35-d86163441506.xml'.
+2025-07-17 14:51:12.687 +05:30 [DBG] Found key {7e8375af-5640-4d4f-8c35-d86163441506}.
+2025-07-17 14:51:12.699 +05:30 [DBG] Considering key {7e8375af-5640-4d4f-8c35-d86163441506} with expiration date 2025-08-31 10:52:54Z as default key.
+2025-07-17 14:51:12.702 +05:30 [DBG] Forwarded activator type request from Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60 to Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel.AuthenticatedEncryptorDescriptorDeserializer, Microsoft.AspNetCore.DataProtection, Culture=neutral, PublicKeyToken=adb9793829ddae60
+2025-07-17 14:51:12.707 +05:30 [DBG] Using managed symmetric algorithm 'System.Security.Cryptography.Aes'.
+2025-07-17 14:51:12.707 +05:30 [DBG] Using managed keyed hash algorithm 'System.Security.Cryptography.HMACSHA256'.
+2025-07-17 14:51:12.715 +05:30 [DBG] Using key {7e8375af-5640-4d4f-8c35-d86163441506} as the default key.
+2025-07-17 14:51:12.716 +05:30 [DBG] Key ring with default key {7e8375af-5640-4d4f-8c35-d86163441506} was loaded during application startup.
+2025-07-17 14:51:12.803 +05:30 [INF] Now listening on: http://localhost:5088
+2025-07-17 14:51:12.803 +05:30 [DBG] Loaded hosting startup assembly bts
+2025-07-17 14:51:12.803 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2025-07-17 14:51:12.803 +05:30 [INF] Hosting environment: Development
+2025-07-17 14:51:12.804 +05:30 [INF] Content root path: /Users/presidio/Desktop/GenSpark_Training/Bug Tracking System/bts
+2025-07-17 14:51:12.807 +05:30 [DBG] Hosting started
+2025-07-17 14:51:32.656 +05:30 [DBG] Connection id "0HNE52D8VAECP" accepted.
+2025-07-17 14:51:32.658 +05:30 [DBG] Connection id "0HNE52D8VAECP" started.
+2025-07-17 14:51:32.659 +05:30 [DBG] Connection id "0HNE52D8VAECQ" accepted.
+2025-07-17 14:51:32.659 +05:30 [DBG] Connection id "0HNE52D8VAECQ" started.
+2025-07-17 14:51:32.741 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5088/ - null null
+2025-07-17 14:51:32.748 +05:30 [DBG] Wildcard detected, all requests with hosts will be allowed.
+2025-07-17 14:51:32.787 +05:30 [DBG] No candidates found for the request path '/'
+2025-07-17 14:51:32.788 +05:30 [DBG] Request did not match any endpoints
+2025-07-17 14:51:32.815 +05:30 [DBG] The request path  does not match the path filter
+2025-07-17 14:51:32.816 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-07-17 14:51:32.974 +05:30 [DBG] An 'IServiceProvider' was created for internal use by Entity Framework.
+2025-07-17 14:51:33.006 +05:30 [DBG] The request path / does not match a supported file type
+2025-07-17 14:51:33.045 +05:30 [DBG] AuthenticationScheme: Bearer was not authenticated.
+2025-07-17 14:51:33.070 +05:30 [DBG] Connection id "0HNE52D8VAECP" completed keep alive response.
+2025-07-17 14:51:33.074 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5088/ - 404 0 null 337.0177ms
+2025-07-17 14:51:33.080 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5088/, Response status code: 404
+2025-07-17 14:51:42.626 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5088/swagger - null null
+2025-07-17 14:51:42.628 +05:30 [DBG] No candidates found for the request path '/swagger'
+2025-07-17 14:51:42.629 +05:30 [DBG] Request did not match any endpoints
+2025-07-17 14:51:42.633 +05:30 [DBG] Connection id "0HNE52D8VAECP" completed keep alive response.
+2025-07-17 14:51:42.634 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5088/swagger - 301 0 null 7.0214ms
+2025-07-17 14:51:42.639 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5088/swagger/index.html - null null
+2025-07-17 14:51:42.640 +05:30 [DBG] No candidates found for the request path '/swagger/index.html'
+2025-07-17 14:51:42.640 +05:30 [DBG] Request did not match any endpoints
+2025-07-17 14:51:42.745 +05:30 [DBG] Connection id "0HNE52D8VAECP" completed keep alive response.
+2025-07-17 14:51:42.745 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5088/swagger/index.html - 200 null text/html;charset=utf-8 106.2143ms
+2025-07-17 14:51:42.773 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - null null
+2025-07-17 14:51:42.775 +05:30 [DBG] No candidates found for the request path '/swagger/swagger-ui.css'
+2025-07-17 14:51:42.775 +05:30 [DBG] Request did not match any endpoints
+2025-07-17 14:51:42.783 +05:30 [DBG] Connection id "0HNE52D8VAECR" accepted.
+2025-07-17 14:51:42.783 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - null null
+2025-07-17 14:51:42.783 +05:30 [DBG] Connection id "0HNE52D8VAECR" started.
+2025-07-17 14:51:42.783 +05:30 [DBG] No candidates found for the request path '/swagger/swagger-ui-bundle.js'
+2025-07-17 14:51:42.784 +05:30 [DBG] Request did not match any endpoints
+2025-07-17 14:51:42.784 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - null null
+2025-07-17 14:51:42.784 +05:30 [DBG] No candidates found for the request path '/swagger/swagger-ui-standalone-preset.js'
+2025-07-17 14:51:42.784 +05:30 [DBG] Request did not match any endpoints
+2025-07-17 14:51:42.812 +05:30 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2025-07-17 14:51:42.813 +05:30 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2025-07-17 14:51:42.817 +05:30 [DBG] Connection id "0HNE52D8VAECP" completed keep alive response.
+2025-07-17 14:51:42.817 +05:30 [DBG] Connection id "0HNE52D8VAECR" completed keep alive response.
+2025-07-17 14:51:42.817 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui.css - 200 152034 text/css 44.3467ms
+2025-07-17 14:51:42.817 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-standalone-preset.js - 200 230280 text/javascript 33.4503ms
+2025-07-17 14:51:42.820 +05:30 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2025-07-17 14:51:42.820 +05:30 [DBG] Connection id "0HNE52D8VAECQ" completed keep alive response.
+2025-07-17 14:51:42.821 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5088/swagger/swagger-ui-bundle.js - 200 1456926 text/javascript 37.8991ms
+2025-07-17 14:51:43.040 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - null null
+2025-07-17 14:51:43.040 +05:30 [DBG] No candidates found for the request path '/swagger/v1/swagger.json'
+2025-07-17 14:51:43.040 +05:30 [DBG] Request did not match any endpoints
+2025-07-17 14:51:43.064 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - null null
+2025-07-17 14:51:43.065 +05:30 [DBG] No candidates found for the request path '/swagger/favicon-32x32.png'
+2025-07-17 14:51:43.065 +05:30 [DBG] Request did not match any endpoints
+2025-07-17 14:51:43.065 +05:30 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2025-07-17 14:51:43.065 +05:30 [DBG] Connection id "0HNE52D8VAECP" completed keep alive response.
+2025-07-17 14:51:43.065 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5088/swagger/favicon-32x32.png - 200 628 image/png 1.0009ms
+2025-07-17 14:51:43.267 +05:30 [DBG] Connection id "0HNE52D8VAECQ" completed keep alive response.
+2025-07-17 14:51:43.271 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5088/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 231.1617ms
+2025-07-17 14:53:53.920 +05:30 [DBG] Connection id "0HNE52D8VAECQ" disconnecting.
+2025-07-17 14:53:53.920 +05:30 [DBG] Connection id "0HNE52D8VAECR" disconnecting.
+2025-07-17 14:53:53.920 +05:30 [DBG] Connection id "0HNE52D8VAECP" disconnecting.
+2025-07-17 14:53:53.923 +05:30 [DBG] Connection id "0HNE52D8VAECQ" stopped.
+2025-07-17 14:53:53.923 +05:30 [DBG] Connection id "0HNE52D8VAECP" stopped.
+2025-07-17 14:53:53.923 +05:30 [DBG] Connection id "0HNE52D8VAECR" stopped.
+2025-07-17 14:53:53.927 +05:30 [DBG] Connection id "0HNE52D8VAECR" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-17 14:53:53.927 +05:30 [DBG] Connection id "0HNE52D8VAECQ" sending FIN because: "The Socket transport's send loop completed gracefully."
+2025-07-17 14:53:53.927 +05:30 [DBG] Connection id "0HNE52D8VAECP" sending FIN because: "The Socket transport's send loop completed gracefully."
