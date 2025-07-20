@@ -59,6 +59,20 @@ namespace Bts.Services
                 _logger.LogWarning("User {UserId} is not authorized to create bugs in CreateBugAsync", user.Id);
                 throw new Exception("User is not authorized to create bugs.");
             }
+
+            // parentBugs availablity check condition
+            if (dto.parentBugs != null && dto.parentBugs.Any())
+            {
+                foreach (var parentBug in dto.parentBugs)
+                {
+                    var existingBug = await _context.Bugs.FirstOrDefaultAsync(b => b.Id == parentBug);
+                    if (existingBug == null)
+                    {
+                        _logger.LogWarning($"parent bugs {parentBug}are valid");
+                        throw new Exception("Some parent bugs are valid");
+                    }
+                }
+            }
             var bug = new Bug
             {
                 Title = dto.Title,
@@ -72,6 +86,23 @@ namespace Bts.Services
             };
             _context.Bugs.Add(bug);
             await _context.SaveChangesAsync();
+
+            // bugDependency insertion
+            if (dto.parentBugs != null && dto.parentBugs.Any())
+            {
+                foreach (var parentBug in dto.parentBugs)
+                {
+                    var dep = new BugDependency
+                    {
+                        ParentBugId = parentBug,
+                        ChildBugId = bug.Id
+                    };
+                    _context.BugDependencies.Add(dep);
+                }
+                await _context.SaveChangesAsync();
+            }
+
+            // await _context.SaveChangesAsync();
             //buglog
             //tobuglog
             await _bugLogService.LogEventAsync(bug.Id, "Bug Created : New", _currentUserService.Id);

@@ -18,5 +18,7 @@ namespace Bts.Models.DTO
         public BugPriority Priority { get; set; }
 
         public string? ScreenshotUrl { get; set; } = null;
+
+        public ICollection<int>? parentBugs { get; set; }
     }
 }

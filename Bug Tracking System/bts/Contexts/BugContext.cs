@@ -21,6 +21,7 @@ namespace Bts.Contexts
 
         public DbSet<BugLog> BugLogs { get; set; } = null!;
         public DbSet<PasswordReset> PasswordResets { get; set; } = null!;
+        public DbSet<BugDependency> BugDependencies { get; set; } = null!;
 
 
 
@@ -35,8 +36,8 @@ namespace Bts.Contexts
             modelBuilder.Entity<UploadedFileLog>().HasKey(up => up.Id);
             modelBuilder.Entity<PasswordReset>().HasKey(p => p.Id);
 
-           modelBuilder.Entity<Developer>().HasQueryFilter(d => !d.IsDeleted);
-           modelBuilder.Entity<Tester>().HasQueryFilter(t => !t.IsDeleted);
+            modelBuilder.Entity<Developer>().HasQueryFilter(d => !d.IsDeleted);
+            modelBuilder.Entity<Tester>().HasQueryFilter(t => !t.IsDeleted);
 
 
 
@@ -45,14 +46,14 @@ namespace Bts.Contexts
                 .HasOne(b => b.CreatedByTester)
                 .WithMany(t => t.Bugs)
                 .HasForeignKey(b => b.CreatedBy)
-                .OnDelete(DeleteBehavior.Restrict) 
-                .IsRequired(false);  
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
             modelBuilder.Entity<Bug>()
                 .HasOne(b => b.AssignedToDeveloper)
                 .WithMany(d => d.Bugs)
                 .HasForeignKey(b => b.AssignedTo)
-                .OnDelete(DeleteBehavior.Restrict) 
-                .IsRequired(false);  
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
 
             // USER (1-to-1s)
             modelBuilder.Entity<Admin>()
@@ -100,6 +101,23 @@ namespace Bts.Contexts
                 .Entity<Bug>()
                 .Property(b => b.Status)
                 .HasConversion<string>();
-        }
+
+            modelBuilder.Entity<BugDependency>()
+                .HasKey(bd => new { bd.ParentBugId, bd.ChildBugId });
+
+            modelBuilder.Entity<BugDependency>()
+                .HasOne(bd => bd.ParentBug)
+                .WithMany(b => b.BlockingBugs)
+                .HasForeignKey(bd => bd.ParentBugId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade
+
+            modelBuilder.Entity<BugDependency>()
+                .HasOne(bd => bd.ChildBug)
+                .WithMany(b => b.BlockedByBugs)
+                .HasForeignKey(bd => bd.ChildBugId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade
+                }
     }
 }
+
+// Allow bugs to be marked as "dependent" on other bugs, preventing resolution until the parent bug is fixed.

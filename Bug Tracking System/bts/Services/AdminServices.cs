@@ -240,21 +240,28 @@ namespace Bts.Services
                 throw new Exception($"Failed to add tester {ex.Message}");
             }
         }
-
+        bool isAssignedAsync(BugDependency bugDependency)
+        { 
+            var parentBug =  _context.Bugs.FirstOrDefault(b => b.Id ==  bugDependency.ParentBugId);
+            if (parentBug.AssignedTo == null)
+            {
+                return true;
+            }
+            return false;
+        }
         public async Task<bool> AssignBugToDeveloperAsync(int bugId, string developerId)
         {
-            var bug = await _context.Bugs.FindAsync(bugId);
+            var bug = await _context.Bugs.Include(b => b.BlockedByBugs).FirstOrDefaultAsync(b => b.Id == bugId);
             if (bug == null) return false;
-            // var isBusy = await _context.Bugs
-            //     .AnyAsync(b => b.AssignedTo == developerId &&
-            //        b.Status != BugStatus.Closed &&
-            //        !b.IsDeleted);
 
-            var activeBugs = await _context.Bugs.CountAsync(b=> b.AssignedTo == developerId && b.Status != BugStatus.Closed &&
+            // activeBugs condition, only one high priority bug condtion and child bug allocation before parent condition
+            var activeBugs = await _context.Bugs.CountAsync(b => b.AssignedTo == developerId && b.Status != BugStatus.Closed &&
                    !b.IsDeleted);
             var hadActiveHighPriorityBug = await _context.Bugs.AnyAsync(b => b.AssignedTo == developerId && b.Priority == BugPriority.High && b.Status != BugStatus.Closed &&
                    !b.IsDeleted);
-            if (activeBugs > 3 || (bug.Priority == BugPriority.High && hadActiveHighPriorityBug == true))
+            var parentsNotGetAssigned = bug.BlockedByBugs.Any( isAssignedAsync);
+
+            if (activeBugs >= 3 || parentsNotGetAssigned || (bug.Priority == BugPriority.High && hadActiveHighPriorityBug == true))
                 return false;
 
             bug.AssignedTo = developerId;
@@ -290,8 +297,22 @@ namespace Bts.Services
 
         public async Task<bool> CloseBugAsync(int bugId)
         {
-            var bug = await _context.Bugs.FindAsync(bugId);
+            var bug = await _context.Bugs.Include(b=> b.BlockedByBugs).FirstOrDefaultAsync(b=> b.Id == bugId);
             if (bug == null) return false;
+
+            // restrict the bug resolvation before its parent
+            if (bug.BlockedByBugs.Any())
+            {
+                foreach (var parentBug in bug.BlockedByBugs)
+                {
+                    var existingParentBug = await _context.Bugs.FirstOrDefaultAsync(b => b.Id == parentBug.ParentBugId);
+                    if (existingParentBug?.Status != BugStatus.Closed && existingParentBug?.IsDeleted != true)
+                    {
+                        _logger.LogWarning($"Cannot close the bug {bug.Id} before its parent!");
+                        throw new Exception("Cannot close the bug before its parent!");
+                    }
+                }
+            }
 
             bug.Status = BugStatus.Closed;
             bug.UpdatedAt = DateTime.UtcNow;

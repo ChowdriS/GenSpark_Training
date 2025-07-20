@@ -116,7 +116,7 @@ namespace Bts.Controllers
                 if (!result)
                 {
                     _logger.LogWarning("Bug not found for assignment: {BugId}", bugId);
-                    return NotFound("Bug not found");
+                    return NotFound("Assigning bug got cancelled");
                 }
                 await _hubContext.Clients.Group("DEVELOPER")
                     .SendAsync("ReceiveMessage", $"Admin has assigned a New bug to {developerId}, Bug ID: {bugId}");
@@ -148,7 +148,7 @@ namespace Bts.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while closing bug.");
-                return StatusCode(500, new { error = "Internal server error, please try again later." });
+                return StatusCode(500, new { error = ex.Message });
             }
         }
 

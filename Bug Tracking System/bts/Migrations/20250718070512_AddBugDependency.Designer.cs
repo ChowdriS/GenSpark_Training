@@ -3,6 +3,7 @@ using System;
 using Bts.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace bts.Migrations
 {
     [DbContext(typeof(BugContext))]
-    partial class BugContextModelSnapshot : ModelSnapshot
+    [Migration("20250718070512_AddBugDependency")]
+    partial class AddBugDependency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,21 +120,6 @@ namespace bts.Migrations
                     b.HasIndex("CreatedBy");
 
                     b.ToTable("Bugs");
-                });
-
-            modelBuilder.Entity("Bts.Models.BugDependency", b =>
-                {
-                    b.Property<int>("ParentBugId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ChildBugId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ParentBugId", "ChildBugId");
-
-                    b.HasIndex("ChildBugId");
-
-                    b.ToTable("BugDependencies");
                 });
 
             modelBuilder.Entity("Bts.Models.BugLog", b =>
@@ -318,6 +306,21 @@ namespace bts.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("bts.Models.BugDependency", b =>
+                {
+                    b.Property<int>("ParentBugId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChildBugId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ParentBugId", "ChildBugId");
+
+                    b.HasIndex("ChildBugId");
+
+                    b.ToTable("BugDependency");
+                });
+
             modelBuilder.Entity("Bts.Models.Admin", b =>
                 {
                     b.HasOne("Bts.Models.User", "User")
@@ -345,25 +348,6 @@ namespace bts.Migrations
                     b.Navigation("AssignedToDeveloper");
 
                     b.Navigation("CreatedByTester");
-                });
-
-            modelBuilder.Entity("Bts.Models.BugDependency", b =>
-                {
-                    b.HasOne("Bts.Models.Bug", "ChildBug")
-                        .WithMany("BlockedByBugs")
-                        .HasForeignKey("ChildBugId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Bts.Models.Bug", "ParentBug")
-                        .WithMany("BlockingBugs")
-                        .HasForeignKey("ParentBugId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("ChildBug");
-
-                    b.Navigation("ParentBug");
                 });
 
             modelBuilder.Entity("Bts.Models.Comment", b =>
@@ -408,6 +392,25 @@ namespace bts.Migrations
                         .HasConstraintName("FK_User_Tester");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("bts.Models.BugDependency", b =>
+                {
+                    b.HasOne("Bts.Models.Bug", "ChildBug")
+                        .WithMany("BlockedByBugs")
+                        .HasForeignKey("ChildBugId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Bts.Models.Bug", "ParentBug")
+                        .WithMany("BlockingBugs")
+                        .HasForeignKey("ParentBugId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ChildBug");
+
+                    b.Navigation("ParentBug");
                 });
 
             modelBuilder.Entity("Bts.Models.Bug", b =>
