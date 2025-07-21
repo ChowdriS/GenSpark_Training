@@ -1,0 +1,19 @@
+<div class="navbar">
+    <h1>StreamApp</h1>
+    <button [routerLink]="['/home']">Home</button>
+</div>
+<form [formGroup]="videoForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="title">Title</label>
+    <input id="title" type="text" formControlName="title" />
+  </div>
+  <div>
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+  <div>
+    <label for="videoFile">Video File</label>
+    <input id="videoFile" type="file" (change)="onFileChange($event)" accept="video/mp4,video/*" />
+  </div>
+  <button type="submit" [disabled]="videoForm.invalid">Upload Video</button>
+</form>

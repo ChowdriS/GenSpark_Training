@@ -1,0 +1,15 @@
+<div class="navbar">
+    <h1>StreamApp</h1>
+    <button [routerLink]="['/upload']">Upload Video</button>
+</div>
+<div class="video-container">
+  @for(video of videos(); track video.id){
+    <div class="video-card">
+      <p>{{video.title}}</p>
+      <p>{{video.description}}</p>
+      <video width="100%" controls>
+        <source [src]="video.blobUrl" type="video/mp4">
+      </video>
+    </div>
+  }
+</div>
