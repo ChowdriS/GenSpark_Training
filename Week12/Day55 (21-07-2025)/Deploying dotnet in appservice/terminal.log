@@ -1,0 +1,324 @@
+presidio@Presidios-MacBook-Pro EventBookingApi % dotnet restore
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+presidio@Presidios-MacBook-Pro EventBookingApi % dotnet publish -c Release -o publish
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/UserRepository.cs(16,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/TicketTypeRepository.cs(14,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Service/EncryptionService.cs(11,42): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/TicketRepository.cs(14,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/BookedSeatRepository.cs(15,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/PaymentRepository.cs(14,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+  EventBookingApi -> /Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/bin/Release/net8.0/EventBookingApi.dll
+  EventBookingApi -> /Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/publish/
+presidio@Presidios-MacBook-Pro EventBookingApi % cd publish 
+presidio@Presidios-MacBook-Pro publish % zip -r ../eventapp.zip .
+  adding: Azure.Storage.Common.dll (deflated 52%)
+  adding: EventBookingApi.pdb (deflated 55%)
+  adding: Microsoft.IdentityModel.Logging.dll (deflated 53%)
+  adding: BCrypt.Net-Next.dll (deflated 42%)
+  adding: System.Diagnostics.DiagnosticSource.dll (deflated 56%)
+  adding: System.Security.Permissions.dll (deflated 57%)
+  adding: Npgsql.EntityFrameworkCore.PostgreSQL.dll (deflated 64%)
+  adding: Microsoft.EntityFrameworkCore.dll (deflated 68%)
+  adding: Serilog.Settings.Configuration.dll (deflated 59%)
+  adding: Microsoft.Extensions.Hosting.Abstractions.dll (deflated 58%)
+  adding: Microsoft.Extensions.Logging.dll (deflated 49%)
+  adding: wwwroot/ (stored 0%)
+  adding: wwwroot/uploads/ (stored 0%)
+  adding: wwwroot/uploads/events/ (stored 0%)
+  adding: wwwroot/uploads/events/2645011f-7403-41e7-8345-e55099cb14bd.jpg (deflated 1%)
+  adding: wwwroot/uploads/events/5a445565-e6b4-496a-a519-721cb5618e02.webp (deflated 0%)
+  adding: Serilog.dll (deflated 58%)
+  adding: System.ClientModel.dll (deflated 54%)
+  adding: SixLabors.ImageSharp.dll (deflated 66%)
+  adding: Microsoft.EntityFrameworkCore.Abstractions.dll (deflated 48%)
+  adding: Microsoft.Extensions.Logging.Abstractions.dll (deflated 53%)
+  adding: Azure.Core.dll (deflated 58%)
+  adding: Microsoft.IdentityModel.Protocols.OpenIdConnect.dll (deflated 65%)
+  adding: Serilog.Sinks.AzureBlobStorage.dll (deflated 57%)
+  adding: Azure.Identity.dll (deflated 62%)
+  adding: EventBookingApi.dll (deflated 65%)
+  adding: web.config (deflated 39%)
+  adding: Microsoft.IdentityModel.Protocols.dll (deflated 51%)
+  adding: Microsoft.Extensions.DependencyModel.dll (deflated 54%)
+  adding: System.Text.Encodings.Web.dll (deflated 56%)
+  adding: System.Text.Json.dll (deflated 64%)
+  adding: Microsoft.Extensions.Primitives.dll (deflated 50%)
+  adding: runtimes/ (stored 0%)
+  adding: runtimes/win/ (stored 0%)
+  adding: runtimes/win/lib/ (stored 0%)
+  adding: runtimes/win/lib/netstandard2.0/ (stored 0%)
+  adding: runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll (deflated 45%)
+  adding: runtimes/browser/ (stored 0%)
+  adding: runtimes/browser/lib/ (stored 0%)
+  adding: runtimes/browser/lib/net8.0/ (stored 0%)
+  adding: runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll (deflated 56%)
+  adding: Npgsql.dll (deflated 66%)
+  adding: Microsoft.OpenApi.dll (deflated 60%)
+  adding: appsettings.json (deflated 48%)
+  adding: Serilog.Sinks.Debug.dll (deflated 55%)
+  adding: Microsoft.Extensions.DependencyInjection.dll (deflated 54%)
+  adding: Microsoft.EntityFrameworkCore.Relational.dll (deflated 67%)
+  adding: Serilog.Sinks.Console.dll (deflated 58%)
+  adding: Serilog.Sinks.File.dll (deflated 55%)
+  adding: Azure.Storage.Blobs.dll (deflated 67%)
+  adding: Microsoft.Extensions.Configuration.Abstractions.dll (deflated 46%)
+  adding: ICSharpCode.SharpZipLib.dll (deflated 58%)
+  adding: Microsoft.Extensions.Options.dll (deflated 53%)
+  adding: System.IO.Hashing.dll (deflated 47%)
+  adding: Microsoft.AspNetCore.OpenApi.dll (deflated 51%)
+  adding: PdfSharpCore.dll (deflated 58%)
+  adding: Serilog.Extensions.Logging.dll (deflated 52%)
+  adding: Microsoft.Extensions.Configuration.Binder.dll (deflated 51%)
+  adding: Swashbuckle.AspNetCore.SwaggerUI.dll (deflated 73%)
+  adding: Microsoft.AspNetCore.Authentication.JwtBearer.dll (deflated 52%)
+  adding: Serilog.Formatting.Compact.dll (deflated 53%)
+  adding: EventBookingApi.deps.json (deflated 81%)
+  adding: EventBookingApi (deflated 77%)
+  adding: log4net.dll (deflated 61%)
+  adding: Swashbuckle.AspNetCore.SwaggerGen.dll (deflated 58%)
+  adding: Microsoft.IdentityModel.JsonWebTokens.dll (deflated 63%)
+  adding: Microsoft.IdentityModel.Abstractions.dll (deflated 43%)
+  adding: Microsoft.Identity.Client.dll (deflated 67%)
+  adding: System.Memory.Data.dll (deflated 45%)
+  adding: EventBookingApi.runtimeconfig.json (deflated 52%)
+  adding: System.IO.Pipelines.dll (deflated 51%)
+  adding: System.Security.Cryptography.ProtectedData.dll (deflated 44%)
+  adding: Microsoft.Extensions.FileProviders.Abstractions.dll (deflated 45%)
+  adding: Microsoft.Extensions.Caching.Memory.dll (deflated 48%)
+  adding: de/ (stored 0%)
+  adding: de/PdfSharpCore.resources.dll (deflated 62%)
+  adding: Serilog.AspNetCore.dll (deflated 55%)
+  adding: System.IdentityModel.Tokens.Jwt.dll (deflated 58%)
+  adding: Microsoft.IdentityModel.Tokens.dll (deflated 67%)
+  adding: appsettings.Development.json (deflated 28%)
+  adding: Microsoft.Extensions.DependencyInjection.Abstractions.dll (deflated 57%)
+  adding: System.Configuration.ConfigurationManager.dll (deflated 60%)
+  adding: Serilog.Extensions.Hosting.dll (deflated 61%)
+  adding: Microsoft.Extensions.Diagnostics.Abstractions.dll (deflated 50%)
+  adding: Microsoft.Identity.Client.Extensions.Msal.dll (deflated 55%)
+  adding: serilog.json (deflated 42%)
+  adding: AutoMapper.dll (deflated 59%)
+  adding: SixLabors.Fonts.dll (deflated 53%)
+  adding: Swashbuckle.AspNetCore.Swagger.dll (deflated 53%)
+  adding: Microsoft.Bcl.AsyncInterfaces.dll (deflated 45%)
+presidio@Presidios-MacBook-Pro publish % cd ..
+presidio@Presidios-MacBook-Pro EventBookingApi % az webapp deployment source config-zip \
+  --resource-group Chowdri-rg \           
+  --name chowdri-webapp \    
+  --src eventapp.zip
+This command has been deprecated and will be removed in a future release. Use 'az webapp deploy' instead.
+Getting scm site credentials for zip deployment
+Starting zip deployment. This operation can take a while to complete ...
+Deployment endpoint responded with status code 202
+Polling the status of async deployment. Start Time: 2025-07-21 04:46:00.868905+00:00 UTC
+{
+  "active": true,
+  "author": "N/A",
+  "author_email": "N/A",
+  "complete": true,
+  "deployer": "ZipDeploy",
+  "end_time": "2025-07-21T04:46:10.7053462Z",
+  "id": "800faa1e38d34b618a5dc95208cf8c4e",
+  "is_readonly": true,
+  "is_temp": false,
+  "last_success_end_time": "2025-07-21T04:46:10.7053462Z",
+  "log_url": "https://chowdri-webapp-cjbyghfzdhc4fmg5.scm.eastus-01.azurewebsites.net/api/deployments/latest/log",
+  "message": "Created via a push deployment",
+  "progress": "",
+  "provisioningState": "Succeeded",
+  "received_time": "2025-07-21T04:46:03.4247835Z",
+  "site_name": "chowdri-webapp",
+  "start_time": "2025-07-21T04:46:03.6461164Z",
+  "status": 4,
+  "status_text": "",
+  "url": "https://chowdri-webapp-cjbyghfzdhc4fmg5.scm.eastus-01.azurewebsites.net/api/deployments/latest"
+}
+presidio@Presidios-MacBook-Pro EventBookingApi % dotnet publish -c Release -o publish                                                                     
+az webapp deployment source config-zip \
+  --resource-group Chowdri-rg \
+  --name chowdri-webapp \
+  --src eventapp.zip;
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/BookedSeatRepository.cs(15,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/UserRepository.cs(16,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/TicketTypeRepository.cs(14,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/PaymentRepository.cs(14,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Service/EncryptionService.cs(11,42): warning CS1998: This async method lacks 'await' operators and will run synchronously. Consider using the 'await' operator to await non-blocking API calls, or 'await Task.Run(...)' to do CPU-bound work on a background thread. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/Repository/TicketRepository.cs(14,16): warning CS8603: Possible null reference return. [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+  EventBookingApi -> /Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/bin/Release/net8.0/EventBookingApi.dll
+  EventBookingApi -> /Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/publish/
+the following arguments are required: --src
+
+Examples from AI knowledge base:
+az webapp deployment source config-zip --resource-group {myRG} --name {myAppName} --src {zipFilePathLocation}
+Perform deployment by using zip file content.
+
+az webapp deployment source config-zip --name MyWebapp --resource-group MyResourceGroup --slot staging --src {zipFilePathLocation}
+Perform deployment using the kudu zip push deployment for a web app. (autogenerated)
+
+https://docs.microsoft.com/en-US/cli/azure/webapp/deployment/source#az_webapp_deployment_source_config_zip
+Read more about the command in reference docs
+zsh: command not found: --resource-group
+presidio@Presidios-MacBook-Pro EventBookingApi % dotnet publish -c Release -o publish
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  EventBookingApi -> /Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/bin/Release/net8.0/EventBookingApi.dll
+/usr/local/share/dotnet/sdk/8.0.410/Sdks/Microsoft.NET.Sdk/targets/Microsoft.NET.Publish.targets(360,5): warning MSB3026: Could not copy "/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/publish/publish/web.config" to "/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/publish/publish/publish/web.config". Beginning retry 1 in 1000ms. Could not find file '/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/publish/publish/web.config'.  [/Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/EventBookingApi.csproj]
+  EventBookingApi -> /Users/presidio/Desktop/GenSpark_Training/DotNetWebApi_Project/EventBookingApi/publish/
+presidio@Presidios-MacBook-Pro EventBookingApi % cd publish
+zip -r ../myapp.zip .
+cd ..
+
+  adding: Azure.Storage.Common.dll (deflated 52%)
+  adding: EventBookingApi.pdb (deflated 55%)
+  adding: Microsoft.IdentityModel.Logging.dll (deflated 53%)
+  adding: BCrypt.Net-Next.dll (deflated 42%)
+  adding: System.Diagnostics.DiagnosticSource.dll (deflated 56%)
+  adding: System.Security.Permissions.dll (deflated 57%)
+  adding: Npgsql.EntityFrameworkCore.PostgreSQL.dll (deflated 64%)
+  adding: Microsoft.EntityFrameworkCore.dll (deflated 68%)
+  adding: Serilog.Settings.Configuration.dll (deflated 59%)
+  adding: Microsoft.Extensions.Hosting.Abstractions.dll (deflated 58%)
+  adding: Microsoft.Extensions.Logging.dll (deflated 49%)
+  adding: wwwroot/ (stored 0%)
+  adding: wwwroot/uploads/ (stored 0%)
+  adding: wwwroot/uploads/events/ (stored 0%)
+  adding: wwwroot/uploads/events/2645011f-7403-41e7-8345-e55099cb14bd.jpg (deflated 1%)
+  adding: wwwroot/uploads/events/5a445565-e6b4-496a-a519-721cb5618e02.webp (deflated 0%)
+  adding: Serilog.dll (deflated 58%)
+  adding: System.ClientModel.dll (deflated 54%)
+  adding: SixLabors.ImageSharp.dll (deflated 66%)
+  adding: Microsoft.EntityFrameworkCore.Abstractions.dll (deflated 48%)
+  adding: Microsoft.Extensions.Logging.Abstractions.dll (deflated 53%)
+  adding: Azure.Core.dll (deflated 58%)
+  adding: Microsoft.IdentityModel.Protocols.OpenIdConnect.dll (deflated 65%)
+  adding: Serilog.Sinks.AzureBlobStorage.dll (deflated 57%)
+  adding: Azure.Identity.dll (deflated 62%)
+  adding: EventBookingApi.dll (deflated 65%)
+  adding: web.config (deflated 39%)
+  adding: Microsoft.IdentityModel.Protocols.dll (deflated 51%)
+  adding: Microsoft.Extensions.DependencyModel.dll (deflated 54%)
+  adding: System.Text.Encodings.Web.dll (deflated 56%)
+  adding: System.Text.Json.dll (deflated 64%)
+  adding: Microsoft.Extensions.Primitives.dll (deflated 50%)
+  adding: runtimes/ (stored 0%)
+  adding: runtimes/win/ (stored 0%)
+  adding: runtimes/win/lib/ (stored 0%)
+  adding: runtimes/win/lib/netstandard2.0/ (stored 0%)
+  adding: runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll (deflated 45%)
+  adding: runtimes/browser/ (stored 0%)
+  adding: runtimes/browser/lib/ (stored 0%)
+  adding: runtimes/browser/lib/net8.0/ (stored 0%)
+  adding: runtimes/browser/lib/net8.0/System.Text.Encodings.Web.dll (deflated 56%)
+  adding: Npgsql.dll (deflated 66%)
+  adding: Microsoft.OpenApi.dll (deflated 60%)
+  adding: appsettings.json (deflated 48%)
+  adding: Serilog.Sinks.Debug.dll (deflated 55%)
+  adding: Microsoft.Extensions.DependencyInjection.dll (deflated 54%)
+  adding: Microsoft.EntityFrameworkCore.Relational.dll (deflated 67%)
+  adding: Serilog.Sinks.Console.dll (deflated 58%)
+  adding: Serilog.Sinks.File.dll (deflated 55%)
+  adding: Azure.Storage.Blobs.dll (deflated 67%)
+  adding: Microsoft.Extensions.Configuration.Abstractions.dll (deflated 46%)
+  adding: ICSharpCode.SharpZipLib.dll (deflated 58%)
+  adding: Microsoft.Extensions.Options.dll (deflated 53%)
+  adding: System.IO.Hashing.dll (deflated 47%)
+  adding: Microsoft.AspNetCore.OpenApi.dll (deflated 51%)
+  adding: PdfSharpCore.dll (deflated 58%)
+  adding: Serilog.Extensions.Logging.dll (deflated 52%)
+  adding: Microsoft.Extensions.Configuration.Binder.dll (deflated 51%)
+  adding: Swashbuckle.AspNetCore.SwaggerUI.dll (deflated 73%)
+  adding: Microsoft.AspNetCore.Authentication.JwtBearer.dll (deflated 52%)
+  adding: publish/ (stored 0%)
+  adding: publish/web.config (deflated 39%)
+  adding: publish/appsettings.json (deflated 48%)
+  adding: publish/publish/ (stored 0%)
+  adding: publish/publish/web.config (deflated 39%)
+  adding: publish/publish/appsettings.json (deflated 48%)
+  adding: publish/publish/EventBookingApi.deps.json (deflated 81%)
+  adding: publish/publish/EventBookingApi.runtimeconfig.json (deflated 52%)
+  adding: publish/publish/appsettings.Development.json (deflated 28%)
+  adding: publish/publish/serilog.json (deflated 42%)
+  adding: publish/EventBookingApi.deps.json (deflated 81%)
+  adding: publish/EventBookingApi.runtimeconfig.json (deflated 52%)
+  adding: publish/appsettings.Development.json (deflated 28%)
+  adding: publish/serilog.json (deflated 42%)
+  adding: Serilog.Formatting.Compact.dll (deflated 53%)
+  adding: EventBookingApi.deps.json (deflated 81%)
+  adding: EventBookingApi (deflated 77%)
+  adding: log4net.dll (deflated 61%)
+  adding: Swashbuckle.AspNetCore.SwaggerGen.dll (deflated 58%)
+  adding: Microsoft.IdentityModel.JsonWebTokens.dll (deflated 63%)
+  adding: Microsoft.IdentityModel.Abstractions.dll (deflated 43%)
+  adding: Microsoft.Identity.Client.dll (deflated 67%)
+  adding: System.Memory.Data.dll (deflated 45%)
+  adding: EventBookingApi.runtimeconfig.json (deflated 52%)
+  adding: System.IO.Pipelines.dll (deflated 51%)
+  adding: System.Security.Cryptography.ProtectedData.dll (deflated 44%)
+  adding: Microsoft.Extensions.FileProviders.Abstractions.dll (deflated 45%)
+  adding: Microsoft.Extensions.Caching.Memory.dll (deflated 48%)
+  adding: de/ (stored 0%)
+  adding: de/PdfSharpCore.resources.dll (deflated 62%)
+  adding: Serilog.AspNetCore.dll (deflated 55%)
+  adding: System.IdentityModel.Tokens.Jwt.dll (deflated 58%)
+  adding: Microsoft.IdentityModel.Tokens.dll (deflated 67%)
+  adding: appsettings.Development.json (deflated 28%)
+  adding: Microsoft.Extensions.DependencyInjection.Abstractions.dll (deflated 57%)
+  adding: System.Configuration.ConfigurationManager.dll (deflated 60%)
+  adding: Serilog.Extensions.Hosting.dll (deflated 61%)
+  adding: Microsoft.Extensions.Diagnostics.Abstractions.dll (deflated 50%)
+  adding: Microsoft.Identity.Client.Extensions.Msal.dll (deflated 55%)
+  adding: serilog.json (deflated 42%)
+  adding: AutoMapper.dll (deflated 59%)
+  adding: SixLabors.Fonts.dll (deflated 53%)
+  adding: Swashbuckle.AspNetCore.Swagger.dll (deflated 53%)
+  adding: Microsoft.Bcl.AsyncInterfaces.dll (deflated 45%)
+presidio@Presidios-MacBook-Pro EventBookingApi % az webapp deployment source config-zip \                                                                 
+  --resource-group Chowdri-rg \
+  --name chowdri-webapp \
+  --src myapp.zip;
+the following arguments are required: --src
+
+Examples from AI knowledge base:
+az webapp deployment source config-zip --resource-group {myRG} --name {myAppName} --src {zipFilePathLocation}
+Perform deployment by using zip file content.
+
+az webapp deployment source config-zip --name MyWebapp --resource-group MyResourceGroup --slot staging --src {zipFilePathLocation}
+Perform deployment using the kudu zip push deployment for a web app. (autogenerated)
+
+https://docs.microsoft.com/en-US/cli/azure/webapp/deployment/source#az_webapp_deployment_source_config_zip
+Read more about the command in reference docs
+zsh: command not found: --resource-group
+presidio@Presidios-MacBook-Pro EventBookingApi % az webapp deployment source config-zip --resource-group Chowdri-rg --name chowdri-webapp --src myapp.zip
+This command has been deprecated and will be removed in a future release. Use 'az webapp deploy' instead.
+Getting scm site credentials for zip deployment
+Starting zip deployment. This operation can take a while to complete ...
+Deployment endpoint responded with status code 202
+Polling the status of async deployment. Start Time: 2025-07-21 04:53:13.791491+00:00 UTC
+{
+  "active": true,
+  "author": "N/A",
+  "author_email": "N/A",
+  "complete": true,
+  "deployer": "ZipDeploy",
+  "end_time": "2025-07-21T04:53:22.4564922Z",
+  "id": "c9bdd5fdb54e4a88bd77616e11b954d8",
+  "is_readonly": true,
+  "is_temp": false,
+  "last_success_end_time": "2025-07-21T04:53:22.4564922Z",
+  "log_url": "https://chowdri-webapp-cjbyghfzdhc4fmg5.scm.eastus-01.azurewebsites.net/api/deployments/latest/log",
+  "message": "Created via a push deployment",
+  "progress": "",
+  "provisioningState": "Succeeded",
+  "received_time": "2025-07-21T04:53:15.4473218Z",
+  "site_name": "chowdri-webapp",
+  "start_time": "2025-07-21T04:53:15.6364605Z",
+  "status": 4,
+  "status_text": "",
+  "url": "https://chowdri-webapp-cjbyghfzdhc4fmg5.scm.eastus-01.azurewebsites.net/api/deployments/latest"
+}
+presidio@Presidios-MacBook-Pro EventBookingApi % 
