@@ -172,11 +172,11 @@ app.Lifetime.ApplicationStopping.Register(() =>
     Log.CloseAndFlush();
     Console.WriteLine("Logger flushed on shutdown");
 });
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 #region Logging
 app.Use(async (context, next) =>
