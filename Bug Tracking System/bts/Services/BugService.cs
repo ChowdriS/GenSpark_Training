@@ -10,6 +10,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Logging;
+using bts.Models.DTO;
 namespace Bts.Services
 {
     public class BugService : IBugService
@@ -65,7 +66,7 @@ namespace Bts.Services
             return bugs;
         }
 
-        public async Task<Bug?> GetBugByIdAsync(int id)
+        public async Task<BugResponseDTO?> GetBugByIdAsync(int id)
         {
             var bugExists = await IsBugExists(id);
             if (bugExists)
@@ -73,7 +74,24 @@ namespace Bts.Services
                 var bug = await _context.Bugs
                 .Include(b => b.CreatedByTester)
                 .Include(b => b.AssignedToDeveloper)
-                .FirstOrDefaultAsync(b => b.Id == id && !b.IsDeleted);
+                .Include(b => b.BlockedByBugs)
+                .Where(b => b.Id == id && !b.IsDeleted)
+                .Select(b => new BugResponseDTO
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Description = b.Description,
+                    ScreenshotUrl = b.ScreenshotUrl,
+                    Priority = b.Priority,
+                    Status = b.Status,
+                    CreatedBy = b.CreatedBy,
+                    AssignedTo = b.AssignedTo,
+                    IsDeleted = b.IsDeleted,
+                    CreatedAt = b.CreatedAt,
+                    UpdatedAt = b.UpdatedAt,
+                    ParentBugIds = b.BlockedByBugs.Select(dep => dep.ParentBugId).ToList()
+                })
+                .FirstOrDefaultAsync();
                 _logger.LogInformation("Retrieved bug by ID {BugId}", id);
                 return bug;
             }

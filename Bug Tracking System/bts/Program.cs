@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
 using Serilog;
 using Npgsql.Replication.PgOutput.Messages;
+using bts.Services;
+using bts.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -87,6 +89,7 @@ builder.Services.AddTransient<IBlacklistedTokenRepository, BlacklistedTokenRepos
 
 #region Services
 builder.Services.AddTransient<ITokenService, TokenService>();
+builder.Services.AddTransient<ICodeFileService, CodeFileService>();
 builder.Services.AddTransient<IEncryptionService, EncryptionService>();
 builder.Services.AddTransient<IAdminService, AdminService>();
 builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
@@ -109,7 +112,7 @@ builder.Services.AddRateLimiter(options =>
             partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "global", // Limit by IP
             factory: _ => new FixedWindowRateLimiterOptions
             {
-                PermitLimit = 5,//[Max 100 requests]
+                PermitLimit = 1000,//[Max 100 requests]
                 Window = TimeSpan.FromSeconds(10), // Per seconds
                 QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
                 QueueLimit = 0 //Requests over the limit are rejected immediately

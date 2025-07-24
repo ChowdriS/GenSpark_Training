@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.Extensions.Logging;
+using bts.Models.DTO;
 namespace Bts.Services
 {
     public class TesterService : ITesterService
@@ -190,39 +191,67 @@ namespace Bts.Services
         }
 
         //search : gets bugs created by respective user
-        public async Task<IEnumerable<Bug>> GetMyReportedBugsAsync(string testerId)
+        public async Task<IEnumerable<BugResponseDTO>> GetMyReportedBugsAsync(string testerId)
         {
             var bugs = await _context.Bugs
                 .Where(b => b.CreatedBy == testerId)
+                .Select(b => new BugResponseDTO
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Description = b.Description,
+                    ScreenshotUrl = b.ScreenshotUrl,
+                    Priority = b.Priority,
+                    Status = b.Status,
+                    CreatedBy = b.CreatedBy,
+                    AssignedTo = b.AssignedTo,
+                    IsDeleted = b.IsDeleted,
+                    CreatedAt = b.CreatedAt,
+                    UpdatedAt = b.UpdatedAt,
+                    ParentBugIds = b.BlockedByBugs.Select(dep => dep.ParentBugId).ToList()
+                })
                 .ToListAsync();
+
             _logger.LogInformation("Retrieved reported bugs for tester {TesterId}", testerId);
             return bugs;
         }
 
+
+
+
         public async Task<bool> UpdateBugStatusAsync(int bugId, BugStatus newStatus)
         {
-            var bug = await _context.Bugs.FindAsync(bugId);
+            var bug = await _context.Bugs.Include(b=>b.BlockedByBugs).FirstOrDefaultAsync(b=> b.Id == bugId);
             if (bug == null)
             {
                 _logger.LogWarning("Bug {BugId} not found in UpdateBugStatusAsync", bugId);
                 return false;
             }
-
-            // Only allow Tester-appropriate statuses
-            if (newStatus == BugStatus.Verified ||
-                newStatus == BugStatus.Retesting ||
-                newStatus == BugStatus.Reopened)
+            var isParentBugNotClosed = bug.BlockedByBugs.Any(b =>
             {
-                bug.Status = newStatus;
-                bug.UpdatedAt = DateTime.UtcNow;
+                var parentBug = b.ParentBug;
+                if (parentBug.Status != BugStatus.Closed)
+                {
+                    return true;
+                }
+                return false;
+            });
+            if (newStatus == BugStatus.Verified && isParentBugNotClosed)
+                // Only allow Tester-appropriate statuses
+                if (newStatus == BugStatus.Verified ||
+                    newStatus == BugStatus.Retesting ||
+                    newStatus == BugStatus.Reopened)
+                {
+                    bug.Status = newStatus;
+                    bug.UpdatedAt = DateTime.UtcNow;
 
-                _context.Bugs.Update(bug);
-                await _context.SaveChangesAsync();
-                //buglog
-                await _bugLogService.LogEventAsync(bugId, $"Bug Status changed {newStatus}", _currentUserService.Id);
-                _logger.LogInformation("Updated bug status {NewStatus} for bug {BugId}", newStatus, bugId);
-                return true;
-            }
+                    _context.Bugs.Update(bug);
+                    await _context.SaveChangesAsync();
+                    //buglog
+                    await _bugLogService.LogEventAsync(bugId, $"Bug Status changed {newStatus}", _currentUserService.Id);
+                    _logger.LogInformation("Updated bug status {NewStatus} for bug {BugId}", newStatus, bugId);
+                    return true;
+                }
 
             return false;
         }

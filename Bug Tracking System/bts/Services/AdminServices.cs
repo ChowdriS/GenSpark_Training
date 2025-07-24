@@ -261,8 +261,14 @@ namespace Bts.Services
                    !b.IsDeleted);
             var parentsNotGetAssigned = bug.BlockedByBugs.Any( isAssignedAsync);
 
-            if (activeBugs >= 3 || parentsNotGetAssigned || (bug.Priority == BugPriority.High && hadActiveHighPriorityBug == true))
-                return false;
+            if (activeBugs >= 3 )
+                throw new Exception("Only 3 Active Bugs for a developer!");
+            if (parentsNotGetAssigned)
+                throw new Exception("Parent Bugs are not get Assigned!");
+            if (bug.Priority == BugPriority.High && hadActiveHighPriorityBug == true)
+                throw new Exception("Only One high priority bug can be handled by a developer!");
+
+
 
             bug.AssignedTo = developerId;
             bug.Status = BugStatus.Assigned;
@@ -279,20 +285,37 @@ namespace Bts.Services
 
         public async Task<IEnumerable<Developer>> GetAvailableDevelopersAsync()
         {
-            var activeBugStatuses = new[] { BugStatus.New, BugStatus.Assigned, BugStatus.InProgress, BugStatus.Retesting, BugStatus.Reopened };
-
-            var busyDeveloperIds = await _context.Bugs
-                .Where(b => !b.IsDeleted && b.AssignedTo != null && activeBugStatuses.Contains(b.Status))
-                .Select(b => b.AssignedTo)
-                .Distinct()
+            // Get bug counts per developer
+            var developerBugCounts = await _context.Bugs
+                .Where(b => !b.IsDeleted && b.AssignedTo != null && b.Status != BugStatus.Closed)
+                .GroupBy(b => b.AssignedTo)
+                .Select(g => new
+                {
+                    DeveloperId = g.Key,
+                    BugCount = g.Count()
+                })
                 .ToListAsync();
 
-            var availableDevelopers = await _context.Developers
-                .Where(d => !busyDeveloperIds.Contains(d.Id) && !d.IsDeleted)
+            // Get IDs of developers with less than 3 active bugs
+            var availableDeveloperIds = developerBugCounts
+                .Where(g => g.BugCount < 3)
+                .Select(g => g.DeveloperId)
+                .ToHashSet();
+
+            // Include developers who have no active bugs at all
+            var allDeveloperIdsWithActiveBugs = developerBugCounts.Select(g => g.DeveloperId).ToHashSet();
+
+            var developersWithZeroBugs = await _context.Developers
+                .Where(d => !d.IsDeleted && !allDeveloperIdsWithActiveBugs.Contains(d.Id))
                 .ToListAsync();
 
-            return availableDevelopers;
+            var developersWithLessThanThree = await _context.Developers
+                .Where(d => !d.IsDeleted && availableDeveloperIds.Contains(d.Id))
+                .ToListAsync();
+
+            return developersWithZeroBugs.Concat(developersWithLessThanThree);
         }
+
 
 
         public async Task<bool> CloseBugAsync(int bugId)

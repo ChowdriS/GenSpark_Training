@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Bts.Contexts;
+using bts.Models.DTO;
 
 namespace Bts.Controllers
 {
@@ -128,7 +129,7 @@ namespace Bts.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error while assigning bug.");
-                return StatusCode(500, new { error = "Internal server error, please try again later." });
+                return StatusCode(500, new { error = ex.Message });
             }
         }
 
@@ -280,15 +281,29 @@ namespace Bts.Controllers
 
         [Authorize(Roles = "ADMIN")]
         [HttpGet("all-bugs")]
-        public async Task<IActionResult> GetAllBugs()
+        public async Task<IActionResult> GetAllBugs(int pageSize, int page)
         {
             _logger.LogInformation("GetAllBugs called");
-            var page = 1;
-            var pageSize = 3;
             var uploads = await _context.Bugs
+                .Include(b => b.BlockedByBugs)
                 .OrderByDescending(u => u.CreatedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
+                .Select(b => new BugResponseDTO
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Description = b.Description,
+                    ScreenshotUrl = b.ScreenshotUrl,
+                    Priority = b.Priority,
+                    Status = b.Status,
+                    CreatedBy = b.CreatedBy,
+                    AssignedTo = b.AssignedTo,
+                    IsDeleted = b.IsDeleted,
+                    CreatedAt = b.CreatedAt,
+                    UpdatedAt = b.UpdatedAt,
+                    ParentBugIds = b.BlockedByBugs.Select(dep => dep.ParentBugId).ToList()
+                })
                 .ToListAsync();
 
              _logger.LogInformation("Bugs fetched successfully. Count: {Count}", uploads.Count);

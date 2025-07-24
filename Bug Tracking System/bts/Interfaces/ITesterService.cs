@@ -1,3 +1,4 @@
+using bts.Models.DTO;
 using Bts.Models;
 using Bts.Models.DTO;
 
@@ -12,7 +13,7 @@ namespace Bts.Interfaces
         // Task<Bug> UpdateBugAsync(int bugId,BugSubmissionDTO dto);
         Task<Bug> UpdateBugAsync(int bugId,UpdateBugPatchDTO dto);
 
-        Task<IEnumerable<Bug>> GetMyReportedBugsAsync(string testerId);
+        Task<IEnumerable<BugResponseDTO>> GetMyReportedBugsAsync(string testerId);
         Task<bool> UpdateBugStatusAsync(int bugId, BugStatus newStatus);
         // Task<Comment> AddCommentAsync(Comment comment);
         Task<Tester> GetTesterByEmail(string email);
