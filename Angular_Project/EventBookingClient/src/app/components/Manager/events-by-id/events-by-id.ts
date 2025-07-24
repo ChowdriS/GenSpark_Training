@@ -185,7 +185,7 @@ export class EventsById implements OnInit {
     if (this.ticketTypeForm.invalid) return;
     console.log(this.ticketTypeForm.value.totalQuantity)
     console.log(this.prevTicketvalues())
-    if(this.ticketTypeForm.value.totalQuantity < this.prevTicketvalues().totalQuantity && 
+    if(this.prevTicketvalues() != null && this.ticketTypeForm.value.totalQuantity < this.prevTicketvalues().totalQuantity && 
       this.prevTicketvalues().bookedQuantity > this.ticketTypeForm.value.totalQuantity){
         this.notify.info("Caution! The updated quantity is lesser than the booked seats!");
         return;

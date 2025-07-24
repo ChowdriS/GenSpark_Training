@@ -1,15 +1,16 @@
-@if (topEvent() != null) {
-  <section class="mt-12 max-w-6xl mx-auto px-4">
-    <div class="flex-between font-bold items-center my-2 flex-wrap gap-4">
-      <h2 class="text-2xl font-semibold text-gray-800">Upcoming Event</h2>
-      <div class="flex-center gap-2 flex-wrap">
-        <button class="black_btn" [routerLink]="[this.router.url, 'events']">View All Events</button>
-        @if(role == 'Manager') {
-          <button class="outline_btn" [routerLink]="[this.router.url, 'events', 'add']">Add Event</button>
-        }
-      </div>
+<section class="mt-12 max-w-6xl mx-auto px-4">
+  <div class="flex-between font-bold items-center my-2 flex-wrap gap-4">
+    <h2 class="text-2xl font-semibold text-gray-800">Upcoming Event</h2>
+    <div class="flex-center gap-2 flex-wrap">
+      <button class="black_btn" [routerLink]="[this.router.url, 'events']">View All Events</button>
+      @if(role == 'Manager') {
+        <button class="outline_btn" [routerLink]="[this.router.url, 'events', 'add']">Add Event</button>
+      }
     </div>
-
+  </div>
+</section>
+@if (topEvent() != null) {
+<section class="mt-4 max-w-6xl mx-auto px-4">
     @if (topEvent(); as event) {
       <div class="prompt-card bg-white rounded-xl drop-shadow-lg p-4 sm:p-6 mb-6">
         <div class="flex flex-col lg:flex-row gap-6">
@@ -76,3 +77,4 @@
     }
   </section>
 }
+
