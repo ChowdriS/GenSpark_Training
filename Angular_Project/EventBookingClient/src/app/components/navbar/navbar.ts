@@ -21,6 +21,7 @@ export class Navbar implements OnInit {
   constructor(public router: Router, private userService: UserService, private auth : Auth,  private notify: NotificationService) {}
 
   logout() {
+    this.menuopen.set(false);
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
@@ -31,8 +32,14 @@ export class Navbar implements OnInit {
     this.getMyDetail();
     // this.role = Getrole(this.auth.getToken());
   }
-  routeToProfile(){
-    this.router.navigate(['profile']);
+  navigateToProfile(event : Event) {
+    event?.preventDefault();
+    this.menuopen.set(false);
+    const token = this.auth.getToken();
+    const role = Getrole(token);
+    const lowerrole = role.toLowerCase();
+    const route = `/${lowerrole}/profile`;
+    this.router.navigate([route]);
   }
   getMyDetail() {
     this.userService.getUserDetails().subscribe({

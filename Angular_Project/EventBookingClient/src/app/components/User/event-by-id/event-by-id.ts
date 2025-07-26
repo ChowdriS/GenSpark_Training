@@ -54,6 +54,7 @@ export class EventById implements OnInit {
         this.loadEvent();
       }
     });
+    this.getSimilarEvents();
   }
   getTotalBooked(event  : AppEvent){
     return event.ticketTypes.reduce((sum, ticket) => sum + (ticket.bookedQuantity), 0);
@@ -72,7 +73,6 @@ export class EventById implements OnInit {
         this.similarEvents.set(rawItems.map((e: any) => new AppEvent(e)));
         // console.log(this.similarEvents());
         this.similarEvents.set(this.similarEvents().filter(e => e?.title !== this.event()?.title).slice(0,3));
-        // console.log(this.similarEvents());
       }
     });
   }
@@ -110,6 +110,7 @@ export class EventById implements OnInit {
           this.selectedTicketType.set(ticketType);
           this.form.get('seatNumbers')?.setValue([]);
           this.form.get('quantity')?.setValue(1);
+          console.log(ticketType);
           this.availableToBook = (ticketType?.totalQuantity ?? 0) - (ticketType?.bookedQuantity ?? 0);
         });
 

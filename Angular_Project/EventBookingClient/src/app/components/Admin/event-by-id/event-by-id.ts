@@ -89,15 +89,17 @@ export class EventById implements OnInit {
     });
   }
 
-  deleteEvent(id:string) {
-    this.eventService.deleteEvent(id).subscribe({
-      next:(res:ApiResponse)=>{
-        this.notify.success("Successfully Deleted!");
-        this.router.navigate(["admin/events"]);
-      },
-      error:(err:ApiResponse)=>{
-        this.notify.success(err.message);
-      }
-    })
+  deleteEvent(id: string) {
+    if (confirm('Are you sure you want to delete this event?')) {
+      this.eventService.deleteEvent(id).subscribe({
+        next: (res: ApiResponse) => {
+          this.notify.success("Successfully Deleted!");
+          this.router.navigate(["admin/events"]);
+        },
+        error: (err: ApiResponse) => {
+          this.notify.error(err.message);
+        }
+      });
+    }
   }
 }
