@@ -28,10 +28,9 @@ describe('UserDetails Component', () => {
       'updateUsername',
       'changePassword'
     ]);
-    mockNotificationService = jasmine.createSpyObj('NotificationService', ['success']);
+    mockNotificationService = jasmine.createSpyObj('NotificationService', ['success','error']);
 
     await TestBed.configureTestingModule({
-      // Correctly import standalone component
       imports: [UserDetails, ReactiveFormsModule, CommonModule],
       providers: [
         FormBuilder,
