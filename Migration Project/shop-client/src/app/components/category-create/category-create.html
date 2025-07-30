@@ -1,0 +1,23 @@
+<h2>Create category</h2>
+
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="form-horizontal" novalidate>
+  <div class="form-group">
+    <label for="categoryName" class="control-label col-md-2">category</label>
+    <div class="col-md-10">
+      <input id="categoryName" formControlName="categoryName" class="form-control" />
+      <div class="text-danger" *ngIf="categoryForm.controls['categoryName'].invalid && (categoryForm.controls['categoryName'].dirty || categoryForm.controls['categoryName'].touched)">
+        category name is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <button type="submit" [disabled]="categoryForm.invalid" class="btn btn-default">Create</button>
+    </div>
+  </div>
+</form>
+
+<div>
+  <a [routerLink]="['../']">Back to List</a>
+</div>

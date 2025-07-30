@@ -1,0 +1,47 @@
+<div class="div-container">
+  <div class="div-header">
+    Shopping Online - Get Reward
+  </div>
+
+  <div class="div-topmenu">
+    <ul>
+      <li><a [routerLink]="['']">Home</a></li>
+      <li><a [routerLink]="['news']">News</a></li>
+      <li><a [routerLink]="['']">Products</a></li>
+      <li><a [routerLink]="['contact-us']">Contact Us</a></li>
+      <li><a [routerLink]="['color']">Manage Color</a></li>
+      <li><a [routerLink]="['news-management']">News Management</a></li>
+      <li><a [routerLink]="['cart']">Cart</a></li>
+      <li><a [routerLink]="['orders']">Order</a></li>
+    </ul>
+  </div>
+
+  <div class="div-middle">
+    <div class="div-left">
+      <div class="category-title" [routerLink]="'category'">Category</div>
+      <div class="category-list">
+        <app-category-list></app-category-list>
+      </div>
+    </div>
+    <div class="div-main">
+      <!-- Breadcrumb (optional) -->
+      <!--
+      <div class="top-breadcrumb">
+        <ul>
+          <li><a [routerLink]="['/home']">Home</a><span class="span-breadcrumb">>></span></li>
+          <li><a [routerLink]="['/products']">Product</a></li>
+        </ul>
+      </div>
+      -->
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+
+  <div class="div-footer">
+    <p>Copyright © {{ currentYear }} by Chien Vu Hoang. All rights reserved.</p>
+    <p>Email: <a href="mailto:chien.vh@gmail.com">ChienVH</a></p>
+    <p>Facebook: <a href="https://facebook.com/chienvh">https://facebook.com/chienvh</a></p>
+  </div>
+</div>

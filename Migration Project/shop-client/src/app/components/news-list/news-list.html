@@ -1,0 +1,15 @@
+
+<div class="news-container" *ngIf="news().length > 0">
+  <div class="news-item" *ngFor="let item of news()">
+    <div class="content-image">
+      <a [routerLink]="['/news', item.newsId]">
+        <img [src]="'' + item.image" alt="{{ item.title }}" />
+      </a>
+    </div>
+    <div class="content-title">
+      <a [routerLink]="['/news', item.newsId]">{{ item.title }}</a>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="news().length <= 0">No news available.</div>

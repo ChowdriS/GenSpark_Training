@@ -1,0 +1,23 @@
+<h2>Create Color</h2>
+
+<form [formGroup]="colorForm" (ngSubmit)="onSubmit()" class="form-horizontal" novalidate>
+  <div class="form-group">
+    <label for="colorName" class="control-label col-md-2">Color</label>
+    <div class="col-md-10">
+      <input id="colorName" formControlName="colorName" class="form-control" />
+      <div class="text-danger" *ngIf="colorForm.controls['colorName'].invalid && (colorForm.controls['colorName'].dirty || colorForm.controls['colorName'].touched)">
+        Color name is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <button type="submit" [disabled]="colorForm.invalid" class="btn btn-default">Create</button>
+    </div>
+  </div>
+</form>
+
+<div>
+  <a [routerLink]="['../']">Back to List</a>
+</div>

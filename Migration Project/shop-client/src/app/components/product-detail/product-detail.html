@@ -1,0 +1,17 @@
+<h2>Product Detail</h2>
+
+@if(product() != null){
+    <div class="product-detail">
+        <div class="product-image">
+            <img [src]="product()?.image" alt="Product Image" height="200px"/>
+        </div>
+        
+        <div class="product-detail-content">
+            <p>Product Name: {{ product()?.productName }}</p>
+            <p>Product Price: ${{ product()?.price | number: '1.0-0' }}</p>
+            <p>
+                <a (click)="addToCart(product()!.productId)" >Add to Cart</a>
+            </p>
+        </div>
+    </div>
+}

@@ -1,0 +1,26 @@
+<h1>All Products!</h1>
+<div class="main-content">
+  <div class="product-card" *ngFor="let item of products();">
+    <div class="content-image">
+      <a [routerLink]="['/home/product', item.productId]">
+        <img [src]="item.image" alt="{{ item.productName }}">
+      </a>
+    </div>
+    <div class="content-title">
+      <a [routerLink]="['/home/product', item.productId]">{{ item.productName }}</a>
+    </div>
+    <div class="content-price">
+      Price: ${{ item.price | number:'1.0-0' }}
+    </div>
+    <div class="content-cart">
+      <a  (click)="addToCart(item.productId)">Add to Cart</a>
+    </div>
+  </div>
+</div>
+
+<div class="clear"></div>
+<p style="text-align:center">Page {{ currentPage() }} / {{ totalPages() }}</p>
+<div class="div-pagination">
+  <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 1">Previous</button>
+  <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()">Next</button>
+</div>

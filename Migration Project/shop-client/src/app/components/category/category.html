@@ -1,0 +1,30 @@
+<h1>All Categories!</h1>
+
+<p>
+  <a [routerLink]="['create']" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Actions</th>
+  </tr>
+
+  <tr *ngFor="let item of categories; let i = index">
+    <td>
+      <span *ngIf="item.name">{{ item.name }}</span>
+    </td>
+    <td>
+      <a [routerLink]="['edit', item.categoryId]">Edit</a> |
+      <a (click)="deleteCategory(item.categoryId)">Delete</a>
+    </td>
+  </tr>
+</table>
+
+<div class="clear"></div>
+<p>Page {{ page }} / {{ totalPages }}</p>
+
+<div class="div-pagination">
+  <button (click)="prevPage()" [disabled]="page === 1">Previous</button>
+  <button (click)="nextPage()" [disabled]="page === totalPages">Next</button>
+</div>

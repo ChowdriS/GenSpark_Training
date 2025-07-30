@@ -1,0 +1,54 @@
+<h2>You guys contact me if have any issues:</h2>
+
+<p>FullName: Chien Vu Hoang</p>
+<p>Email: chien.vh atgmail.com</p>
+<p>Skype: chien.vh</p>
+<p>Facebook: facebook.com/chienvh</p>
+
+<!-- Show message from component -->
+<p *ngIf="captchaMessage"><b>Captcha Message: {{ captchaMessage }}</b></p>
+
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()" id="contact-form" novalidate>
+  <table>
+    <tr>
+      <td colspan="2" style="text-align:center;"><b>Send Queries to Us</b></td>
+    </tr>
+    <tr>
+      <td>Customer Name:</td>
+      <td>
+        <input type="text" formControlName="cusName" />
+        <div *ngIf="hasError('cusName')" class="error">Name is required</div>
+      </td>
+    </tr>
+    <tr>
+      <td>Customer Phone:</td>
+      <td>
+        <input type="text" formControlName="cusPhone" />
+        <div *ngIf="hasError('cusPhone')" class="error">Phone is required</div>
+      </td>
+    </tr>
+    <tr>
+      <td>Customer Email:</td>
+      <td>
+        <input type="email" formControlName="cusEmail" />
+        <div *ngIf="hasError('cusEmail')" class="error">Valid Email is required</div>
+      </td>
+    </tr>
+    <tr>
+      <td>Content:</td>
+      <td>
+        <textarea formControlName="cusContent" rows="10" cols="30"></textarea>
+        <div *ngIf="hasError('cusContent')" class="error">Content is required</div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Google Recaptcha -->
+  <div class="g-recaptcha" data-sitekey="6Le2GC8UAAAAAB8qs65dp2f5SCPs-EWOSB4HHFPz"></div>
+
+  <br />
+
+  <button type="submit" [disabled]="contactForm.invalid">Submit Form</button>
+</form>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>

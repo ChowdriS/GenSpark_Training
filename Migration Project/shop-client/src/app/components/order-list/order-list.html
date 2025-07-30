@@ -1,0 +1,50 @@
+<h2>Orders Listing</h2>
+
+<p>
+  <a routerLink="/orders/export">Export Order Listing</a>
+</p>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Order Date</th>
+      <th>Payment Type</th>
+      <th>Status</th>
+      <th>Customer Name</th>
+      <th>Customer Phone</th>
+      <th>Customer Email</th>
+      <th>Customer Address</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(order of orders() ; track order.orderID){
+        <tr>
+            <td>{{ order.orderDate | date: 'MM/dd/yyyy' }}</td>
+            <td>{{ order.paymentType }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.customerName }}</td>
+            <td>{{ order.customerPhone }}</td>
+            <td>{{ order.customerEmail }}</td>
+            <td>{{ order.customerAddress }}</td>
+            <td><a [routerLink]="['/orders/details', order.orderID]">Details</a></td>
+        </tr>
+    }
+  </tbody>
+</table>
+
+<div class="clear"></div>
+<!-- 
+@if(totalPages > 1){
+<div>
+  <span>Page {{ currentPage }} / {{ totalPages }}</span>
+
+  <div class="div-pagination">
+    <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+    <p>
+      {{ currentPage }}
+    <p>
+    <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>
+} -->

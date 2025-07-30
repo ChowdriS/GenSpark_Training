@@ -1,0 +1,25 @@
+
+<h2>Colors</h2>
+
+<p>
+    <a [routerLink]="['create']" >Create New</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Color
+        </th>
+        <th></th>
+    </tr>
+
+@for (item of Colors(); track $index) {
+    <tr>
+        <td>
+            {{item.color1}}
+        </td>
+        <td>
+            <a [routerLink]="['edit',item.colorId]"  >Edit</a> |
+            <a (click)="deleteColor(item.colorId)" >Delete</a>
+        </td>
+    </tr>
+}

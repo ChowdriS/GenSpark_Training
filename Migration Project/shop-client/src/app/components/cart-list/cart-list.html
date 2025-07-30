@@ -1,0 +1,71 @@
+<h1>Cart!</h1>
+<div class="container py-4" *ngIf="cart.length > 0; else emptyCart">
+  <form [formGroup]="cartForm" (ngSubmit)="updateCart()">
+    <table class="table table-bordered shopping-cart">
+      <thead>
+        <tr class="table-warning text-center">
+          <th>Name</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Sub Total</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of cart; track item.product?.productId) {
+          <tr class="align-middle">
+            <td>
+              <a [routerLink]="['/home/product', item.product?.productId]" class="text-decoration-none text-primary">
+                {{ item.product?.productName }}
+              </a>
+            </td>
+            <td>${{ item.product?.price | number:'1.0-0' }}</td>
+            <td>
+              <input
+                type="number"
+                [formControlName]="'quantity-' + item.product?.productId"
+                min="1"
+                class="form-control"
+              />
+            </td>
+            <td>
+              ${{ item?.product?.price ?? 0 * item.quantity | number:'1.0-0' }}
+            </td>
+            <td>
+              <button type="button"
+                      class="btn btn-sm btn-danger"
+                      (click)="removeFromCart(item.product!.productId)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" class="text-end fw-bold">Total:</td>
+          <td colspan="2" class="fw-bold text-danger">
+            ${{ getTotal() | number:'1.0-0' }}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="d-flex justify-content-between mt-4">
+      <a [routerLink]="['/home']" class="btn btn-outline-secondary">Continue Shopping</a>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-warning fw-bold" (click)="updateCart()">Update Cart</button>
+        <button type="button" class="btn btn-success" (click)="checkout()">Checkout</button>
+        <button type="button" class="btn btn-primary" (click)="checkoutWithPaypal()">Checkout with PayPal</button>
+        <button type="button" class="btn btn-primary" (click)="clearCart()">Clear Cart</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ng-template #emptyCart>
+  <div class="text-center py-5">
+    <h4>No items in your cart!!!</h4>
+    <a [routerLink]="['/home']" class="btn btn-warning mt-3">Start Shopping</a>
+  </div>
+</ng-template>
