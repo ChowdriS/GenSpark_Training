@@ -26,26 +26,62 @@ public class ShopContext : DbContext
         // Composite key for OrderDetail
         modelBuilder.Entity<OrderDetail>()
             .HasKey(od => new { od.OrderID, od.ProductID });
-        modelBuilder.Entity<Product>()
+        // User
+    modelBuilder.Entity<User>()
+        .HasKey(u => u.UserId);
+    modelBuilder.Entity<User>()
+        .Property(u => u.UserId)
+        .ValueGeneratedOnAdd();
+
+    // Category
+    modelBuilder.Entity<Category>()
+        .HasKey(c => c.CategoryId);
+    modelBuilder.Entity<Category>()
+        .Property(c => c.CategoryId)
+        .ValueGeneratedOnAdd();
+
+    // Color
+    modelBuilder.Entity<Color>()
+        .HasKey(c => c.ColorId);
+    modelBuilder.Entity<Color>()
+        .Property(c => c.ColorId)
+        .ValueGeneratedOnAdd();
+
+    // Model
+    modelBuilder.Entity<Model>()
+        .HasKey(m => m.ModelId);
+    modelBuilder.Entity<Model>()
+        .Property(m => m.ModelId)
+        .ValueGeneratedOnAdd();
+
+    // Product
+    modelBuilder.Entity<Product>()
         .HasKey(p => p.ProductId);
+    modelBuilder.Entity<Product>()
+        .Property(p => p.ProductId)
+        .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<Category>()
-            .HasKey(c => c.CategoryId);
+    // Order
+    modelBuilder.Entity<Order>()
+        .HasKey(o => o.OrderID);
+    modelBuilder.Entity<Order>()
+        .Property(o => o.OrderID)
+        .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<Color>()
-            .HasKey(c => c.ColorId);
+    // News
+    modelBuilder.Entity<News>()
+        .HasKey(n => n.NewsId);
+    modelBuilder.Entity<News>()
+        .Property(n => n.NewsId)
+        .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<Model>()
-            .HasKey(m => m.ModelId);
+    // ContactU
+    modelBuilder.Entity<ContactU>()
+        .HasKey(c => c.id);
+    modelBuilder.Entity<ContactU>()
+        .Property(c => c.id)
+        .ValueGeneratedOnAdd();
 
-        modelBuilder.Entity<User>()
-            .HasKey(u => u.UserId);
-
-        modelBuilder.Entity<Order>()
-            .HasKey(o => o.OrderID);
-
-        modelBuilder.Entity<News>()
-            .HasKey(n => n.NewsId);
 
         // Relationships
         modelBuilder.Entity<Product>()

@@ -320,7 +320,7 @@ namespace Bts.Services
 
         public async Task<bool> CloseBugAsync(int bugId)
         {
-            var bug = await _context.Bugs.Include(b=> b.BlockedByBugs).FirstOrDefaultAsync(b=> b.Id == bugId);
+            var bug = await _context.Bugs.Include(b=> b.BlockedByBugs).Include(b=>b.BlockingBugs).FirstOrDefaultAsync(b=> b.Id == bugId);
             if (bug == null) return false;
 
             // restrict the bug resolvation before its parent
@@ -335,6 +335,21 @@ namespace Bts.Services
                         throw new Exception("Cannot close the bug before its parent!");
                     }
                 }
+            }
+
+            if (bug.BlockingBugs.Any())
+            {
+                foreach (var childBugDep in bug.BlockingBugs)
+                {
+                    var childBug = await _context.Bugs.FirstOrDefaultAsync(b => b.Id == childBugDep.ChildBugId);
+                    if (childBug != null && childBug.Status == BugStatus.Verified)
+                    {
+                        childBug.Status = BugStatus.Retesting;
+                        childBug.UpdatedAt = DateTime.UtcNow;
+                        _context.Bugs.Update(childBug);
+                    }
+                }
+                await _context.SaveChangesAsync();
             }
 
             bug.Status = BugStatus.Closed;
@@ -404,7 +419,7 @@ namespace Bts.Services
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.AsNoTracking().ToListAsync();
         }
 
         public async Task<IEnumerable<Bug>> GetAllBugsAsync()

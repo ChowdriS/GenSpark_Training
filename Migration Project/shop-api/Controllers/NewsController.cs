@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shop_api.Context;
@@ -10,6 +11,8 @@ namespace shop_api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    
+
     public class NewsController : ControllerBase
     {
         private readonly ShopContext _shopContext;
@@ -41,6 +44,7 @@ namespace shop_api.Controllers
         }
 
         [HttpPost("create")]
+        
         public async Task<ActionResult> Create(NewsRequestDTO dto)
         {
             try
@@ -55,6 +59,7 @@ namespace shop_api.Controllers
         }
 
         [HttpPut("edit/{id}")]
+        
         public async Task<ActionResult> Update(int id, NewsUpdateRequestDTO dto)
         {
             try
@@ -69,6 +74,7 @@ namespace shop_api.Controllers
         }
 
         [HttpDelete("delete/{id}")]
+        
         public async Task<ActionResult> Delete(int id)
         {
             try

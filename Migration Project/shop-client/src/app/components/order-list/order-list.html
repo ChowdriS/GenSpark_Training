@@ -1,7 +1,7 @@
 <h2>Orders Listing</h2>
 
 <p>
-  <a routerLink="/orders/export">Export Order Listing</a>
+  <a (click)="export()">Export Order Listing</a>
 </p>
 
 <table class="table">
@@ -14,7 +14,6 @@
       <th>Customer Phone</th>
       <th>Customer Email</th>
       <th>Customer Address</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -27,7 +26,6 @@
             <td>{{ order.customerPhone }}</td>
             <td>{{ order.customerEmail }}</td>
             <td>{{ order.customerAddress }}</td>
-            <td><a [routerLink]="['/orders/details', order.orderID]">Details</a></td>
         </tr>
     }
   </tbody>

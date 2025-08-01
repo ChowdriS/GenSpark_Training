@@ -1,0 +1,87 @@
+/* Container title */
+h2 {
+  text-align: center;
+  margin: 2rem 0 1rem;
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+
+/* Export link */
+a {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #1b1a1a;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #333;
+}
+
+/* Table Styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+}
+
+.table thead {
+  background-color: #282626;
+  color: #fff;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  text-align: left;
+  vertical-align: top;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Pagination */
+.div-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.div-pagination button {
+  padding: 0.4rem 0.9rem;
+  background-color: #292727;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-coxlor 0.2s;
+}
+
+.div-pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.div-pagination button:hover:not(:disabled) {
+  background-color: #333;
+}
+
+.div-pagination p {
+  margin: 0;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+/* Utility */
+.clear {
+  clear: both;
+}

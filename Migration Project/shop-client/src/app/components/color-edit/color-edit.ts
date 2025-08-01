@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ColorService } from '../../services/color-service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-color-edit',
-  imports: [ReactiveFormsModule,NgClass],
+  imports: [ReactiveFormsModule,NgClass,RouterLink],
   templateUrl: './color-edit.html',
   styleUrl: './color-edit.css'
 })

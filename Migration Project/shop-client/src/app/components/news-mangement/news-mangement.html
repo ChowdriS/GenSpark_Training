@@ -1,0 +1,48 @@
+<div class="container">
+  <h2>News Management</h2>
+
+  <!-- Form for Create/Edit -->
+  <form (ngSubmit)="onSubmit()" class="form">
+    <input [(ngModel)]="newsForm.userId" name="userId" type="number" placeholder="User ID" required />
+    <input [(ngModel)]="newsForm.title" name="title" placeholder="Title" required />
+    <input [(ngModel)]="newsForm.shortDescription" name="shortDescription" placeholder="Short Description" required />
+    <input [(ngModel)]="newsForm.image" name="image" placeholder="Image URL" required />
+    <textarea [(ngModel)]="newsForm.content" name="content" placeholder="Content" required></textarea>
+    <input [(ngModel)]="newsForm.createdDate" name="createdDate" type="datetime-local" required />
+    <input [(ngModel)]="newsForm.status" name="status" type="number" placeholder="Status (e.g. 1)" required />
+
+    <button type="submit">{{ isEditing ? 'Update' : 'Create' }}</button>
+    <button type="button" (click)="resetForm()">Clear</button>
+  </form>
+
+  <!-- News Table -->
+  <table class="news-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User ID</th>
+        <th>Title</th>
+        <th>Short Desc</th>
+        <th>Image</th>
+        <th>Created</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let news of newsList">
+        <td>{{ news.newsId }}</td>
+        <td>{{ news.userId }}</td>
+        <td>{{ news.title }}</td>
+        <td>{{ news.shortDescription }}</td>
+        <td><img [src]="news.image" alt="Image" width="50" /></td>
+        <td>{{ news.createdDate | date:'short' }}</td>
+        <td>{{ news.status }}</td>
+        <td>
+          <button (click)="editNews(news)" style="background-color: #3e79ad; margin-bottom: 5px;">Edit</button>
+          <button (click)="deleteNews(news.newsId)" style="background-color: red;">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

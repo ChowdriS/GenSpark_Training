@@ -106,11 +106,42 @@ public class OrderService : IOrderService
     {
         var orders = await _context.Orders.ToListAsync();
         var sb = new StringBuilder();
-        sb.AppendLine("Order Report");
+
+        // Start full HTML document with minimal styling for Excel
+        sb.AppendLine("<html>");
+        sb.AppendLine("<head>");
+        sb.AppendLine("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
+        sb.AppendLine("<style>");
+        sb.AppendLine("table { border-collapse: collapse; }");
+        sb.AppendLine("th, td { border: 1px solid black; padding: 5px; text-align: left; }");
+        sb.AppendLine("th { background-color: #F2B134; }"); // orange-yellow header to match your app theme
+        sb.AppendLine("</style>");
+        sb.AppendLine("</head>");
+        sb.AppendLine("<body>");
+        
+        sb.AppendLine("<h2>Order Report</h2>");
+        sb.AppendLine("<table>");
+        sb.AppendLine("<thead>");
+        sb.AppendLine("<tr><th>Order ID</th><th>Order Name</th><th>Order Date</th></tr>");
+        sb.AppendLine("</thead>");
+        sb.AppendLine("<tbody>");
+
         foreach (var order in orders)
         {
-            sb.AppendLine($"{order.OrderID} - {order.OrderName} - {order.OrderDate}");
+            // Format date as yyyy-MM-dd or other preferred format
+            var formattedDate = order.OrderDate.ToString("yyyy-MM-dd");
+            // Simple HTML encode (replace &, <, >), expand if needed
+            var orderNameEscaped = System.Net.WebUtility.HtmlEncode(order.OrderName ?? "");
+            
+            sb.AppendLine($"<tr><td>{order.OrderID}</td><td>{orderNameEscaped}</td><td>{formattedDate}</td></tr>");
         }
+
+        sb.AppendLine("</tbody>");
+        sb.AppendLine("</table>");
+        sb.AppendLine("</body>");
+        sb.AppendLine("</html>");
+
         return Encoding.UTF8.GetBytes(sb.ToString());
     }
+
 }

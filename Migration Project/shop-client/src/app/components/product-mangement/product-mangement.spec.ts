@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ColorDelete } from './color-delete';
+import { ProductMangement } from './product-mangement';
 
-describe('ColorDelete', () => {
-  let component: ColorDelete;
-  let fixture: ComponentFixture<ColorDelete>;
+describe('ProductMangement', () => {
+  let component: ProductMangement;
+  let fixture: ComponentFixture<ProductMangement>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ColorDelete]
+      imports: [ProductMangement]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ColorDelete);
+    fixture = TestBed.createComponent(ProductMangement);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

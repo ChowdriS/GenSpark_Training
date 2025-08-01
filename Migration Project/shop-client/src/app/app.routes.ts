@@ -13,11 +13,15 @@ import { CategoryProducts } from './components/category-products/category-produc
 import { CategoryEdit } from './components/category-edit/category-edit';
 import { CategoryCreate } from './components/category-create/category-create';
 import { CartList } from './components/cart-list/cart-list';
+import { CheckoutForm } from './components/checkout-form/checkout-form';
+import { NewsMangement } from './components/news-mangement/news-mangement';
+import { ProductMangement } from './components/product-mangement/product-mangement';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: Home ,children:[
         {path: '', component:ProductList},
+        {path: 'product/management', component:ProductMangement},
         {path: 'product/:id', component:ProductDetail},
         {path: 'orders', component:OrderList},
         {path: 'contact-us', component:ContactUs},
@@ -29,7 +33,9 @@ export const routes: Routes = [
         {path: 'category', component:Category},
         {path: 'category/create', component:CategoryCreate},
         {path: 'category/edit/:id', component:CategoryEdit},
-        {path: 'cart', component:CartList}
+        {path: 'cart', component:CartList},
+        {path: 'cart/checkout', component:CheckoutForm},
+        {path: 'newsmanagement', component:NewsMangement}
     ]},
 ];
 

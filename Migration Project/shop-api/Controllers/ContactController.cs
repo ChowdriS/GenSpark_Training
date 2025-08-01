@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shop_api.Interfaces;
@@ -7,6 +8,8 @@ namespace shop_api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    
+
     public class ContactController : ControllerBase
     {
         private readonly IContactService _contactService;

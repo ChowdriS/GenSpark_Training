@@ -9,7 +9,7 @@
         <th>
             Color
         </th>
-        <th></th>
+        <th>Actions</th>
     </tr>
 
 @for (item of Colors(); track $index) {
@@ -19,7 +19,7 @@
         </td>
         <td>
             <a [routerLink]="['edit',item.colorId]"  >Edit</a> |
-            <a (click)="deleteColor(item.colorId)" >Delete</a>
+            <a (click)="deleteColor(item.colorId)" style="color: red;" >Delete</a>
         </td>
     </tr>
 }

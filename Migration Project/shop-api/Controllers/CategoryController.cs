@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shop_api.Interfaces;
@@ -9,6 +10,7 @@ namespace shop_api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -19,7 +21,7 @@ namespace shop_api.Controllers
         }
 
         [HttpGet("{page}")]
-        public async Task<ActionResult> Index(int? page,[FromQuery]int? pageSize)
+        public async Task<ActionResult> Index(int? page, [FromQuery] int? pageSize)
         {
             try
             {
@@ -33,8 +35,8 @@ namespace shop_api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
         [HttpPost("create")]
+        
         public async Task<ActionResult> Create(CategoryRequestDTO category)
         {
             try
@@ -48,7 +50,8 @@ namespace shop_api.Controllers
             }
         }
         [HttpPut("edit/{id}")]
-        public async Task<ActionResult> Edit(int id,CategoryRequestDTO category)
+        
+        public async Task<ActionResult> Edit(int id, CategoryRequestDTO category)
         {
             try
             {
@@ -76,6 +79,7 @@ namespace shop_api.Controllers
         }
 
         [HttpDelete("delete/{id}")]
+        
         public async Task<ActionResult> Delete(int id)
         {
             try

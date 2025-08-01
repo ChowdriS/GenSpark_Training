@@ -1,0 +1,54 @@
+<div class="container">
+  <h2>Product Management</h2>
+
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="form">
+    <input formControlName="productName" placeholder="Product Name" />
+    <input formControlName="image" placeholder="Image URL" />
+    <input formControlName="price" type="number" placeholder="Price" />
+    <input formControlName="userId" type="number" placeholder="User ID" />
+    <input formControlName="categoryId" type="number" placeholder="Category ID" />
+    <input formControlName="colorId" type="number" placeholder="Color ID" /><br>
+    <input formControlName="modelId" type="number" placeholder="Model ID" />
+    <input formControlName="storageId" type="number" placeholder="Storage ID" />
+    <input formControlName="sellStartDate" type="datetime-local" />
+    <input formControlName="sellEndDate" type="datetime-local" />
+    <input formControlName="isNew" type="number" placeholder="Is New (1 or 0)" />
+    <br><br>
+    <div style="gap: 5px ;display:flex">
+        <button type="submit" [disabled]="productForm.invalid" style="width: 50%;">
+            {{ isEditing ? 'Update' : 'Create' }}
+        </button>
+        <button type="button" (click)="resetForm()" style="width: 50%;">Clear</button>
+    </div>
+  </form>
+  <br>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Img</th>
+        <th>Price</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>IsNew</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of productList">
+        <td>{{ p.productId }}</td>
+        <td>{{ p.productName }}</td>
+        <td><img [src]="p.image" width="40" /></td>
+        <td>{{ p.price }}</td>
+        <td>{{ p.sellStartDate | date:'short' }}</td>
+        <td>{{ p.sellEndDate | date:'short' }}</td>
+        <td>{{ p.isNew }}</td>
+        <td>
+          <button (click)="editProduct(p)">Edit</button>
+          <button (click)="deleteProduct(p.productId)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

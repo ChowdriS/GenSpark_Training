@@ -1,0 +1,85 @@
+/* Container padding (if needed) */
+form.form-horizontal {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Headline */
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+/* Label */
+.control-label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  color: #222;
+}
+
+/* Input styling */
+.form-control {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.form-control:focus {
+  border-color: #000;
+  outline: none;
+}
+
+/* Error message */
+.text-danger {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Form groups layout */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+/* Button styling */
+.btn-default {
+  background-color: #000;
+  color: #fff;
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-default:hover {
+  background-color: #333;
+}
+
+/* Offset alignment (Bootstrap-like imitation) */
+.col-md-offset-2 {
+  margin-left: 16.666667%;
+}
+
+/* Link styling */
+a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

@@ -35,7 +35,7 @@ namespace Bts.Services
         {
             try
             {
-                var dbUser = await _userRepository.GetById(user.Username);
+                var dbUser = await _context.Users.AsNoTracking().FirstOrDefaultAsync(b => b.Username == user.Username);
                 if (dbUser == null)
                 {
                     throw new Exception("No such user");

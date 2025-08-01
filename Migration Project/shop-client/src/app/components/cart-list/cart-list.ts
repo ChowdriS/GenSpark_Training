@@ -4,10 +4,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart-service';
+import { PaypallButton } from "../paypall-button/paypall-button";
 
 @Component({
   selector: 'app-cart-list',
-  imports: [RouterLink,CommonModule,ReactiveFormsModule],
+  imports: [RouterLink, CommonModule, ReactiveFormsModule, PaypallButton],
   templateUrl: './cart-list.html',
   styleUrl: './cart-list.css'
 })
@@ -15,7 +16,7 @@ export class CartList implements OnInit {
   cart: Cart[] = [];
   cartForm!: FormGroup;
 
-  constructor(private fb: FormBuilder, private cartService :CartService ) {}
+  constructor(private fb: FormBuilder, private cartService :CartService ,private router : Router) {}
 
   ngOnInit(): void {
     // const storedCart = localStorage.getItem('cart');
@@ -113,12 +114,9 @@ export class CartList implements OnInit {
     
   }
   checkout(): void {
-    alert('Proceeding to checkout...');
-    // Implement real checkout logic here
-  }
-
-  checkoutWithPaypal(): void {
-    alert('Redirecting to PayPal...');
-    // Implement PayPal integration
+    if(!confirm('Do you want to proceed to checkout?'))
+      return; 
+    else
+    this.router.navigate(['/home/cart/checkout']);
   }
 }

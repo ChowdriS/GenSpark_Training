@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shop_api.Interfaces;
@@ -7,6 +8,8 @@ namespace shop_api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    
+    
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _service;
@@ -59,20 +62,22 @@ namespace shop_api.Controllers
             }
         }
         [HttpPost]
+        
         public async Task<IActionResult> Create([FromBody] ProductRequestDTO product)
         {
             try
             {
                 var createdProduct = await _service.Create(product);
-                return Ok( createdProduct);
+                return Ok(createdProduct);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpPut("{id}")]
+        
         public async Task<IActionResult> Update(int id, [FromBody] ProductRequestDTO product)
         {
             try
@@ -87,6 +92,7 @@ namespace shop_api.Controllers
         }
 
         [HttpDelete("{id}")]
+        
         public async Task<IActionResult> Delete(int id)
         {
             try

@@ -23,4 +23,7 @@ export class CartService {
   clearCart() {
     return this.http.get(`${baseUrl}/shoppingcart/clear`, { withCredentials: true });
   }
+  processOrder(payload: any) {
+    return this.http.post(`${baseUrl}/shoppingcart/processorder`, payload, { withCredentials: true });
+  }
 }

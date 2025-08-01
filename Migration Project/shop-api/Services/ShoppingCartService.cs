@@ -101,7 +101,8 @@ public class ShoppingCartService : IShoppingCartService
             CustomerPhone = orderDto.CustomerPhone,
             CustomerEmail = orderDto.CustomerEmail,
             CustomerAddress = orderDto.CustomerAddress, 
-            OrderDate = DateTime.Now,
+            PaymentType = orderDto.PaymentType,
+            OrderDate = DateTime.UtcNow,
             Status = "Processing"
         };
 

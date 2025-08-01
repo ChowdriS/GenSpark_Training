@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shop_api.Interfaces;
@@ -8,6 +9,8 @@ namespace shop_api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    
+    
     public class ShoppingCartController : ControllerBase
     {
         private readonly IShoppingCartService _shoppingCartService;
@@ -92,7 +95,7 @@ namespace shop_api.Controllers
                 var order = await _shoppingCartService.ProcessOrder(Session, orderRequest);
                 return Ok(order);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

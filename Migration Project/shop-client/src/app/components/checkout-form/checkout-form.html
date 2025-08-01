@@ -1,1 +1,47 @@
-<p>checkout-form works!</p>
+<div class="order-form-container container py-4" style="max-width: 600px;">
+  <h2 class="mb-4 text-gradient">Place Your Order</h2>
+
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" novalidate>
+
+    <div class="mb-3">
+      <label for="customerName" class="form-label">Customer Name</label>
+      <input id="customerName" type="text" formControlName="customerName" class="form-control"
+        [ngClass]="{'is-invalid': orderForm.get('customerName')?.invalid && (orderForm.get('customerName')?.dirty || orderForm.get('customerName')?.touched)}" />
+      <div *ngIf="orderForm.get('customerName')?.invalid && (orderForm.get('customerName')?.dirty || orderForm.get('customerName')?.touched)" class="invalid-feedback">
+        Customer Name is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="customerPhone" class="form-label">Customer Phone</label>
+      <input id="customerPhone" type="text" formControlName="customerPhone" class="form-control"
+        [ngClass]="{'is-invalid': orderForm.get('customerPhone')?.invalid && (orderForm.get('customerPhone')?.dirty || orderForm.get('customerPhone')?.touched)}" />
+      <div *ngIf="orderForm.get('customerPhone')?.invalid && (orderForm.get('customerPhone')?.dirty || orderForm.get('customerPhone')?.touched)" class="invalid-feedback">
+        Customer Phone is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="customerEmail" class="form-label">Customer Email</label>
+      <input id="customerEmail" type="email" formControlName="customerEmail" class="form-control"
+        [ngClass]="{'is-invalid': orderForm.get('customerEmail')?.invalid && (orderForm.get('customerEmail')?.dirty || orderForm.get('customerEmail')?.touched)}" />
+      <div *ngIf="orderForm.get('customerEmail')?.invalid && (orderForm.get('customerEmail')?.dirty || orderForm.get('customerEmail')?.touched)" class="invalid-feedback">
+        A valid email is required.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="customerAddress" class="form-label">Customer Address</label>
+      <textarea id="customerAddress" formControlName="customerAddress" rows="4" class="form-control"
+        [ngClass]="{'is-invalid': orderForm.get('customerAddress')?.invalid && (orderForm.get('customerAddress')?.dirty || orderForm.get('customerAddress')?.touched)}"></textarea>
+      <div *ngIf="orderForm.get('customerAddress')?.invalid && (orderForm.get('customerAddress')?.dirty || orderForm.get('customerAddress')?.touched)" class="invalid-feedback">
+        Customer Address is required.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-gradient" [disabled]="orderForm.invalid">
+      'Submit Order'
+    </button>
+
+  </form>
+</div>

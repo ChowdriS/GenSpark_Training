@@ -227,31 +227,21 @@ namespace Bts.Services
                 _logger.LogWarning("Bug {BugId} not found in UpdateBugStatusAsync", bugId);
                 return false;
             }
-            var isParentBugNotClosed = bug.BlockedByBugs.Any(b =>
+            // Only allow Tester-appropriate statuses
+            if (newStatus == BugStatus.Verified ||
+                newStatus == BugStatus.Retesting ||
+                newStatus == BugStatus.Reopened)
             {
-                var parentBug = b.ParentBug;
-                if (parentBug.Status != BugStatus.Closed)
-                {
-                    return true;
-                }
-                return false;
-            });
-            if (newStatus == BugStatus.Verified && isParentBugNotClosed)
-                // Only allow Tester-appropriate statuses
-                if (newStatus == BugStatus.Verified ||
-                    newStatus == BugStatus.Retesting ||
-                    newStatus == BugStatus.Reopened)
-                {
-                    bug.Status = newStatus;
-                    bug.UpdatedAt = DateTime.UtcNow;
+                bug.Status = newStatus;
+                bug.UpdatedAt = DateTime.UtcNow;
 
-                    _context.Bugs.Update(bug);
-                    await _context.SaveChangesAsync();
-                    //buglog
-                    await _bugLogService.LogEventAsync(bugId, $"Bug Status changed {newStatus}", _currentUserService.Id);
-                    _logger.LogInformation("Updated bug status {NewStatus} for bug {BugId}", newStatus, bugId);
-                    return true;
-                }
+                _context.Bugs.Update(bug);
+                await _context.SaveChangesAsync();
+                //buglog
+                await _bugLogService.LogEventAsync(bugId, $"Bug Status changed {newStatus}", _currentUserService.Id);
+                _logger.LogInformation("Updated bug status {NewStatus} for bug {BugId}", newStatus, bugId);
+                return true;
+            }
 
             return false;
         }

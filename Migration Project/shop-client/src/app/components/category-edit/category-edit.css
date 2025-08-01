@@ -1,0 +1,94 @@
+.container {
+  margin: 0 auto;
+  max-width: 600px;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+}
+
+.col-sm-2 {
+  flex: 0 0 25%;
+  max-width: 25%;
+  padding-top: 0.5rem;
+  font-weight: 600;
+}
+
+.col-sm-10 {
+  flex: 0 0 75%;
+  max-width: 75%;
+}
+
+.offset-sm-2 {
+  margin-left: 25%;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 30px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+  background-color: #fff5f5;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 4px;
+}
+
+.alert {
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+}
+
+.alert ul {
+  padding-left: 1.2rem;
+  margin: 0;
+}
+
+.btn-gradient {
+  background: #000000;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: #000000;
+}
+
+.btn-gradient:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.text-gradient-link {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.text-gradient-link:hover {
+  text-decoration: underline;
+}

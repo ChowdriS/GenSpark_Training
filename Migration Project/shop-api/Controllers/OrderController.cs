@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shop_api.Interfaces;
@@ -7,6 +8,8 @@ namespace shop_api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    
+    
     public class OrderController : ControllerBase
     {
         private readonly IOrderService _service;
@@ -59,6 +62,7 @@ namespace shop_api.Controllers
         }
 
         [HttpPut("edit/{id}")]
+        
         public async Task<IActionResult> Update(int id, [FromBody] OrderUpdateRequestDTO dto)
         {
             try
@@ -73,6 +77,7 @@ namespace shop_api.Controllers
         }
 
         [HttpDelete("delete/{id}")]
+        
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -86,11 +91,16 @@ namespace shop_api.Controllers
             }
         }
 
-        [HttpGet("export/pdf")]
+        [HttpGet("export")]
+        
         public async Task<IActionResult> ExportToPdf()
         {
-            var pdfBytes = await _service.ExportOrdersToPdf();
-            return File(pdfBytes, "application/pdf", $"Orders_{DateTime.Now:yyyyMMddHHmmss}.pdf");
+            var excelBytes = await _service.ExportOrdersToPdf();
+            return File(
+                     excelBytes,
+                    "application/vnd.ms-excel",
+                    $"Orders_{DateTime.Now:yyyyMMddHHmmss}.xls"
+                );
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shop_api.Interfaces;
@@ -9,6 +10,7 @@ namespace shop_api.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    
     public class ColorController : ControllerBase
     {
         private readonly IColorService _colorService;
@@ -65,7 +67,7 @@ namespace shop_api.Controllers
         {
             try
             {
-                var Color = await _colorService.UpdateAsync(id,dto);
+                var Color = await _colorService.UpdateAsync(id, dto);
                 return Ok(Color);
             }
             catch (Exception ex)

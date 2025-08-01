@@ -14,7 +14,7 @@ export class CategoryService {
     return this.http.get<Category[]>(`${baseUrl}/category/${page}`);
   }
   getCategoriesForSideBar(page: number,pageSize = 10): Observable<Category[]> {
-    return this.http.get<Category[]>(`${baseUrl}/category/${page}?${pageSize}`);
+    return this.http.get<Category[]>(`${baseUrl}/category/${page}?pageSize=${pageSize}`);
   }
 
   createCategory(category: CategoryRequestDTO): Observable<Category> {

@@ -1,9 +1,13 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace shop_api.Models;
 
 public class News
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int NewsId { get; set; }
     public int? UserId { get; set; }
     public string? Title { get; set; }

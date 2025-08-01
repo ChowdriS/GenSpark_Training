@@ -1,10 +1,9 @@
-<ul>
-    @for (item of categories(); track $index )
-    {
-        <li>
-            <a [routerLink]="['category','products',item.categoryId]">
-            {{ item.name }}
-            </a>
-        </li>
-    }
+<ul class="category-list">
+  @for (item of categories(); track $index) {
+    <li>
+      <a [routerLink]="['category', 'products', item.categoryId]">
+        {{ item.name }}
+      </a>
+    </li>
+  }
 </ul>

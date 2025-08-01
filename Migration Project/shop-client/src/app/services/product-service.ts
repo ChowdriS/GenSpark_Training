@@ -17,4 +17,18 @@ export class ProductService {
   getProductById(id : number){
     return this.http.get(`${baseUrl}/products/${id}`);
   }
+  getAll() {
+    return this.http.get(`${baseUrl}/products/`);
+  }
+  create(product: any) {
+    return this.http.post(`${baseUrl}/products/`, product);
+  }
+
+  update(id: number, product: any) {
+    return this.http.put(`${baseUrl}/products/${id}`, product);
+  }
+
+  delete(id: number){
+    return this.http.delete(`${baseUrl}/products/${id}`);
+  }
 }

@@ -115,6 +115,7 @@ export class BugDetails implements OnInit {
   }
 
   updateStatus(): void {
+    debugger;
     if (!this.bug) return;
 
     this.isUpdating = true;

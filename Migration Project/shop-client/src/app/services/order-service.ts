@@ -11,4 +11,7 @@ export class OrderService {
   getOrders(){
     return this.http.get(`${baseUrl}/order/all`);
   }
+  exportOrders() {
+    return this.http.get(`${baseUrl}/order/export`, { responseType: 'blob' });
+  }
 }

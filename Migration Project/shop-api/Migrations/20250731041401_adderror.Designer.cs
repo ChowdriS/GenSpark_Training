@@ -12,8 +12,8 @@ using shop_api.Context;
 namespace shop_api.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20250725070453_init")]
-    partial class init
+    [Migration("20250731041401_adderror")]
+    partial class adderror
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -256,6 +256,9 @@ namespace shop_api.Migrations
 
                     b.Property<string>("Password")
                         .HasColumnType("text");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Username")
                         .HasColumnType("text");
