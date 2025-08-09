@@ -51,9 +51,9 @@ public class EventService : IEventService
         return _mapper.EvenetResponseDTOMapper(ev);
     }
 
-    public async Task<PaginatedResultDTO<EventResponseDTO>> FilterEvents(EventCategory? category, Guid? cityId,EventType? type, string? searchElement, DateTime? date, int pageNumber, int pageSize)
+    public async Task<PaginatedResultDTO<EventResponseDTO>> FilterEvents(EventCategory? category, Guid? cityId,EventType? type, string? searchElement, DateTime? date, int pageNumber, int pageSize, bool isAdmin = false)
     {
-        return await _otherFunctionalities.GetPaginatedEventsByFilter(category,cityId,type,searchElement, date, pageNumber, pageSize);
+        return await _otherFunctionalities.GetPaginatedEventsByFilter(category,cityId,type,searchElement, date, pageNumber, pageSize,isAdmin);
     }
 
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetManagedEventsByUserId(Guid managerId, int pageNumber, int pageSize)

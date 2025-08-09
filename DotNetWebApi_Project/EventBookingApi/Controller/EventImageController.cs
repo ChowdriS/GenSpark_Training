@@ -25,6 +25,7 @@ public class EventImageController : ControllerBase
         // _containerClinet = new BlobContainerClient(new Uri(sasUrl!));
     }
 
+
     [HttpGet("getall")]
     public async Task<IActionResult> getall()
     {
@@ -142,5 +143,15 @@ public class EventImageController : ControllerBase
             "gif" => "image/gif",
             _ => "application/octet-stream"
         };
+    }
+    
+    private bool IsHouseFull(Event evt)
+    {
+        if (evt.EventStatus == EventStatus.Cancelled )
+            return false;
+
+        var totalSeats = evt?.TicketTypes?.Sum(tt => tt.TotalQuantity);
+        var bookedSeats = evt?.TicketTypes?.Sum(tt => tt.BookedQuantity) ?? 0;
+        return bookedSeats >= totalSeats;
     }
 }

@@ -20,7 +20,7 @@ export class Events {
   events = signal<AppEvent[]>([]);
   pageNumber = signal(1);
   totalPages = signal(1);
-  pageSize = 4;
+  pageSize = 6;
   location: string = "";
   searchElement: string = '';
   filterDate: string = '';

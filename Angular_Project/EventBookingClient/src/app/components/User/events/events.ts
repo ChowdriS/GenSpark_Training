@@ -19,7 +19,7 @@ export class Events implements OnInit{
   events = signal<AppEvent[]>([]);
   pageNumber = signal(1);
   totalPages = signal(1);
-  pageSize = 4;
+  pageSize = 6;
   searchElement: string = '';
   location: string = "";
   filterDate: string = '';
@@ -69,7 +69,12 @@ export class Events implements OnInit{
         next: (res: ApiResponse<PagedResponse<any>>) => {
           const rawItems = res.data?.items?.$values || [];
           // console.log(rawItems)
-          this.events.set(rawItems.map((e: any) => new AppEvent(e)));
+          const filteredEvents = rawItems
+            .map((e: any) => new AppEvent(e))
+            .filter((event:AppEvent) => this.isCancelled(event) === false);
+
+          this.events.set(filteredEvents);
+
           this.totalPages.set(res.data?.totalPages || 1);
           this.filterDate = '';
           // console.log(this.events());

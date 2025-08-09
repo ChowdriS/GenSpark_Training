@@ -112,6 +112,9 @@ export class AddEvent implements OnInit {
       this.notify.info('Please complete the form and add at least one ticket type.');
       return;
     }
+    if(!confirm("Are you sure you want to create this event?")){
+      return;
+    }
     const payload = {
       Title: this.eventForm.value.title,
       Description: this.eventForm.value.description,

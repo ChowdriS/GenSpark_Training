@@ -113,6 +113,9 @@
         </div>
       </div>
       <div class="grid grid-cols-5 md:grid-cols-10 gap-2">
+        <div class="screen col-span-full p-1 border border-solid border-gray-600  mb-4 text-center text-sm font-semibold text-gray-600">
+          STAGE ON THIS SIDE
+        </div>
         @for (seat of generateSeats(selectedTicketType()?.totalQuantity ?? 0); track seat) {
           <button
             type="button"

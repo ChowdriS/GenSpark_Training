@@ -176,6 +176,9 @@ export class EventById implements OnInit {
       // alert("Enter all required details!");
       return;
     }
+    if(!confirm("Are you sure you want to book this ticket?")){
+      return;
+    }
 
     const evt = this.event();
     if (!evt) return;

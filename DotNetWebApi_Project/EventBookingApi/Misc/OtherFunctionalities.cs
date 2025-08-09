@@ -102,15 +102,15 @@ public class OtherFunctionalities : IOtherFunctionalities
 
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEvents(int pageNumber, int pageSize)
     {
-        var query = _eventContext.Events
-                .Where(e => !e.IsDeleted)
-                .Include(e => e.TicketTypes)
-                .Include(e => e.Tickets)
-                .Include(e => e.BookedSeats)
-                .Include(e => e.Images)
-                .Include(e => e.City)
-                .OrderByDescending(e => e.EventDate);
+        IQueryable<Event> query = _eventContext.Events
+            .Where(e => !e.IsDeleted)
+            .Include(e => e.TicketTypes)
+            .Include(e => e.Tickets)
+            .Include(e => e.BookedSeats)
+            .Include(e => e.Images)
+            .Include(e => e.City);
 
+        query = query.OrderByDescending(e => e.EventDate);
 
         var totalItems = await query.CountAsync();
 
@@ -129,6 +129,7 @@ public class OtherFunctionalities : IOtherFunctionalities
             TotalItems = totalItems
         };
     }
+
 
     public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEventsByManager(Guid managerId, int pageNumber, int pageSize)
     {
@@ -158,11 +159,11 @@ public class OtherFunctionalities : IOtherFunctionalities
             TotalItems = totalItems
         };
     }
-    public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEventsByFilter(EventCategory? category, Guid? cityId,EventType? type,string? searchElement, DateTime? date, int pageNumber, int pageSize)
+    public async Task<PaginatedResultDTO<EventResponseDTO>> GetPaginatedEventsByFilter(EventCategory? category, Guid? cityId,EventType? type,string? searchElement, DateTime? date, int pageNumber, int pageSize, bool isAdmin)
     {
         // System.Console.WriteLine(EventType.Seatable == type);
         // System.Console.WriteLine(0 == type);
-        var query = _eventContext.Events.Where(e =>
+        IQueryable<Event> query = _eventContext.Events.Where(e =>
                 (string.IsNullOrEmpty(searchElement) || e.Description!.ToLower().Contains(searchElement.ToLower()) ||
                  e.Title!.ToLower().Contains(searchElement.ToLower())) &&
                 (!date.HasValue || e.EventDate.Date == date.Value.Date) &&
@@ -175,6 +176,11 @@ public class OtherFunctionalities : IOtherFunctionalities
                 .Include(e => e.Images)
                 .Include(e => e.City)
                 .OrderByDescending(e => e.EventDate);
+
+        if (!isAdmin)
+        {
+            query = query.Where(e => e.EventStatus != EventStatus.Cancelled);
+        }
 
         var events = await query
             .Skip((pageNumber - 1) * pageSize)

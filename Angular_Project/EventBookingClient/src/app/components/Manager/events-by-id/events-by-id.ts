@@ -131,6 +131,9 @@ export class EventsById implements OnInit {
 
   saveEvent() {
     if (this.eventForm.invalid) return;
+    if(!confirm("Are you sure you want to update this event?")) {
+      return;
+    }
     // console.log(this.previousEventData());
     const formValue = this.eventForm.value;
     const payload: any = {};
@@ -164,7 +167,9 @@ export class EventsById implements OnInit {
       this.notify.info('Please select a file');
       return;
     }
-
+    if(!confirm("Are you sure you want to upload this image?")){
+      return;
+    }
     const formData = new FormData();
     formData.append('image', this.selectedFile);
 
@@ -189,6 +194,9 @@ export class EventsById implements OnInit {
       this.prevTicketvalues().bookedQuantity > this.ticketTypeForm.value.totalQuantity){
         this.notify.info("Caution! The updated quantity is lesser than the booked seats!");
         return;
+    }
+    if(!confirm("Are you sure you want to save this ticket type?")){
+      return;
     }
     // debugger;
     const ticketData = {

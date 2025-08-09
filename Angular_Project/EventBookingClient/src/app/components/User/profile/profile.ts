@@ -75,6 +75,9 @@ export class Profile implements OnInit {
   }
 
   exportTicket(id: string) {
+    if(!confirm("Are you sure you want to download this ticket?")) {
+      return;
+    }
     this.ticketService.exportTicket(id).subscribe({
       next: (pdfBlob: Blob) => {
         const url = window.URL.createObjectURL(pdfBlob);
